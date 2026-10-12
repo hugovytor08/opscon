@@ -1,0 +1,9 @@
+{
+  "version": "0.3.0",
+  "releaseStatus": "development",
+  "domainSchema": 1,
+  "indexedDbVersion": 2,
+  "remoteProtocol": 1,
+  "serviceWorkerCache": "meu-espaco-shell-v8",
+  "remoteMigration": "202610110001_continuity.sql"
+}

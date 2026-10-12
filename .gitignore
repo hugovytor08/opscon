@@ -1,0 +1,11 @@
+node_modules/
+tmp/
+output/
+.env
+.env.*
+!.env.example
+*.log
+supabase/.temp/
+.vercel/
+*.pem
+*.key

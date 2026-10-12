@@ -1,0 +1,124 @@
+/* Telas de dados reais sobre o sistema visual móvel Casa Serena. */
+.topbar .new-button { display: none; }
+.drawer-new { margin-bottom: 12px; background: var(--green); color: white; }
+.drawer-new:hover { background: var(--green-dark); }
+.empty-icon, .record-icon, .product-glyph { display: grid; place-items: center; flex: none; width: 52px; height: 52px; border-radius: 16px; background: var(--sage-soft); color: var(--green); }
+.empty-icon { margin: 0 auto 14px; border-radius: 50%; }
+.empty-icon svg, .record-icon svg, .product-glyph svg { width: 25px; height: 25px; }
+.home-hero { margin-bottom: 13px; }
+.home-hero .mountain-art { width: 100%; aspect-ratio: 830 / 330; }
+.home-hero .hero-copy .primary-button { margin-top: 15px; }
+.home-hero .living-art img { width: 400%; transform: translate(-43.6%, -19.53%); }
+.home-mobile-grid { display: grid; gap: 13px; margin-bottom: 13px; }
+.home-mobile-grid .card h2 { margin: 0; }
+.home-mobile-grid .card > p { color: var(--muted); font-size: 13px; }
+.home-mobile-grid .form-grid { gap: 10px; }
+.row-button { width: 100%; border: 0; border-bottom: 1px solid var(--line); background: transparent; color: var(--ink); text-align: left; }
+.row-button:last-child { border-bottom: 0; }
+.row-button > svg { width: 17px; height: 17px; color: var(--muted); }
+.row-button .amount { font-size: 13px; }
+.home-market-shortcut { margin: 0; min-height: 85px; background: #ecf3e9; }
+.home-market-shortcut .main strong { color: var(--green); font-size: 16px; }
+.home-market-shortcut .main span { margin-top: 3px; line-height: 1.3; }
+.home-market-shortcut > svg { width: 18px; height: 18px; }
+.house-topline { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: -4px 0 13px; }
+.house-topline > span { color: var(--green); font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
+.house-visual { position: relative; }
+.house-map-pins { position: absolute; inset: 0; }
+.house-layout .room-panel .empty-state { margin-top: 13px; }
+.mobile-record { width: 100%; background: var(--paper); color: var(--ink); text-align: left; }
+.mobile-record .main { flex: 1; min-width: 0; }
+.mobile-record strong, .mobile-record small { display: block; }
+.mobile-record small { margin-top: 4px; color: var(--muted); }
+.mobile-record > svg { width: 18px; height: 18px; }
+.purchase-tabs { display: flex; margin-bottom: 14px; width: 100%; }
+.purchase-tabs button { flex: 1; }
+.product-grid, .project-list { display: grid; gap: 10px; }
+.mobile-product { min-height: 96px; margin: 0; padding: 12px; }
+.mobile-product .product-glyph { background: #f2f1e8; }
+.mobile-product .product-money { display: block; max-width: 88px; text-align: right; color: var(--green); font-size: 12px; font-weight: 800; }
+.product-grid + .info-strip, .empty-state + .info-strip { margin-top: 15px; }
+.back-link { min-height: 44px; display: inline-flex; align-items: center; gap: 7px; margin: -5px 0 7px; padding: 5px 0; border: 0; background: transparent; color: var(--green); font-weight: 800; }
+.back-link svg { width: 18px; height: 18px; }
+.item-detail-hero { min-width: 0; display: grid; gap: 15px; margin-bottom: 13px; border: 1px solid var(--line); border-radius: 19px; padding: 14px; background: var(--paper); }
+.item-detail-hero .sofa-art { width: 100%; height: 180px; border-radius: 13px; }
+.item-detail-hero h2 { font-size: 28px; margin: 4px 0 7px; }
+.item-detail-hero p { color: var(--muted); font-size: 13px; }
+.item-detail-hero + .card { margin-bottom: 13px; }
+.installment-card { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--line); padding: 11px 0; }
+.installment-card:last-child { border-bottom: 0; }
+.installment-card > span { min-width: 0; }
+.installment-card > span:last-child { text-align: right; }
+.installment-card strong, .installment-card small { display: block; }
+.installment-card small { color: var(--muted); }
+.installment-card .text-button { min-height: 40px; font-size: 12px; }
+.market-intro { display: flex; gap: 15px; border: 1px solid #dce5d6; border-radius: 18px; background: #f1f5eb; padding: 18px; margin-bottom: 13px; }
+.market-intro > svg { width: 37px; height: 37px; flex: none; color: var(--green); }
+.market-intro h2 { font-size: 20px; margin: 0 0 6px; }
+.market-intro p { color: var(--muted); font-size: 13px; margin: 0; }
+.market-inline-add { display: flex; gap: 7px; margin-bottom: 12px; }
+.market-inline-add .primary-button { width: 48px; min-width: 48px; padding: 0; }
+.market-entry { width: 100%; min-height: 65px; display: flex; align-items: center; gap: 11px; border: 0; border-bottom: 1px solid var(--line); padding: 10px 0; background: transparent; color: var(--ink); text-align: left; }
+.market-entry:last-child { border-bottom: 0; }
+.market-entry:disabled { cursor: default; }
+.market-check { display: grid; place-items: center; width: 44px; height: 44px; flex: none; border: 1.6px solid #9db6a3; border-radius: 12px; background: var(--paper); }
+.market-entry.in-cart .market-check { border-color: var(--green); background: var(--green); color: white; }
+.market-entry .main { flex: 1; min-width: 0; }
+.market-entry strong, .market-entry small { display: block; }
+.market-entry small { color: var(--muted); margin-top: 2px; }
+.market-entry.in-cart strong { text-decoration: line-through; color: #65776b; }
+.market-progress > span { display: block; color: var(--muted); font-size: 12px; }
+.frequent-chip { min-height: 40px; padding: 7px 10px; font-size: 12px; }
+.finance-overview .finance-metric { border: 1px solid var(--line); border-radius: 18px; background: var(--paper); box-shadow: var(--shadow); }
+.finance-overview .finance-metric > div { min-width: 0; }
+.finance-overview .finance-metric span:not(.icon-disc) { display: block; color: var(--muted); font-size: 12px; }
+.finance-overview .finance-metric.balance { display: flex; align-items: flex-start; gap: 10px; }
+.finance-overview .finance-metric.balance .primary-button { align-self: stretch; }
+.finance-warning { display: flex; align-items: flex-start; gap: 9px; margin-bottom: 13px; border: 1px solid #f0dcbf; border-radius: 15px; padding: 13px; background: var(--amber-soft); color: var(--amber); font-size: 13px; font-weight: 700; }
+.finance-warning svg { width: 19px; height: 19px; }
+.finance-action-row { display: flex; gap: 8px; margin-bottom: 13px; }
+.finance-action-row > * { flex: 1; font-size: 12px; padding: 8px; }
+.finance-due { display: flex; align-items: flex-start; gap: 10px; border-bottom: 1px solid var(--line); padding: 13px 0; }
+.finance-due:last-child { border-bottom: 0; }
+.finance-due .main { min-width: 0; flex: 1; }
+.finance-due .main strong, .finance-due .main small, .finance-due .right strong { display: block; }
+.finance-due .main small { color: var(--muted); margin-top: 4px; }
+.finance-due .right { text-align: right; }
+.finance-due .right .outline-button { min-height: 40px; font-size: 11px; padding: 5px 8px; margin-top: 6px; }
+.account-row { min-height: 57px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--line); padding: 10px 0; }
+.account-row:last-child { border-bottom: 0; }
+.account-row > span { display: flex; align-items: center; gap: 7px; min-width: 0; }
+.account-row > span:has(small) { display: block; }
+.account-row small { color: var(--muted); display: block; }
+.account-row strong { white-space: nowrap; }
+.project-teaser { min-width: 0; overflow: hidden; display: grid; grid-template-columns: 96px minmax(0, 1fr) 20px; align-items: center; gap: 12px; border: 1px solid var(--line); border-radius: 18px; padding: 8px; background: var(--paper); color: var(--ink); text-align: left; box-shadow: var(--shadow); }
+.project-teaser .mountain-art { width: 96px; height: 88px; border-radius: 12px; }
+.project-teaser .mountain-art img { width: 900%; transform: translate(-4%, -25%); }
+.project-teaser .teaser-copy { min-width: 0; }
+.project-teaser strong, .project-teaser small { display: block; }
+.project-teaser strong { font-size: 17px; }
+.project-teaser small { color: var(--muted); margin-top: 4px; }
+.project-empty .cover-content .primary-button { margin-top: 17px; }
+.check-label { display: flex !important; flex-direction: row; align-items: center; }
+.settings-panel .hint { color: var(--muted); font-size: 12px; }
+
+@media (min-width: 700px) {
+  .home-mobile-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .item-detail-hero { grid-template-columns: 220px minmax(0, 1fr); align-items: center; }
+  .item-detail-hero .sofa-art { height: 190px; }
+  .project-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (min-width: 951px) {
+  .topbar .new-button { display: inline-flex; }
+  .home-hero { min-height: 320px; flex-direction: row-reverse; }
+  .home-hero .living-art, .home-hero .mountain-art { width: 45%; min-height: 320px; height: 100%; }
+  .home-hero .hero-copy { width: 55%; align-self: center; padding: 30px; }
+  .market-layout { grid-template-columns: minmax(0, 1.25fr) minmax(300px, .75fr); }
+  .finance-action-row { justify-content: flex-start; }
+  .finance-action-row > * { flex: 0 1 auto; font-size: 14px; padding: 10px 16px; }
+}
+/* Data continuity is visible from all six areas, including offline. */
+.sync-status { display:block; width:calc(100% - 32px); margin:8px 16px 0; padding:9px 12px; border:1px solid #dfe8d9; border-radius:12px; background:#fffefa; color:#245c48; text-align:left; font:inherit; font-size:12px; min-height:44px; overflow-wrap:anywhere; cursor:pointer; }
+.settings-panel > .primary-button, .settings-panel > .outline-button { margin:8px 8px 8px 0; }

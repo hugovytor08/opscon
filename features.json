@@ -1,0 +1,1238 @@
+[
+  {
+    "id": "F001",
+    "title": "Fechar decisões de produto e registrar a baseline proposta",
+    "phase": "preparacao",
+    "priority": "must-have",
+    "priority_scope": "preparacao_da_V1",
+    "status": "in_progress",
+    "progress_note": "Galaxy S23/Samsung Internet identificados pelo usuário. Escrita offline e recuperação por conta preservadas; versões reais do sistema/browser e rotina de cartão seguem pendentes.",
+    "scope_status": "proposto_para_validacao",
+    "user_value": "Começar a implementação com limites e decisões explícitos, sem transformar as hipóteses da proposta v1.2 em aprovação automática.",
+    "acceptance_criteria": [
+      "O registro de decisões identifica a proposta consolidada v1.2, revisada em 28/09/2026, como fonte funcional principal e distingue decisões já expressas, hipóteses e escolhas ainda abertas.",
+      "Antes de escolher armazenamento, estão registrados os dispositivos de uso, a necessidade ou dispensa de gravação offline e o uso de vários aparelhos; eventual sincronização tem regra de conflitos a especificar em F003.",
+      "Antes de detalhar o protótipo, estão registrados exemplos de uso de cartões e parcelas, captura manual, categorias e contextos, Mercado e fidelidade espacial da casa; o que depender de teste com Vytor fica marcado para conclusão em F004.",
+      "A baseline distingue entregas A, B e C da V1, preparação arquitetural MCP desde A, ativação completa posterior em D e candidatos de evolução sem aprovação.",
+      "A baseline preserva uso pessoal, um apartamento, BRL, Casa Serena, categoria/contexto opcionais, acesso operacional completo e revogável da Berenice quando ativada e exclusão de pagamentos reais externos.",
+      "Responsável pela implementação, disponibilidade real e limite de custo aceito ficam registrados antes de qualquer estimativa ou compromisso técnico; nenhuma data, preço ou tecnologia é apresentada como escolhida sem evidência.",
+      "Vytor valida as escolhas de produto que ainda dependem dele; o registro conserva autor, decisão, justificativa, impacto e pendências remanescentes com seu ponto de resolução."
+    ],
+    "depends_on": [],
+    "ca_ids": [
+      "CA-01",
+      "CA-14",
+      "CA-16",
+      "CA-17",
+      "CA-18",
+      "CA-19",
+      "CA-20",
+      "CA-21",
+      "CA-22"
+    ],
+    "ca_role": "preparacao",
+    "rf_ids": [
+      "RF-08",
+      "RF-16",
+      "RF-17",
+      "RF-18",
+      "RF-19",
+      "RF-20"
+    ],
+    "visual_refs": [
+      "D1",
+      "D2",
+      "D3",
+      "D4",
+      "D5",
+      "M1",
+      "M2",
+      "M3",
+      "M4",
+      "M5",
+      "M6"
+    ],
+    "sources": [
+      "proposta v1.2: cabeçalho e status",
+      "proposta v1.2: §§1–3, 6, 8.1, 9, 11–12",
+      "descobrir-produto-prd.md: §§1–3"
+    ],
+    "open_questions": [
+      "Qual é o sistema operacional do smartphone usado nos testes finais e como comprovar recuperação em um aparelho limpo após perda?",
+      "Qual a frequência real de uso de cartões, parcelas e faturas, e quais exemplos pessoais orientarão os testes?",
+      "Quem implementará, qual disponibilidade existe e qual compromisso de custo recorrente Vytor aceita?",
+      "A fidelidade aproximada por modelos simples e o registro manual serão suficientes? Confirmar pelo protótipo, sem ampliar antecipadamente o escopo."
+    ],
+    "evidence_paths": [
+      "docs/validacao/matriz-ca.md",
+      "docs/validacao/incremento-0.3.0.md"
+    ]
+  },
+  {
+    "id": "F002",
+    "title": "Especificar RF-01 a RF-20 com exemplos de cálculo e correção",
+    "phase": "preparacao",
+    "priority": "must-have",
+    "priority_scope": "preparacao_da_V1",
+    "status": "in_progress",
+    "progress_note": "Proposta concreta de cartão/fatura preparada em docs/produto/politica-cartao-proposta.md, com alocação revisável, sem inferir pagamento. Não congelada nem aprovada; demais políticas A/B ainda abertas.",
+    "scope_status": "proposto_para_validacao",
+    "user_value": "Conseguir explicar cada valor antes de construir telas e evitar que áreas diferentes implementem regras financeiras incompatíveis.",
+    "acceptance_criteria": [
+      "Cada regra RF-01 a RF-20 tem definição, entradas, validações, estados anteriores e posteriores, fórmula quando aplicável, exemplo válido e cenário de erro, sem alterar seus IDs.",
+      "O exemplo do sofá demonstra R$ 3.000 ainda planejados antes da compra; R$ 2.700 adquiridos e três obrigações de R$ 900 na compra; R$ 900 pagos e R$ 1.800 a pagar após a primeira liquidação; receber ou instalar não modifica esses valores.",
+      "Exemplos demonstram precisão de centavos em parcelas não divisíveis, pagamentos parciais, fatura com várias compras, transferência de R$ 200, compra com frete/desconto em dois cômodos e fechamento exato das distribuições.",
+      "Reserva, cobertura da obrigação, pagamento, excedente e liberação têm exemplos que mantêm o saldo e impedem descontar a mesma cobertura duas vezes; limites de categoria, projeto e cômodo não criam dinheiro independente.",
+      "A posição de cada obrigação no orçamento mensal e o tratamento de pagamentos parciais são definidos por período, sem consumir o limite novamente na liquidação; datas de compra, vencimento, pagamento e recebimento permanecem distintas.",
+      "Cancelamento, devolução parcial, solicitação de reembolso e reembolso confirmado têm exemplos de efeitos sobre custo, obrigações, caixa, rateio e reserva, preservando o histórico.",
+      "Valores ausentes permanecem desconhecidos; totais parciais apontam registros faltantes; limite de cartão e receita prevista não integram saldo confirmado; projeções exibem período e hipóteses.",
+      "Gasto de viagem sem Casa/Projeto e consulta por dimensões demonstram ausência de duplicação; Mercado demonstra carrinho sem efeito financeiro, fechamento único pelo valor real e reutilização sem copiar a transação anterior.",
+      "Toda ambiguidade de cálculo recebe decisão documentada antes da implementação afetada; os exemplos tornam-se dados e resultados esperados dos testes de domínio."
+    ],
+    "depends_on": [
+      "F001"
+    ],
+    "ca_ids": [
+      "CA-01",
+      "CA-02",
+      "CA-03",
+      "CA-04",
+      "CA-05",
+      "CA-06",
+      "CA-07",
+      "CA-08",
+      "CA-09",
+      "CA-10",
+      "CA-11",
+      "CA-12",
+      "CA-13",
+      "CA-16",
+      "CA-17",
+      "CA-18",
+      "CA-19"
+    ],
+    "ca_role": "preparacao",
+    "rf_ids": [
+      "RF-01",
+      "RF-02",
+      "RF-03",
+      "RF-04",
+      "RF-05",
+      "RF-06",
+      "RF-07",
+      "RF-08",
+      "RF-09",
+      "RF-10",
+      "RF-11",
+      "RF-12",
+      "RF-13",
+      "RF-14",
+      "RF-15",
+      "RF-16",
+      "RF-17",
+      "RF-18",
+      "RF-19",
+      "RF-20"
+    ],
+    "visual_refs": [
+      "D2",
+      "D3",
+      "D4",
+      "D5",
+      "M2",
+      "M3",
+      "M4",
+      "M5"
+    ],
+    "sources": [
+      "proposta v1.2: §§4.1–4.4, 5–7, 9–10, 12"
+    ],
+    "open_questions": [
+      "Qual regra distribuirá centavos residuais de parcelas e rateios, de modo determinístico e visível?",
+      "Como serão definidos período mensal, fatura, fechamento e vencimento, inclusive pagamento parcial, sem simular rotativo ou renegociação?",
+      "Como corrigir valor já pago e distribuir devolução parcial entre rateios, parcelas e reserva?",
+      "Quais políticas de reserva e disponibilidade impedem dupla destinação quando há cobertura parcial ou excedente?"
+    ],
+    "evidence_paths": [
+      "docs/validacao/matriz-ca.md",
+      "docs/validacao/incremento-0.3.0.md"
+    ]
+  },
+  {
+    "id": "F003",
+    "title": "Definir modelo de dados, contratos de domínio e recuperação",
+    "phase": "preparacao",
+    "priority": "must-have",
+    "priority_scope": "preparacao_da_V1",
+    "status": "in_progress",
+    "progress_note": "Protocolo snapshot/CAS documentado e implementado: fila atômica, UUID/base duráveis, recibos, proteção de geração, conflito conservador e migração inicial. Falta completar domínio A e validar recuperação Auth no fornecedor.",
+    "scope_status": "proposto_para_validacao",
+    "user_value": "Ter os mesmos registros e efeitos em todas as áreas, com recuperação possível e operações reutilizáveis pela futura Berenice.",
+    "acceptance_criteria": [
+      "O modelo explicita IDs, relações, cardinalidades e campos obrigatórios/opcionais de cômodos, itens, alternativas, listas/entradas de Mercado, contas, compras, rateios, obrigações, pagamentos, faturas, receitas, transferências, orçamentos, reservas, recorrências, contextos, projetos, tarefas e anexos.",
+      "Planejamento, aquisição/entrega e pagamento têm estados separados; dinheiro tem precisão de centavos, preço ausente é distinto de zero e datas financeiras/operacionais têm semântica documentada.",
+      "Cada leitura, criação, edição, vinculação, conclusão, cancelamento, exportação e recuperação possui contrato com entrada, resultado, erros, autorização, efeito transacional e identificação da operação; nenhuma operação exige acesso direto ao banco por interface ou futura Berenice.",
+      "As restrições garantem compra, obrigações e vínculos consistentes; soma de parcelas e rateios igual ao total; relacionamento de pagamento com obrigação; fechamento de Mercado único; e histórico preservado em correções.",
+      "O contrato de idempotência define identidade, consulta de resultado, repetição após timeout e tratamento de reutilização da mesma chave com conteúdo diferente, incluindo compras, pagamentos, transferências e fechamento de Mercado.",
+      "Auditoria registra identidade, origem, momento, parâmetros essenciais e resultado de alterações; contrato de acesso permite futura identidade revogável da Berenice e adaptador MCP separado do núcleo.",
+      "O modelo de armazenamento, migração e backup documenta recuperação de registros, vínculos, configurações e anexos, compatibilidade de formato e verificação de totais após restauração em ambiente limpo.",
+      "A decisão de offline/sincronização é refletida em contratos de conflito ou em erro explícito de indisponibilidade; nenhum estado visual promete gravação sem confirmação.",
+      "Uma revisão dos exemplos de F002 demonstra que o modelo representa todos os efeitos e reversões sem duplicação, com as pendências arquiteturais resolvidas antes de F006."
+    ],
+    "depends_on": [
+      "F002"
+    ],
+    "ca_ids": [
+      "CA-01",
+      "CA-02",
+      "CA-03",
+      "CA-04",
+      "CA-05",
+      "CA-06",
+      "CA-07",
+      "CA-08",
+      "CA-09",
+      "CA-10",
+      "CA-11",
+      "CA-12",
+      "CA-13",
+      "CA-15",
+      "CA-16",
+      "CA-17",
+      "CA-18",
+      "CA-19"
+    ],
+    "ca_role": "preparacao",
+    "rf_ids": [
+      "RF-01",
+      "RF-02",
+      "RF-03",
+      "RF-04",
+      "RF-05",
+      "RF-06",
+      "RF-07",
+      "RF-08",
+      "RF-09",
+      "RF-10",
+      "RF-11",
+      "RF-12",
+      "RF-13",
+      "RF-14",
+      "RF-15",
+      "RF-16",
+      "RF-17",
+      "RF-18",
+      "RF-19",
+      "RF-20"
+    ],
+    "visual_refs": [],
+    "sources": [
+      "proposta v1.2: §§2–4, 6, 9–10, 12"
+    ],
+    "open_questions": [
+      "Qual modelo de armazenamento e de sincronização atende aos dispositivos e ao offline decididos em F001?",
+      "Como serão versionados contratos, backup e migrações sem perder recuperação?",
+      "Qual política de retenção, privacidade e acesso ao histórico será adequada ao uso pessoal?"
+    ],
+    "evidence_paths": [
+      "docs/validacao/matriz-ca.md",
+      "docs/validacao/incremento-0.3.0.md"
+    ]
+  },
+  {
+    "id": "F004",
+    "title": "Validar design system e protótipo navegável Casa Serena",
+    "phase": "preparacao",
+    "priority": "must-have",
+    "priority_scope": "preparacao_da_V1",
+    "status": "in_progress",
+    "progress_note": "Direção visual do protótipo v0.2 aprovada por Vytor; interface móvel inicial implementada. Comparação fina M1–M6, acessibilidade e teste no aparelho real ainda pendentes.",
+    "scope_status": "proposto_para_validacao",
+    "user_value": "Verificar a facilidade dos fluxos e a fidelidade visual antes de investir na implementação completa.",
+    "acceptance_criteria": [
+      "O responsável inspeciona efetivamente o PDF visual e as telas D1–D5/M1–M6 em tamanho integral, registra o que abriu e produz comparações lado a lado; indisponibilidade de algum original é explicitada, sem alegação de inspeção inexistente.",
+      "Tokens, tipografia alvo Manrope, paleta clara, cartões, ícones, campos, botões, chips e números BRL são derivados das imagens e da seção 8, com contraste medido, foco visível, suporte a teclado, áreas de toque e redução de movimento.",
+      "O protótipo permite navegar por captura só com nome, pesquisa/alternativas, compra à vista e parcelada, pagamento, recebimento, gasto sem Casa, cômodo, revisão mensal, projeto, lista e fechamento de Mercado, correção e recuperação.",
+      "CA-20: as telas de computador preservam lateral clara, barra superior, cartões, proporções, paleta, tipografia e composições de D1–D5, acrescentando Mercado entre Compras e Finanças.",
+      "CA-21: as telas de celular preservam cabeçalho, cartões empilhados e barra inferior de cinco destinos de M1–M6; Mercado tem acionador visível de menu lateral e atalho claro no Início, sem sexta aba comprimida.",
+      "CA-22: somente Casa apresenta planta isométrica; Compras, Mercado, Finanças e projeto de viagem mantêm a identidade Casa Serena com conteúdo e imagens do próprio assunto.",
+      "Mercado recebe primeira composição derivada de D3/M3 e da seção 8.4, com entrada rápida, carrinho, subtotal parcial, revisão de total real e pagamento; o material declara que não existe tela aprovada original de Mercado.",
+      "Carregamento, vazio, erro, dados incompletos, confirmação, correção e falha do mapa estão desenhados; ausência de preço nunca vira zero e a lista mantém as ações essenciais.",
+      "Vytor executa captura de compra, gasto rápido e Mercado no protótipo; dificuldades observadas e ajustes são registrados sem prometer tempo de uso; a aprovação visual e a resolução das hipóteses testadas ficam documentadas.",
+      "A entrega usa componentes navegáveis e estados demonstráveis, sem tratar capturas inteiras como interface estática."
+    ],
+    "depends_on": [
+      "F002",
+      "F003"
+    ],
+    "ca_ids": [
+      "CA-01",
+      "CA-02",
+      "CA-03",
+      "CA-04",
+      "CA-05",
+      "CA-06",
+      "CA-08",
+      "CA-09",
+      "CA-10",
+      "CA-11",
+      "CA-13",
+      "CA-14",
+      "CA-16",
+      "CA-17",
+      "CA-18",
+      "CA-19",
+      "CA-20",
+      "CA-21",
+      "CA-22"
+    ],
+    "ca_role": "prototipo_e_preparacao_da_implementacao",
+    "rf_ids": [
+      "RF-01",
+      "RF-02",
+      "RF-03",
+      "RF-08",
+      "RF-09",
+      "RF-10",
+      "RF-11",
+      "RF-16",
+      "RF-17",
+      "RF-18",
+      "RF-19",
+      "RF-20"
+    ],
+    "visual_refs": [
+      "D1",
+      "D2",
+      "D3",
+      "D4",
+      "D5",
+      "M1",
+      "M2",
+      "M3",
+      "M4",
+      "M5",
+      "M6"
+    ],
+    "sources": [
+      "proposta v1.2: §§5, 7–8, 10–13",
+      "Guia_visual_Casa_Serena_referencias_aprovadas.pdf: inspeção exigida para executar esta feature"
+    ],
+    "open_questions": [
+      "A captura manual e os formulários propostos exigem esforço aceitável nos aparelhos de Vytor?",
+      "Qual composição inicial de Mercado Vytor aprovará, dado que não existe referência original desse módulo?",
+      "Qual necessidade de detalhe por produto em Mercado é demonstrada no teste, sem assumir relatórios históricos como V1?"
+    ]
+  },
+  {
+    "id": "F005",
+    "title": "Escolher arquitetura e apurar custos com evidência atual",
+    "phase": "preparacao",
+    "priority": "must-have",
+    "priority_scope": "preparacao_da_V1",
+    "status": "in_progress",
+    "scope_status": "proposto_para_validacao",
+    "user_value": "Escolher uma solução mantível que cumpra os fluxos e o limite de custo aceito, sem depender de promessas de gratuidade.",
+    "acceptance_criteria": [
+      "As alternativas técnicas são comparadas contra dispositivos, offline, sincronização, segurança, anexos, backup, manutenção e futura camada MCP definidos em F001–F004.",
+      "Aplicação web responsiva permanece hipótese até a decisão; framework, banco, autenticação, hospedagem e dependências gráficas só são fixados após justificativa registrada.",
+      "Recursos gratuitos, limites, cobrança excedente, armazenamento/anexos, backup, domínio quando aplicável e custos recorrentes têm fonte oficial, data de verificação e condições; valores desconhecidos não são inventados.",
+      "Qualquer dependência paga tem justificativa e compromisso de custo aprovado por Vytor antes da contratação; prioridade de custo recorrente zero não é apresentada como garantia.",
+      "A arquitetura mantém fonte de dados única, serviços de domínio independentes, desenho espacial isolado dos cálculos e adaptadores substituíveis para protocolos e fornecedores.",
+      "O plano de execução associa A/B/C aos critérios CA e reserva D para ativação MCP posterior, sem exigir servidor MCP para lançar a V1.",
+      "A implementação só é liberada após fluxos revisados, exemplos financeiros verificáveis e armazenamento/recuperação definidos; estimativas de esforço, se produzidas, declaram recursos, premissas e incerteza."
+    ],
+    "depends_on": [
+      "F003",
+      "F004"
+    ],
+    "ca_ids": [
+      "CA-12",
+      "CA-14",
+      "CA-15",
+      "CA-20",
+      "CA-21"
+    ],
+    "ca_role": "preparacao",
+    "rf_ids": [
+      "RF-14"
+    ],
+    "visual_refs": [
+      "D1",
+      "D2",
+      "D3",
+      "D4",
+      "D5",
+      "M1",
+      "M2",
+      "M3",
+      "M4",
+      "M5",
+      "M6"
+    ],
+    "sources": [
+      "proposta v1.2: §§1, 6, 9, 11–12"
+    ],
+    "open_questions": [
+      "Quais tecnologias e serviços atendem aos requisitos confirmados e aos limites vigentes na data da decisão?",
+      "A implantação terá servidor, exigindo autenticação e autorização desde o início, ou outro modelo de proteção?",
+      "Há custo ou limitação incompatível com as escolhas de armazenamento e recuperação?"
+    ],
+    "progress_note": "Supabase Free avaliado nas fontes oficiais em 11/10/2026. Projeto de teste azqlukwlcotyhildfvwt fornecido pelo usuário; migração aplicada pelo dashboard. Hospedagem HTTPS/SMTP/backup administrativo/medição de volumes seguem pendentes; nenhum plano pago contratado.",
+    "evidence_paths": [
+      "docs/validacao/matriz-ca.md",
+      "docs/validacao/incremento-0.3.0.md"
+    ]
+  },
+  {
+    "id": "F006",
+    "title": "Construir fundação, segurança, auditoria e recuperação mínima",
+    "phase": "A",
+    "priority": "must-have",
+    "priority_scope": "V1",
+    "status": "in_progress",
+    "scope_status": "proposto_para_validacao",
+    "user_value": "Usar os primeiros fluxos com integridade, acesso protegido e possibilidade de recuperação, mantendo a preparação MCP na V1.",
+    "acceptance_criteria": [
+      "A estrutura do projeto executa os contratos aprovados e separa domínio, armazenamento, interface e adaptadores; um comando documentado prepara ambiente limpo e executa as verificações essenciais.",
+      "Se houver servidor, leitura e escrita exigem autenticação e autorização; no modelo escolhido, o procedimento de proteção e recuperação de acesso é implementado e verificado antes do uso real.",
+      "Uma transação de teste representativa da gravação de compra/obrigações/vínculos comprova todos os efeitos confirmados ou nenhum; a infraestrutura permite validar centavos, somas e datas, e sua aplicação aos comandos reais será verificada em F008/F009.",
+      "CA-12: repetir uma confirmação após timeout recupera o resultado anterior ou conclui uma única operação; o teste cobre falha antes e depois da confirmação e conteúdo divergente sob a mesma chave.",
+      "Toda mudança testada registra identidade, origem, momento, parâmetros essenciais e resultado; consulta do histórico permite rastrear a operação sem depender de conversa com agente.",
+      "A interface conserva preenchimento e diferencia salvo, pendente e falhou; sem suporte offline, indisponibilidade não é apresentada como gravação concluída.",
+      "Antes de dados reais, exportação estruturada e restauração mínima recuperam os tipos de dados e anexos já habilitados, seus vínculos e totais; F015 ampliará a cobertura para toda a V1.",
+      "A identidade futura e revogável da Berenice e o uso dos mesmos serviços estão previstos em contratos e controles; nenhum servidor MCP operacional é requisito de conclusão desta feature."
+    ],
+    "depends_on": [
+      "F005"
+    ],
+    "ca_ids": [
+      "CA-12",
+      "CA-15"
+    ],
+    "ca_role": "implementacao_fundacional; CA-15_parcial_ate_F015",
+    "rf_ids": [
+      "RF-04",
+      "RF-13",
+      "RF-14",
+      "RF-15",
+      "RF-19"
+    ],
+    "visual_refs": [],
+    "sources": [
+      "proposta v1.2: §§2, 4.3, 6 (entrega A), 9–10, 12"
+    ],
+    "open_questions": [
+      "Quais mecanismos de acesso, recuperação e backup foram aprovados em F003/F005 para a implantação escolhida?",
+      "Quais dados e anexos entram no primeiro incremento, delimitando a recuperação mínima antes de habilitar novos tipos?"
+    ],
+    "progress_note": "Incremento 0.3.0: IndexedDB2/fila atômicos, Auth PKCE/OTP, refresh/logout, sync/CAS/recibos/conflito/recuperação/quota. SQL e ensaio Supabase passaram; RLS, rollback e HTTP401 sem sessão comprovados. Conta provisionada; entrada/recuperação integrada pendentes. Em12/10, erro de link passou a ter aviso persistente/ação de recuperação, limpeza query/hash e shell de callback offline;14 testes de navegador afetados passaram. Prévia8767 reiniciada com HTTP200. Git iniciado, commit pendente;33 testes haviam passado antes dessa correção.",
+    "evidence_paths": [
+      "docs/validacao/matriz-ca.md",
+      "docs/validacao/incremento-0.3.0.md"
+    ]
+  },
+  {
+    "id": "F007",
+    "title": "Implementar itens, alternativas, vínculos e listas completas de Casa",
+    "phase": "A",
+    "priority": "must-have",
+    "priority_scope": "V1",
+    "status": "in_progress",
+    "scope_status": "proposto_para_validacao",
+    "user_value": "Capturar uma intenção com pouco esforço e acompanhá-la em seus contextos sem cadastro duplicado ou dependência de planta.",
+    "acceptance_criteria": [
+      "CA-01: informar somente o nome salva um item sem exigir preço, cômodo, projeto ou planta; nome ausente produz erro compreensível sem perder preenchimento.",
+      "É possível criar e nomear cômodos, listar e editar itens, quantidades, prioridades, links, imagens opcionais e observações; iniciar captura em um cômodo ou projeto preenche apenas o vínculo contextual.",
+      "CA-02: Casa e Compras consultam o mesmo ID de item e uma alteração aparece em ambos; o contrato de vínculo a Projeto conserva esse ID, e a verificação das três interfaces será concluída em F012.",
+      "CA-03: três alternativas de sofá pertencem a uma necessidade; escolher a referência usada na estimativa mantém apenas uma estimativa no planejado, sem criar compra ou obrigação.",
+      "CA-13: um total contendo item sem preço aparece como parcial e oferece acesso ao item faltante; preço não informado não é tratado como R$ 0,00.",
+      "CA-14: sem representação visual, a lista permite consultar e editar todos os registros essenciais de Casa; cadastrar cômodos e registrar ações não exige configurar mapa.",
+      "Planejamento, entrega/instalação e pagamento aparecem como dimensões distintas; recebido ou instalado não muda valores financeiros, e progresso físico só reflete necessidades atendidas segundo critério explícito.",
+      "Listas e detalhes funcionais iniciam com componentes Casa Serena de D2/D3/M2/M3/M6, incluindo estados vazios e erros, sem adiar toda a qualidade visual para C."
+    ],
+    "depends_on": [
+      "F006"
+    ],
+    "ca_ids": [
+      "CA-01",
+      "CA-02",
+      "CA-03",
+      "CA-13",
+      "CA-14"
+    ],
+    "ca_role": "implementacao; CA-02_completo_com_F012",
+    "rf_ids": [
+      "RF-01",
+      "RF-03",
+      "RF-14",
+      "RF-16",
+      "RF-17"
+    ],
+    "visual_refs": [
+      "D2",
+      "D3",
+      "M2",
+      "M3",
+      "M6"
+    ],
+    "sources": [
+      "proposta v1.2: §§2–5, 6 (entrega A), 7–8, 10, 13"
+    ],
+    "open_questions": [
+      "A escolha de estimativa e os estados de execução aprovados no protótipo atendem aos exemplos reais de Vytor?",
+      "Qual critério de progresso opcional será exibido sem confundir dinheiro gasto com conclusão física?"
+    ],
+    "progress_note": "Primeiro fluxo persistente de cômodos e itens implementado na interface móvel; alternativas, listas completas e correções ainda pendentes."
+  },
+  {
+    "id": "F008",
+    "title": "Registrar aquisição, rateio, parcelas e gasto rápido",
+    "phase": "A",
+    "priority": "must-have",
+    "priority_scope": "V1",
+    "status": "in_progress",
+    "scope_status": "proposto_para_validacao",
+    "user_value": "Transformar intenção em aquisição ou registrar gasto cotidiano, com totais corretos e sem exigir vínculo com a casa.",
+    "acceptance_criteria": [
+      "CA-04: comprar por R$ 2.700 um item estimado em R$ 3.000, em três parcelas, registra R$ 2.700 adquiridos e três obrigações de R$ 900; os R$ 3.000 deixam o ainda planejado e permanecem apenas como referência histórica quando mantidos.",
+      "Parcelas com divisão inexata distribuem centavos pela regra aprovada e mostram soma igual ao total contratado; o usuário revisa datas, forma de pagamento e vínculos antes de confirmar.",
+      "CA-10: uma compra com itens de dois cômodos distribui valor, frete e descontos conforme regra explícita; a soma fecha o total e nenhum cômodo recebe indevidamente o total integral.",
+      "CA-16: gastos de viagem, passeio e relacionamento podem ser registrados com valor, data e conta/cartão, sem item desejado, cômodo ou projeto; categoria e contexto são opcionais e filtros não duplicam o total consolidado.",
+      "Compra à vista pode solicitar registro de pagamento na mesma ação, mas preserva compra, obrigação e pagamento separados; a conclusão desse efeito é verificada em conjunto com F009.",
+      "CA-12: repetição da confirmação ou vinculação de despesa existente não cria nova compra nem cobrança; uma falha não deixa parcelas ou vínculos órfãos.",
+      "Custo adquirido, pago, a pagar e ainda planejado têm rótulos próprios e detalhamento até os registros de origem; custo projetado soma compras ajustadas e estimativas ainda não atendidas, sem adicionar pagamentos outra vez.",
+      "CA-13: projeções com dados ausentes mostram período, hipóteses e itens faltantes e não afirmam que uma aquisição cabe no orçamento sem base suficiente."
+    ],
+    "depends_on": [
+      "F007"
+    ],
+    "ca_ids": [
+      "CA-04",
+      "CA-10",
+      "CA-12",
+      "CA-13",
+      "CA-16"
+    ],
+    "ca_role": "implementacao",
+    "rf_ids": [
+      "RF-01",
+      "RF-02",
+      "RF-03",
+      "RF-04",
+      "RF-09",
+      "RF-13",
+      "RF-14",
+      "RF-16",
+      "RF-17"
+    ],
+    "visual_refs": [
+      "D2",
+      "D3",
+      "D4",
+      "M2",
+      "M3",
+      "M4"
+    ],
+    "sources": [
+      "proposta v1.2: §§3–4, 6 (entrega A), 7–8, 10"
+    ],
+    "open_questions": [
+      "A política de rateio, centavos e datas especificada em F002 cobre todos os casos permitidos na V1?",
+      "Como o protótipo distingue aquisição sem pagamento e registro imediato de compra/pagamento com o menor esforço?"
+    ],
+    "progress_note": "Compra com linhas e parcelas em centavos, gasto rápido e pagamento explícito implementados; rateio, correções e casos restantes pendentes."
+  },
+  {
+    "id": "F009",
+    "title": "Implementar contas, pagamentos, faturas, receitas e transferências",
+    "phase": "A",
+    "priority": "must-have",
+    "priority_scope": "V1",
+    "status": "in_progress",
+    "scope_status": "proposto_para_validacao",
+    "user_value": "Saber quanto foi adquirido, pago e ainda devido, com caixa explicável e sem duplicar compras ao pagar.",
+    "acceptance_criteria": [
+      "Contas e saldos iniciais podem ser registrados manualmente; receitas confirmadas afetam caixa e receitas previstas permanecem separadas; limite de cartão não aparece como dinheiro disponível.",
+      "CA-05: no sofá de R$ 2.700, confirmar a primeira parcela e marcar recebido resulta em R$ 900 pagos e R$ 1.800 a pagar; recebimento e instalação não alteram caixa, parcelas nem datas de compra.",
+      "Pagamento parcial reduz somente o saldo devido correspondente e mantém rastreio de obrigação, conta e data; quitação resulta dos valores efetivamente registrados, sem criar nova aquisição.",
+      "CA-06: quitar fatura de compras já cadastradas produz uma saída da conta e liquida as obrigações vinculadas, sem novas compras e sem dupla contagem da despesa.",
+      "CA-07: transferir R$ 200 entre contas próprias reduz uma conta e aumenta a outra no mesmo valor, mantendo renda e despesa consolidadas inalteradas; falha não pode confirmar apenas um lado.",
+      "CA-12: reenvio de pagamento, fatura ou transferência recupera o mesmo resultado e não altera saldos duas vezes.",
+      "Pagamento exige acontecimento informado ou verificado; recorrência, previsão, vencimento ou entrega não confirmam liquidação automaticamente.",
+      "A ação de compra/pagamento imediato de F008 funciona ponta a ponta e retorna ao contexto de origem com possibilidade de correção; os recortes de gastos fora da casa preservam o total geral.",
+      "Rotativo, renegociação e conciliação automática permanecem fora das operações suportadas; situações sem regra aprovada não são simuladas silenciosamente."
+    ],
+    "depends_on": [
+      "F008"
+    ],
+    "ca_ids": [
+      "CA-05",
+      "CA-06",
+      "CA-07",
+      "CA-12",
+      "CA-16"
+    ],
+    "ca_role": "implementacao",
+    "rf_ids": [
+      "RF-03",
+      "RF-05",
+      "RF-06",
+      "RF-07",
+      "RF-08",
+      "RF-14",
+      "RF-17"
+    ],
+    "visual_refs": [
+      "D4",
+      "M4"
+    ],
+    "sources": [
+      "proposta v1.2: §§4, 6–9, 10 (CA-05–07, CA-12, CA-16)"
+    ],
+    "open_questions": [
+      "As regras aprovadas de fechamento, vencimento e pagamento parcial cobrem o uso real de cartão sem incluir rotativo?",
+      "Como apresentar a evidência do pagamento informado ou verificado sem confundi-lo com execução de pagamento externo?"
+    ],
+    "progress_note": "Contas, saldo inicial, receitas, transferências e pagamentos básicos implementados; cartões/faturas e políticas de fechamento pendentes."
+  },
+  {
+    "id": "F010",
+    "title": "Concluir correções, devoluções, recuperação mínima e gate A",
+    "phase": "A",
+    "priority": "must-have",
+    "priority_scope": "V1",
+    "status": "not_started",
+    "scope_status": "proposto_para_validacao",
+    "user_value": "Poder usar o ciclo essencial com dados reais sabendo corrigir erros e recuperar registros sem perder o histórico.",
+    "acceptance_criteria": [
+      "CA-11: cancelar compra ou registrar devolução parcial ajusta custos e obrigações pertinentes, conserva histórico e pagamentos relacionados e mostra o impacto antes da confirmação.",
+      "Solicitar devolução ou reembolso não aumenta saldo; somente reembolso confirmado gera entrada de caixa, vinculada ao evento original e protegida contra repetição.",
+      "Editar valor, data, rateio ou vínculo já usado por compra/pagamento respeita as regras aprovadas de correção, mantém rastreabilidade e não deixa totais divergentes entre Casa, Compras e Finanças.",
+      "CA-12: uma confirmação com resultado desconhecido permite consultar, recuperar ou concluir o mesmo comando após reconexão, sem exigir que o usuário crie outra compra ou pagamento.",
+      "Antes de liberar A para uso real, backup e restauração em ambiente limpo recuperam todos os registros, vínculos, configurações e anexos existentes em A, com equivalência de totais; este ensaio prepara CA-15, cuja cobertura final inclui B/C em F015.",
+      "O gate A demonstra cadastrar cômodo e item, comparar alternativas, comprar à vista e parcelado, pagar, receber, registrar gasto sem Casa, consultar totais, corrigir e restaurar, usando operações reais reutilizáveis.",
+      "As evidências de CA-01, CA-03–07, CA-10–14 e CA-16 estão registradas; CA-02 fica explicitamente pendente da interface Projetos em F012 e CA-15 da restauração completa em F015.",
+      "Não há liberação de A com diferença inexplicada de saldo, duplicação, perda de dados no ensaio ou impedimento de executar ações essenciais pela lista."
+    ],
+    "depends_on": [
+      "F009"
+    ],
+    "ca_ids": [
+      "CA-01",
+      "CA-03",
+      "CA-04",
+      "CA-05",
+      "CA-06",
+      "CA-07",
+      "CA-10",
+      "CA-11",
+      "CA-12",
+      "CA-13",
+      "CA-14",
+      "CA-15",
+      "CA-16"
+    ],
+    "ca_role": "implementacao_de_correcao_e_gate_A; CA-15_parcial_ate_F015",
+    "rf_ids": [
+      "RF-02",
+      "RF-03",
+      "RF-05",
+      "RF-13",
+      "RF-14",
+      "RF-15",
+      "RF-17"
+    ],
+    "visual_refs": [
+      "D2",
+      "D3",
+      "D4",
+      "M2",
+      "M3",
+      "M4",
+      "M6"
+    ],
+    "sources": [
+      "proposta v1.2: §§2, 4.3–4.4, 6 (entrega A), 7, 9–10"
+    ],
+    "open_questions": [
+      "Qual conjunto mínimo de dados representativos de A será restaurado, incluindo imagens/anexos habilitados?",
+      "A política de correção aprovada em F002 resolve devolução após pagamento parcial e estorno de pagamento incorreto?"
+    ]
+  },
+  {
+    "id": "F011",
+    "title": "Implementar orçamento, reservas, recorrências e revisão mensal",
+    "phase": "B",
+    "priority": "must-have",
+    "priority_scope": "V1",
+    "status": "not_started",
+    "scope_status": "proposto_para_validacao",
+    "user_value": "Planejar o mês e destinar recursos sem confundir limites, previsão, saldo e dívida.",
+    "acceptance_criteria": [
+      "Orçamento mensal e limites por categoria, projeto e cômodo são perspectivas dos mesmos valores; criá-los não aumenta saldo e não cria dívida sem obrigação assumida.",
+      "CA-08: reservar recursos e usá-los em compra mantém saldo da conta, reduz o montante sem destinação, vincula cobertura à obrigação e impede descontar reserva e obrigação duas vezes.",
+      "Pagamento consome a cobertura correspondente; reserva que ainda cobre obrigação não paga continua visível e eventual excedente pode ser liberado segundo regra aprovada.",
+      "Uma obrigação parcialmente paga mantém componentes de valor pago e saldo aberto sob a base temporal definida em F002; esses componentes contam uma única vez no orçamento, e a liquidação não consome o limite novamente.",
+      "Recorrências geram compromissos previstos editáveis em valor e vencimento, com prevenção de geração duplicada; nunca confirmam pagamento automaticamente.",
+      "Revisão mensal mostra saldo registrado, receitas previstas, obrigações, reservas e planos com período explícito; simular mudança de período não registra compra real.",
+      "CA-13: dados faltantes são localizáveis e tornam a projeção parcial; a tela não conclui que uma compra cabe quando faltam dados essenciais.",
+      "Faturas, transferências, compras, pagamentos e reservas reconciliam com os registros de origem; novas entidades de B entram no mecanismo de recuperação antes de uso real."
+    ],
+    "depends_on": [
+      "F010"
+    ],
+    "ca_ids": [
+      "CA-08",
+      "CA-09",
+      "CA-13"
+    ],
+    "ca_role": "implementacao; CA-09_completo_com_F012",
+    "rf_ids": [
+      "RF-03",
+      "RF-08",
+      "RF-09",
+      "RF-10",
+      "RF-11",
+      "RF-12",
+      "RF-16"
+    ],
+    "visual_refs": [
+      "D4",
+      "M4"
+    ],
+    "sources": [
+      "proposta v1.2: §§4.1–4.3, 6 (entrega B), 7–8, 10"
+    ],
+    "open_questions": [
+      "Como a interface aprovada diferencia reserva sem obrigação, cobertura vinculada e excedente liberável?",
+      "Quais exemplos reais de recorrência precisam de edição isolada e quais precisam alterar gerações futuras?"
+    ]
+  },
+  {
+    "id": "F012",
+    "title": "Implementar Projetos e Início com próximos passos",
+    "phase": "B",
+    "priority": "must-have",
+    "priority_scope": "V1",
+    "status": "in_progress",
+    "scope_status": "proposto_para_validacao",
+    "user_value": "Ligar objetivos, tarefas e compras a próximas ações úteis em diferentes contextos de vida.",
+    "acceptance_criteria": [
+      "É possível criar projeto com nome e resultado desejado, próxima ação, tarefas, compras vinculadas e prazo opcional; tarefa avulsa pode existir sem projeto.",
+      "CA-02: o mesmo item pode ser consultado pela Casa, Compras e Projeto; edição em qualquer contexto é refletida nos outros usando o mesmo registro, sem nova cobrança ao vincular.",
+      "CA-09: planejar viagem de R$ 8.000 sem contratação exibe estimativa ou limite de projeto, sem gerar R$ 8.000 de dívida nem alterar caixa.",
+      "Concluir tarefas altera progresso físico segundo critério explícito; gastar ou quitar parcela não conclui o projeto automaticamente, e custos permanecem separados da execução.",
+      "Início apresenta plano em andamento, próxima ação, vencimentos e registros incompletos acionáveis; captura rápida permite obter benefício sem cadastrar apartamento e renda mensal previamente.",
+      "D1/M1 e D5/M5 orientam composições responsivas: ação principal, tarefas e custos se reorganizam sem perda de conteúdo; viagem, lazer e outros assuntos permanecem visíveis fora de Casa.",
+      "CA-22: projeto de viagem usa conteúdo e imagem adequados ao assunto e mantém Casa Serena, sem receber planta isométrica como interface padrão.",
+      "Estados vazios, erro, correção e retorno preservam contexto; dados de projetos e tarefas entram na recuperação antes de uso real."
+    ],
+    "depends_on": [
+      "F010",
+      "F011"
+    ],
+    "ca_ids": [
+      "CA-02",
+      "CA-09",
+      "CA-20",
+      "CA-21",
+      "CA-22"
+    ],
+    "ca_role": "implementacao; revisao_visual_integrada_em_F014_e_F016",
+    "rf_ids": [
+      "RF-01",
+      "RF-02",
+      "RF-03",
+      "RF-09",
+      "RF-12",
+      "RF-14",
+      "RF-16",
+      "RF-17"
+    ],
+    "visual_refs": [
+      "D1",
+      "D5",
+      "M1",
+      "M5"
+    ],
+    "sources": [
+      "proposta v1.2: §§1–4, 6 (entrega B), 7–8, 10, 13"
+    ],
+    "open_questions": [
+      "Qual regra simples selecionará a próxima ação e o plano em foco no Início, sem adicionar automação não aprovada?",
+      "Quais exemplos de projeto e tarefa avulsa demonstrarão que Casa não domina os demais contextos?"
+    ],
+    "progress_note": "Início com próximos passos reais e Projetos com tarefas persistidas implementados; jornada e vínculos completos pendentes."
+  },
+  {
+    "id": "F013",
+    "title": "Implementar lista, fechamento e reutilização de Mercado",
+    "phase": "B",
+    "priority": "must-have",
+    "priority_scope": "V1",
+    "status": "in_progress",
+    "scope_status": "proposto_para_validacao",
+    "user_value": "Executar a compra recorrente rapidamente e registrar seu total real uma única vez em Finanças.",
+    "acceptance_criteria": [
+      "A lista ativa aceita entrada rápida de produto, quantidade/unidade opcionais, marca e preço estimado opcionais, frequentes e agrupamento opcional; não exige cadastro de desejo permanente em Compras.",
+      "CA-17: criar arroz sem preço e leite com estimativa e marcar ambos no carrinho mantém o subtotal identificado como parcial e não altera saldo, obrigação ou pagamento.",
+      "CA-18: Finalizar compra revisa total real, data e conta/cartão e cria uma única aquisição/despesa com parcelas ou pagamento quando aplicável; a lista fica vinculada e os produtos não geram lançamentos financeiros adicionais.",
+      "CA-12: repetir fechamento após falha recupera ou conclui a mesma operação sem duplicar compra, parcelas ou pagamento; lista em andamento continua sem obrigação antes do fechamento.",
+      "Total real informado prevalece sobre subtotal estimado; produto sem preço não recebe custo inventado, mesmo que o valor total da ida seja conhecido.",
+      "CA-19: reutilizar a lista anterior e alterar a quantidade de leite cria uma nova lista editável; produtos, quantidades e valor real da compra anterior permanecem preservados, sem copiar sua transação.",
+      "Fechamento mostra efeito financeiro e permite corrigir segundo F010; histórico, frequentes e listas entram no mecanismo de recuperação antes de uso real.",
+      "Mercado usa a composição própria aprovada em F004, derivada de D3/M3: lista operacional, campo acessível e ação de finalizar; não vira planta, catálogo ou galeria de desejos.",
+      "O acesso a Mercado funciona na lateral do computador, no menu lateral visível do celular e em atalho do Início, preservando os cinco destinos da barra inferior."
+    ],
+    "depends_on": [
+      "F010"
+    ],
+    "ca_ids": [
+      "CA-12",
+      "CA-13",
+      "CA-17",
+      "CA-18",
+      "CA-19",
+      "CA-20",
+      "CA-21",
+      "CA-22"
+    ],
+    "ca_role": "implementacao",
+    "rf_ids": [
+      "RF-01",
+      "RF-03",
+      "RF-04",
+      "RF-05",
+      "RF-14",
+      "RF-15",
+      "RF-16",
+      "RF-17",
+      "RF-18",
+      "RF-19",
+      "RF-20"
+    ],
+    "visual_refs": [
+      "D3",
+      "M3"
+    ],
+    "sources": [
+      "proposta v1.2: §§3–5, 6 (entrega B), 7, 8.1–8.5, 10 (CA-17–19), 13"
+    ],
+    "open_questions": [
+      "Como o fluxo aprovado trata tentativa de editar uma lista já fechada, encaminhando alteração financeira pela correção rastreável?",
+      "A granularidade por produto validada cabe nos detalhes opcionais de lista, sem adicionar relatórios históricos não aprovados?"
+    ],
+    "progress_note": "Lista de Mercado, carrinho, fechamento único pelo total real e reutilização implementados; edição avançada e demais critérios pendentes."
+  },
+  {
+    "id": "F014",
+    "title": "Concluir isometria, busca, navegação e experiência responsiva",
+    "phase": "C",
+    "priority": "must-have",
+    "priority_scope": "V1",
+    "status": "in_progress",
+    "scope_status": "proposto_para_validacao",
+    "user_value": "Reconhecer os ambientes, encontrar registros e usar todas as áreas com a experiência Casa Serena nos dispositivos escolhidos.",
+    "acceptance_criteria": [
+      "Casa oferece isometria simples por modelos/ajustes aprovados, ambientes selecionáveis e indicação de representação aproximada; não promete encaixe de móveis sem medidas verificadas.",
+      "Mapa/Lista fica visível e lembra a preferência; no computador mapa e detalhes se organizam lateralmente, no celular o detalhe do cômodo preserva o contexto no retorno.",
+      "CA-14: forçar falha ou indisponibilidade da representação mantém consulta e edição de todos os registros essenciais pela lista, sem interromper operações financeiras.",
+      "Busca por texto retorna registros das seis áreas com contexto identificável; Novo oferece ações relevantes, incluindo item, gasto, lista/produto de Mercado e tarefa.",
+      "CA-20: revisão da implementação contra D1–D5 confirma lateral, barra superior, hierarquia, proporções, paleta, tipografia e composições funcionais, com Mercado entre Compras e Finanças.",
+      "CA-21: revisão contra M1–M6 confirma cabeçalho, cartões empilhados, barra inferior de cinco destinos e acesso a Mercado por menu lateral e atalho; navegação fixa não cobre conteúdo ou ações.",
+      "CA-22: Compras, Mercado, Finanças e projeto de viagem mantêm Casa Serena com conteúdos próprios; somente Casa usa planta isométrica.",
+      "Revisão lado a lado registra diferenças corrigidas ou decisões visuais explícitas; não há capturas inteiras usadas como telas estáticas, painel corporativo escuro ou estilo que descaracterize as referências.",
+      "Fluxos nos aparelhos escolhidos preservam foco, contexto e dados; vazio, carregamento, erro, confirmação, correção e dados incompletos são operáveis com teclado e toque e não dependem somente de cor ou ilustração."
+    ],
+    "depends_on": [
+      "F011",
+      "F012",
+      "F013"
+    ],
+    "ca_ids": [
+      "CA-13",
+      "CA-14",
+      "CA-20",
+      "CA-21",
+      "CA-22"
+    ],
+    "ca_role": "implementacao_e_revisao_visual",
+    "rf_ids": [
+      "RF-01",
+      "RF-03",
+      "RF-16",
+      "RF-17",
+      "RF-18"
+    ],
+    "visual_refs": [
+      "D1",
+      "D2",
+      "D3",
+      "D4",
+      "D5",
+      "M1",
+      "M2",
+      "M3",
+      "M4",
+      "M5",
+      "M6"
+    ],
+    "sources": [
+      "proposta v1.2: §§3, 5, 6 (entrega C), 7–8, 10, 13"
+    ],
+    "open_questions": [
+      "Qual modelo espacial aprovado representa os ambientes de modo suficiente sem exigir editor arquitetônico?",
+      "Quais ajustes observados nos aparelhos escolhidos precisam de aprovação visual final de Vytor?"
+    ],
+    "progress_note": "Shell mobile-first, cinco abas, Mercado via menu/atalho, busca, mapa ilustrativo e lista implementados; isometria vinculada e QA final pendentes."
+  },
+  {
+    "id": "F015",
+    "title": "Concluir backup integral, restauração, exportação e recuperação de acesso",
+    "phase": "C",
+    "priority": "must-have",
+    "priority_scope": "V1",
+    "status": "in_progress",
+    "scope_status": "proposto_para_validacao",
+    "user_value": "Recuperar todo o acervo pessoal e seus vínculos com segurança, além de consultar os dados fora do aplicativo.",
+    "acceptance_criteria": [
+      "CA-15: exportar backup estruturado da V1 e restaurar em ambiente limpo recupera registros, vínculos, configurações, histórico preservado e imagens/anexos incluídos; os totais financeiros equivalem aos da origem.",
+      "O ensaio contém itens/alternativas, compra parcelada com pagamento parcial, fatura, transferência, reserva, devolução/reembolso, projeto e Mercado reutilizado, verificando relações e ausência de duplicação após restauração.",
+      "Exportação CSV permite consulta e tem escopo documentado; não é apresentada como substituto do formato estruturado necessário à recuperação completa.",
+      "Backup informa versão, conteúdo e resultado; dados ausentes ou anexos não recuperáveis são detectados e comunicados, sem declarar restauração íntegra quando houver perda.",
+      "Restauração inválida, incompatível ou interrompida preserva um estado recuperável e não mistura silenciosamente parte do backup com a base em uso; a política de substituição/recuperação é explícita.",
+      "O procedimento de recuperação de acesso funciona no modelo escolhido; dados, backups e segredos ficam protegidos de acesso não autorizado conforme a arquitetura aprovada.",
+      "Existe procedimento documentado de backup, verificação, restauração e atualização com migrações, executável sem conhecimento implícito do agente desenvolvedor.",
+      "Sincronização entre aparelhos, quando presente, é verificada separadamente e não é tratada como backup."
+    ],
+    "depends_on": [
+      "F011",
+      "F012",
+      "F013",
+      "F014"
+    ],
+    "ca_ids": [
+      "CA-15"
+    ],
+    "ca_role": "implementacao_e_verificacao_completa",
+    "rf_ids": [
+      "RF-02",
+      "RF-03",
+      "RF-04",
+      "RF-05",
+      "RF-06",
+      "RF-07",
+      "RF-10",
+      "RF-11",
+      "RF-13",
+      "RF-14",
+      "RF-15",
+      "RF-19",
+      "RF-20"
+    ],
+    "visual_refs": [],
+    "sources": [
+      "proposta v1.2: §§2, 6 (recursos comuns e entrega C), 9–10 (CA-15)"
+    ],
+    "open_questions": [
+      "Qual retenção e destino de backup atendem ao limite de custo e ao modelo de acesso escolhidos?",
+      "Como a política aprovada distingue restauração completa, tentativa interrompida e versão de backup incompatível?"
+    ],
+    "progress_note": "Backup JSONv1 independente restaurado em contexto Chromium limpo com IDs/totais iguais; inválido e quota não produzem base parcial. Faltam modelo A completo, CSV/configurações/anexos e procedimento final no S23.",
+    "evidence_paths": [
+      "docs/validacao/matriz-ca.md",
+      "docs/validacao/incremento-0.3.0.md"
+    ]
+  },
+  {
+    "id": "F016",
+    "title": "Validar integrada e independentemente CA-01 a CA-22",
+    "phase": "C",
+    "priority": "must-have",
+    "priority_scope": "V1",
+    "status": "in_progress",
+    "scope_status": "proposto_para_validacao",
+    "user_value": "Receber uma V1 coerente de ponta a ponta, com evidência de funcionamento, integridade e fidelidade visual.",
+    "acceptance_criteria": [
+      "A matriz de validação conserva todos os IDs CA-01 a CA-22 e associa cada cenário à feature que implementa o comportamento, ao procedimento de verificação e à evidência, sem usar esta feature como única cobertura.",
+      "Os 22 cenários originais da seção 10 são executados integralmente com seus resultados obrigatórios, incluindo valores exatos de sofá, transferência e viagem, recortes fora da casa, Mercado, falha do mapa e restauração em ambiente limpo.",
+      "Testes de domínio verificam os exemplos de RF-01 a RF-20, soma de parcelas/rateios, ausência versus zero, transações atômicas, deduplicação, cancelamentos, reembolso e invariantes de saldo/reserva em estados intermediários.",
+      "Testes de integração comprovam consistência entre Casa, Compras, Mercado, Finanças e Projetos, inclusive retorno de falha de conexão, pagamentos parciais e consultas por múltiplas dimensões.",
+      "Revisão independente examina contratos, integridade, proteção de acesso, auditoria e recuperação; cada divergência registra evidência, correção e repetição apenas dos testes afetados ou necessários.",
+      "Comparações lado a lado contra D1–D5 e M1–M6 verificam desktop/celular, com diferenças deliberadas de Mercado e nomenclatura documentadas; números demonstrativos das imagens não substituem as regras da proposta.",
+      "Vytor percorre captura de compra, gasto e Mercado nos dispositivos escolhidos; dificuldades relevantes são corrigidas ou explicitamente resolvidas antes de publicação, sem meta de duração inventada.",
+      "O gate de V1 exige ausência de falhas de integridade, duplicação, perda no ensaio de restauração, acesso indevido ou bloqueio das jornadas essenciais, além da aprovação visual registrada."
+    ],
+    "depends_on": [
+      "F014",
+      "F015"
+    ],
+    "ca_ids": [
+      "CA-01",
+      "CA-02",
+      "CA-03",
+      "CA-04",
+      "CA-05",
+      "CA-06",
+      "CA-07",
+      "CA-08",
+      "CA-09",
+      "CA-10",
+      "CA-11",
+      "CA-12",
+      "CA-13",
+      "CA-14",
+      "CA-15",
+      "CA-16",
+      "CA-17",
+      "CA-18",
+      "CA-19",
+      "CA-20",
+      "CA-21",
+      "CA-22"
+    ],
+    "ca_role": "verificacao_integrada; implementacoes_em_F006_a_F015",
+    "rf_ids": [
+      "RF-01",
+      "RF-02",
+      "RF-03",
+      "RF-04",
+      "RF-05",
+      "RF-06",
+      "RF-07",
+      "RF-08",
+      "RF-09",
+      "RF-10",
+      "RF-11",
+      "RF-12",
+      "RF-13",
+      "RF-14",
+      "RF-15",
+      "RF-16",
+      "RF-17",
+      "RF-18",
+      "RF-19",
+      "RF-20"
+    ],
+    "visual_refs": [
+      "D1",
+      "D2",
+      "D3",
+      "D4",
+      "D5",
+      "M1",
+      "M2",
+      "M3",
+      "M4",
+      "M5",
+      "M6"
+    ],
+    "sources": [
+      "proposta v1.2: §§4, 6, 8–10, 13"
+    ],
+    "open_questions": [
+      "Quais aparelhos e condições reais de conexão compõem a matriz de uso aprovada?",
+      "Existem diferenças visuais remanescentes que dependem de decisão de Vytor em vez de correção técnica?"
+    ],
+    "progress_note": "Auditoria iniciada: matriz-ca.md cobre CA01–22 e riscos transversais com estados/evidências/lacunas/próximos testes. Testes locais ampliados, nenhum CA aprovado; depende de conclusão A/B/C, Supabase real e telefone físico.",
+    "evidence_paths": [
+      "docs/validacao/matriz-ca.md",
+      "docs/validacao/incremento-0.3.0.md"
+    ]
+  },
+  {
+    "id": "F017",
+    "title": "Publicar a V1 e verificar a operação no ambiente escolhido",
+    "phase": "C",
+    "priority": "must-have",
+    "priority_scope": "entrega_da_V1",
+    "status": "not_started",
+    "scope_status": "proposto_para_validacao",
+    "user_value": "Acessar a versão validada com procedimento de instalação/publicação e recuperação conhecido.",
+    "acceptance_criteria": [
+      "A entrega usa exclusivamente arquitetura e serviços aprovados, com configuração, migrações, acesso e segredos adequados ao ambiente; publicação não inclui contratação não aprovada.",
+      "O pacote de publicação identifica versão, evidências do gate F016, limitações conhecidas, procedimento de acesso, backup, restauração e retorno a versão anterior quando aplicável.",
+      "Antes de migrar dados existentes, há backup verificável; a implantação mantém integridade dos vínculos e dos totais financeiros.",
+      "Após publicação, uma verificação curta no ambiente real confirma acesso, captura, compra/pagamento, Mercado, leitura de totais e disponibilidade do procedimento de recuperação sem usar pagamentos reais externos.",
+      "Vytor recebe o endereço ou forma de acesso e orientações de uso/manutenção compatíveis com a solução escolhida; offline suportado ou não suportado é comunicado conforme a decisão real.",
+      "O servidor MCP permanece separado da liberação da V1; a publicação A/B/C não é bloqueada por F019."
+    ],
+    "depends_on": [
+      "F016"
+    ],
+    "ca_ids": [
+      "CA-01",
+      "CA-04",
+      "CA-05",
+      "CA-12",
+      "CA-15",
+      "CA-17",
+      "CA-18",
+      "CA-20",
+      "CA-21",
+      "CA-22"
+    ],
+    "ca_role": "verificacao_pos_publicacao_sem_substituir_F016",
+    "rf_ids": [
+      "RF-14",
+      "RF-19"
+    ],
+    "visual_refs": [
+      "D1",
+      "D2",
+      "D3",
+      "D4",
+      "D5",
+      "M1",
+      "M2",
+      "M3",
+      "M4",
+      "M5",
+      "M6"
+    ],
+    "sources": [
+      "proposta v1.2: §§6, 9–12",
+      "pedido do usuário: publicação e entrega da primeira versão"
+    ],
+    "open_questions": [
+      "Qual ambiente e forma de acesso foram escolhidos em F005 e estão prontos para a entrega?",
+      "Há compromisso de custo ou decisão de publicação ainda não aprovado por Vytor?"
+    ]
+  },
+  {
+    "id": "F018",
+    "title": "Estabelecer manutenção e acompanhamento da V1",
+    "phase": "posterior",
+    "priority": "must-have",
+    "priority_scope": "operacao_da_V1",
+    "status": "not_started",
+    "scope_status": "proposto_para_validacao",
+    "user_value": "Manter os registros úteis e recuperáveis com baixo esforço e corrigir problemas observados no uso.",
+    "acceptance_criteria": [
+      "Responsável, procedimentos e cadência acordada de backup, ensaio de restauração, atualização de dependências e revisão de custo estão registrados, sem inventar frequência ou orçamento aprovado.",
+      "Falhas observadas são registradas com passos de reprodução, versão, impacto e referência CA/RF quando pertinente; dados pessoais e segredos não são expostos nos registros de suporte.",
+      "Correções de dados seguem os serviços de domínio e preservam histórico; mudanças de estrutura usam migração e backup verificáveis.",
+      "Após alteração, os testes afetados e invariantes financeiros pertinentes passam; nova preocupação de risco determina ampliação das verificações, evitando repetição sem justificativa.",
+      "Dificuldades reais de captura, Mercado, planejamento e recuperação alimentam uma lista de melhorias que distingue correção da V1 de nova funcionalidade candidata.",
+      "O procedimento inicial foi executado e entregue; manter esta feature como concluída significa rotina implantada, não afirmar que manutenção futura terminou."
+    ],
+    "depends_on": [
+      "F017"
+    ],
+    "ca_ids": [
+      "CA-12",
+      "CA-15"
+    ],
+    "ca_role": "preservacao_na_operacao",
+    "rf_ids": [
+      "RF-14",
+      "RF-15"
+    ],
+    "visual_refs": [],
+    "sources": [
+      "proposta v1.2: §§1–2, 9–11",
+      "pedido do usuário: entrega e manutenção da primeira versão"
+    ],
+    "open_questions": [
+      "Quem executará a rotina e qual cadência é sustentável para o uso pessoal?",
+      "Quais dificuldades observadas justificam evolução, em vez de automação presumida?"
+    ]
+  },
+  {
+    "id": "F019",
+    "title": "Ativar integração MCP completa com a Berenice",
+    "phase": "D",
+    "priority": "must-have",
+    "priority_scope": "somente_fase_D_nao_bloqueia_V1",
+    "status": "not_started",
+    "scope_status": "integracao_planejada_ativacao_pendente",
+    "user_value": "Permitir à Berenice operar todas as áreas autorizadas com as mesmas regras, histórico e possibilidade de revogação da interface.",
+    "acceptance_criteria": [
+      "Momento de ativação, modo de implantação, autenticação e custos são decididos antes da implementação; a versão MCP estável e orientações de segurança são verificadas nas fontes oficiais com data, sem assumir válida a referência histórica da proposta.",
+      "O aplicativo atua como servidor MCP; o adaptador usa os serviços de domínio da V1 e não dá acesso direto ao banco nem torna fornecedor de modelo dependência do núcleo.",
+      "Berenice autenticada pode buscar e ler todas as áreas e executar criação, edição, vinculação, conclusão, cancelamento, exportação, recuperação e operações administrativas disponibilizadas ao Vytor, sob as mesmas regras da interface.",
+      "Uma matriz relaciona cada operação do aplicativo à ferramenta ou recurso MCP correspondente e demonstra paridade de resultados; protótipo somente de leitura não satisfaz a conclusão.",
+      "Escritas repetidas após timeout não duplicam compra, pagamento, transferência ou fechamento de Mercado; Berenice pode consultar o resultado da operação.",
+      "Identidade, origem Berenice, data, parâmetros essenciais e resultado ficam no histórico; revogar a autorização impede chamadas posteriores de leitura e escrita conforme o mecanismo testado.",
+      "Pagamento só é registrado como realizado quando há acontecimento informado ou verificado; se faltar base, o dado é solicitado em vez de inferir quitação.",
+      "Operações cotidianas autorizadas não exigem confirmação repetitiva; correção, cancelamento, estorno e recuperação obedecem às mesmas regras de histórico e reversão do aplicativo.",
+      "Testes positivos e de falha cobrem permissões, revogação, entradas inválidas, repetição e efeitos financeiros; integrações externas e função de cliente MCP são especificadas separadamente e não habilitam pagamento real fora do escopo."
+    ],
+    "depends_on": [
+      "F017"
+    ],
+    "ca_ids": [],
+    "ca_role": "criterios_MCP_adicionais_a_V1_da_secao_10; preparacao_em_F003_e_F006",
+    "rf_ids": [
+      "RF-01",
+      "RF-02",
+      "RF-03",
+      "RF-04",
+      "RF-05",
+      "RF-06",
+      "RF-07",
+      "RF-08",
+      "RF-09",
+      "RF-10",
+      "RF-11",
+      "RF-12",
+      "RF-13",
+      "RF-14",
+      "RF-15",
+      "RF-16",
+      "RF-17",
+      "RF-18",
+      "RF-19",
+      "RF-20"
+    ],
+    "visual_refs": [],
+    "sources": [
+      "proposta v1.2: §§2, 6 (entrega D), 7, 9, 10 (critérios MCP além da V1), 11–12"
+    ],
+    "open_questions": [
+      "Quando ativar o servidor, onde hospedá-lo e qual autenticação atende ao ambiente e ao cliente Berenice?",
+      "Qual é a versão MCP estável e quais orientações oficiais estão vigentes na data efetiva de implementação?",
+      "Quais primeiras integrações externas terão caso de uso e autorização próprios, sem ampliar o escopo por consequência da preparação MCP?"
+    ],
+    "mcp_criteria_ids": [
+      "MCP-01",
+      "MCP-02",
+      "MCP-03",
+      "MCP-04",
+      "MCP-05",
+      "MCP-06"
+    ]
+  },
+  {
+    "id": "F020",
+    "title": "Avaliar evoluções candidatas sem incorporá-las à V1",
+    "phase": "posterior",
+    "priority": "nice-to-have",
+    "priority_scope": "candidatas_sem_aprovacao",
+    "status": "not_started",
+    "scope_status": "nao_aprovado",
+    "user_value": "Priorizar melhorias somente quando reduzirem uma dificuldade observada e houver benefício compatível com custo e manutenção.",
+    "acceptance_criteria": [
+      "Cada candidata registra problema observado, resultado esperado, evidência de uso, impacto nos dados/contratos, custo a apurar, riscos e decisão; avaliação não equivale a autorização de implementação.",
+      "Histórico de preço por produto, inventário doméstico, ofertas, importação, OCR, integração bancária, busca de preços, tema escuro e maior fidelidade espacial permanecem separados do backlog obrigatório da V1.",
+      "Demais exclusões da seção 6, como colaboração, múltiplas moedas, investimentos, 3D/editor arquitetônico, assistente embutido e pagamentos reais, não são ativadas sem redefinição explícita de escopo.",
+      "Uma candidata só gera feature implementável após decisão de Vytor, critérios próprios, verificação de dependências/custos e atualização da rastreabilidade, preservando os IDs e o histórico existentes.",
+      "Nenhuma candidata bloqueia A/B/C, a entrega da V1 ou a manutenção; conectores externos também permanecem distintos da ativação MCP F019."
+    ],
+    "depends_on": [
+      "F017"
+    ],
+    "ca_ids": [],
+    "ca_role": "fora_dos_criterios_obrigatorios_da_V1",
+    "rf_ids": [],
+    "visual_refs": [],
+    "sources": [
+      "proposta v1.2: §§2, 5, 6 (fora da V1), 8.5, 9, 11"
+    ],
+    "open_questions": [
+      "Qual dificuldade recorrente observada justifica a próxima evolução?",
+      "O benefício compensa custo recorrente, manutenção e novas permissões ou integrações?"
+    ]
+  }
+]

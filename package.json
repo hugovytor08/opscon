@@ -1,0 +1,14 @@
+{
+  "name": "meu-espaco-casa-serena",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "github:push": "node scripts/github-push.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "qa": "node scripts/app-qa.cjs",
+    "check": "node --check app/domain.js && node --check app/storage.js && node --check app/ui.js && node --check app/sw.js && node --check app/sync.js && node --check app/supabase.js && node --check app/config.js"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.8"
+  }
+}

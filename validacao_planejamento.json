@@ -1,0 +1,182 @@
+{
+  "date": "2026-10-11",
+  "scope": "Planejamento e primeiro incremento do app móvel; V1 não concluída nem publicada.",
+  "features_count": 20,
+  "unique_ids": true,
+  "all_statuses_not_started": false,
+  "json_valid": true,
+  "dependency_graph_acyclic": true,
+  "topological_order": [
+    "F001",
+    "F002",
+    "F003",
+    "F004",
+    "F005",
+    "F006",
+    "F007",
+    "F008",
+    "F009",
+    "F010",
+    "F011",
+    "F012",
+    "F013",
+    "F014",
+    "F015",
+    "F016",
+    "F017",
+    "F018",
+    "F019",
+    "F020"
+  ],
+  "ca_coverage_implementation_units": {
+    "CA-01": [
+      "F007",
+      "F010"
+    ],
+    "CA-02": [
+      "F007",
+      "F012"
+    ],
+    "CA-03": [
+      "F007",
+      "F010"
+    ],
+    "CA-04": [
+      "F008",
+      "F010"
+    ],
+    "CA-05": [
+      "F009",
+      "F010"
+    ],
+    "CA-06": [
+      "F009",
+      "F010"
+    ],
+    "CA-07": [
+      "F009",
+      "F010"
+    ],
+    "CA-08": [
+      "F011"
+    ],
+    "CA-09": [
+      "F011",
+      "F012"
+    ],
+    "CA-10": [
+      "F008",
+      "F010"
+    ],
+    "CA-11": [
+      "F010"
+    ],
+    "CA-12": [
+      "F006",
+      "F008",
+      "F009",
+      "F010",
+      "F013"
+    ],
+    "CA-13": [
+      "F007",
+      "F008",
+      "F010",
+      "F011",
+      "F013",
+      "F014"
+    ],
+    "CA-14": [
+      "F007",
+      "F010",
+      "F014"
+    ],
+    "CA-15": [
+      "F006",
+      "F010",
+      "F015"
+    ],
+    "CA-16": [
+      "F008",
+      "F009",
+      "F010"
+    ],
+    "CA-17": [
+      "F013"
+    ],
+    "CA-18": [
+      "F013"
+    ],
+    "CA-19": [
+      "F013"
+    ],
+    "CA-20": [
+      "F012",
+      "F013",
+      "F014"
+    ],
+    "CA-21": [
+      "F012",
+      "F013",
+      "F014"
+    ],
+    "CA-22": [
+      "F012",
+      "F013",
+      "F014"
+    ]
+  },
+  "rf_coverage_implementation_count": 20,
+  "visual_reference_count": 11,
+  "mcp_and_evolutions_do_not_block_v1": true,
+  "workflow_steps": 20,
+  "response_sections": 7,
+  "workflow_word_count": 9770,
+  "source_pdf_unchanged_sha256": "2f825f610f3f17655a8ee188d424cd1b8f523b7b8566e81c0ea5bc129fffec81",
+  "status_counts_current": {
+    "in_progress": 13,
+    "not_started": 7
+  },
+  "specification_draft_checks": {
+    "rf_table_entries": 20,
+    "financial_cases": 18,
+    "prototype_flows": 7,
+    "decision_register_present": true,
+    "example_arithmetic_checked": true,
+    "product_tests_executed": false
+  },
+  "architecture_draft_checks": {
+    "conceptual_model_present": true,
+    "shared_operations_catalog_present": true,
+    "catalog_operations": 20,
+    "implementation_started": true
+  },
+  "visual_storyboard_checks": {
+    "pdf_pages": 7,
+    "mobile_screen_states": 21,
+    "approved_map_reference_used": true,
+    "navigable_prototype_complete": false,
+    "user_testing_complete": false
+  },
+  "interactive_prototype_checks": {
+    "prototype_present": true,
+    "desktop_and_mobile_inspected": true,
+    "distinct_areas": 6,
+    "market_on_mobile_bottom_nav": false,
+    "market_menu_and_home_shortcut": true,
+    "finance_payment_state_checked": true,
+    "market_close_and_reuse_checked": true,
+    "production_app_started": true,
+    "f004_complete": false
+  },
+  "mobile_increment_checks": {
+    "smartphone_primary": true,
+    "single_device_offline_backup_chosen": true,
+    "mobile_first_shell_present": true,
+    "indexeddb_persistence_present": true,
+    "offline_and_restore_browser_qa_passed": true,
+    "domain_tests_passed": 7,
+    "v1_release_ready": false,
+    "published": false
+  }
+}
