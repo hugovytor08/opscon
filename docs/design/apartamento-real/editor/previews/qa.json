@@ -1,0 +1,44 @@
+{
+  "result": "PASS",
+  "checks": [
+    "campo de largura muda parede compartilhada, mantendo IDs",
+    "desfazer/refazer recuperam geometria anterior",
+    "arraste real de parede atualiza planta e isometria",
+    "arraste real de canto modifica as duas direções",
+    "recarga recupera projeto; chave alheia ao editor preservada",
+    "exportação/reabertura e importação inválida sem perder trabalho; reset reversível",
+    "SVG válido/autocontido e oito áreas interativas exportáveis",
+    "ampliação, deslocamento da vista e enquadramento sem alterar geometria",
+    "360/390/412/1400 px sem overflow ou IDs duplicados; troca de vistas no celular",
+    "falha de gravação local avisada; exportação conserva edição em memória",
+    "HTML autônomo abre, edita e recupera rascunho com rede offline",
+    "arraste por toque simulado em 390 px ajusta parede"
+  ],
+  "layouts": [
+    {
+      "width": 360,
+      "overflow": false,
+      "duplicateIds": []
+    },
+    {
+      "width": 390,
+      "overflow": false,
+      "duplicateIds": []
+    },
+    {
+      "width": 412,
+      "overflow": false,
+      "duplicateIds": []
+    },
+    {
+      "width": 1400,
+      "overflow": false,
+      "duplicateIds": []
+    }
+  ],
+  "pageErrors": [],
+  "limits": [
+    "não testa Samsung Internet físico",
+    "não integra alteração ao app"
+  ]
+}

@@ -52,7 +52,7 @@ for (const file of new Set(files)) {
 if (suspect.length) fail(`Possiveis credenciais em arquivos: ${suspect.join(', ')}. Remova-as antes do push.`);
 const checks = spawnSync(process.execPath, ['--check', fileURLToPath(import.meta.url)], { cwd: root, encoding: 'utf8', windowsHide: true });
 if (checks.status !== 0) fail('Falha de sintaxe na ferramenta.');
-for (const file of ['domain.js', 'storage.js', 'ui.js', 'sw.js', 'sync.js', 'supabase.js', 'config.js']) {
+for (const file of ['domain.js', 'storage.js', 'ui.js', 'sw.js', 'sync.js', 'supabase.js', 'config.js', 'house-map.js', 'house-map-data.js']) {
   const result = spawnSync(process.execPath, ['--check', path.join(root, 'app', file)], { encoding: 'utf8', windowsHide: true });
   if (result.status !== 0) fail(`Falha de sintaxe: app/${file}`);
 }

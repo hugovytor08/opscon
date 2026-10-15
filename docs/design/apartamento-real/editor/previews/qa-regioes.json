@@ -1,0 +1,325 @@
+{
+  "schemaVersion": 1,
+  "svg": "casa-isometrica.svg",
+  "viewBox": [
+    1.2340000000000018,
+    7.2280000000000015,
+    1254.1460000000002,
+    1023.022
+  ],
+  "projection": {
+    "matrix": [
+      [
+        0.78,
+        -0.78,
+        0
+      ],
+      [
+        0.45,
+        0.45,
+        -1
+      ]
+    ],
+    "translation": [
+      570,
+      90
+    ],
+    "viewBox": [
+      1.2340000000000018,
+      7.2280000000000015,
+      1254.1460000000002,
+      1023.022
+    ]
+  },
+  "coordinateSystem": "coordenadas SVG; geometria relativa editada pelo usuário",
+  "regions": [
+    {
+      "id": "vis-q1",
+      "name": "Quarto 1",
+      "number": 1,
+      "appRoomId": null,
+      "svgGroupId": "iso-vis-q1",
+      "polygon": [
+        [
+          559.474,
+          117.228
+        ],
+        [
+          825.84,
+          270.9
+        ],
+        [
+          404.962,
+          513.714
+        ],
+        [
+          138.596,
+          360.042
+        ]
+      ],
+      "labelPosition": [
+        534.317,
+        285.414
+      ],
+      "labelPosition2d": [
+        194.2528,
+        240
+      ],
+      "accessibleName": "Selecionar Quarto 1",
+      "geometryStatus": "estimado"
+    },
+    {
+      "id": "vis-q2",
+      "name": "Quarto 2",
+      "number": 2,
+      "appRoomId": null,
+      "svgGroupId": "iso-vis-q2",
+      "polygon": [
+        [
+          825.84,
+          270.9
+        ],
+        [
+          1074.66,
+          414.45
+        ],
+        [
+          857.82,
+          539.55
+        ],
+        [
+          609,
+          396
+        ]
+      ],
+      "labelPosition": [
+        853.379,
+        409.188
+      ],
+      "labelPosition2d": [
+        536.3069,
+        173
+      ],
+      "accessibleName": "Selecionar Quarto 2",
+      "geometryStatus": "estimado"
+    },
+    {
+      "id": "vis-q3",
+      "name": "Quarto 3",
+      "number": 3,
+      "appRoomId": null,
+      "svgGroupId": "iso-vis-q3",
+      "polygon": [
+        [
+          138.596,
+          360.042
+        ],
+        [
+          501.284,
+          569.285
+        ],
+        [
+          408.922,
+          622.57
+        ],
+        [
+          46.234,
+          413.328
+        ]
+      ],
+      "labelPosition": [
+        270.951,
+        486.107
+      ],
+      "labelPosition2d": [
+        248.4209,
+        631.8171
+      ],
+      "accessibleName": "Selecionar Quarto 3",
+      "geometryStatus": "estimado"
+    },
+    {
+      "id": "vis-banho",
+      "name": "Banheiro",
+      "number": 4,
+      "appRoomId": null,
+      "svgGroupId": "iso-vis-banho",
+      "polygon": [
+        [
+          501.284,
+          569.285
+        ],
+        [
+          607.762,
+          630.714
+        ],
+        [
+          515.4,
+          684
+        ],
+        [
+          408.922,
+          622.57
+        ]
+      ],
+      "labelPosition": [
+        511.143,
+        624.679
+      ],
+      "labelPosition2d": [
+        556.3593,
+        631.8171
+      ],
+      "accessibleName": "Selecionar Banheiro",
+      "geometryStatus": "estimado"
+    },
+    {
+      "id": "vis-sala",
+      "name": "Sala",
+      "number": 5,
+      "appRoomId": null,
+      "svgGroupId": "iso-vis-sala",
+      "polygon": [
+        [
+          811.8,
+          513
+        ],
+        [
+          1210.38,
+          742.95
+        ],
+        [
+          834.42,
+          959.85
+        ],
+        [
+          724.44,
+          896.4
+        ],
+        [
+          804,
+          850.5
+        ],
+        [
+          515.4,
+          684
+        ]
+      ],
+      "labelPosition": [
+        785.15,
+        763.275
+      ],
+      "labelPosition2d": [
+        886,
+        610.167
+      ],
+      "accessibleName": "Selecionar Sala",
+      "geometryStatus": "estimado"
+    },
+    {
+      "id": "vis-cozinha",
+      "name": "Cozinha",
+      "number": 6,
+      "appRoomId": null,
+      "svgGroupId": "iso-vis-cozinha",
+      "polygon": [
+        [
+          614.46,
+          741.15
+        ],
+        [
+          804,
+          850.5
+        ],
+        [
+          605.1,
+          965.25
+        ],
+        [
+          415.56,
+          855.9
+        ]
+      ],
+      "labelPosition": [
+        612.9,
+        852.75
+      ],
+      "labelPosition2d": [
+        875,
+        820
+      ],
+      "accessibleName": "Selecionar Cozinha",
+      "geometryStatus": "estimado"
+    },
+    {
+      "id": "vis-servico",
+      "name": "Área de serviço",
+      "number": 7,
+      "appRoomId": null,
+      "svgGroupId": "iso-vis-servico",
+      "polygon": [
+        [
+          515.4,
+          684
+        ],
+        [
+          614.46,
+          741.15
+        ],
+        [
+          415.56,
+          855.9
+        ],
+        [
+          316.5,
+          798.75
+        ]
+      ],
+      "labelPosition": [
+        467.04,
+        768.6
+      ],
+      "labelPosition2d": [
+        688,
+        820
+      ],
+      "accessibleName": "Selecionar Área de serviço",
+      "geometryStatus": "estimado"
+    },
+    {
+      "id": "vis-circulacao",
+      "name": "Circulação",
+      "number": 8,
+      "appRoomId": null,
+      "svgGroupId": "iso-vis-circulacao",
+      "polygon": [
+        [
+          609,
+          396
+        ],
+        [
+          811.8,
+          513
+        ],
+        [
+          607.762,
+          630.714
+        ],
+        [
+          404.962,
+          513.714
+        ]
+      ],
+      "labelPosition": [
+        624.375,
+        520.482
+      ],
+      "labelPosition2d": [
+        513.1696,
+        443.458
+      ],
+      "accessibleName": "Selecionar Circulação",
+      "geometryStatus": "estimado"
+    }
+  ]
+}

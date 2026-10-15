@@ -76,6 +76,9 @@ test('IndexedDB real + protocolo simulado: migração, perda de resposta, offlin
       await probe.page.getByRole('button', { name: 'Solicitar novo acesso' }).click();
       await probe.page.getByRole('heading', { name: 'Dados e backup' }).waitFor();
       await probe.page.evaluate(() => navigator.serviceWorker.ready);
+      // Activation can finish between the auth callback navigation and claim.
+      // A controlled reload establishes the offline precondition explicitly.
+      if (!await probe.page.evaluate(() => !!navigator.serviceWorker.controller)) await probe.page.reload();
       await probe.page.waitForFunction(() => !!navigator.serviceWorker.controller);
       await probe.context.setOffline(true);
       await probe.page.goto(`${origin}/?error=access_denied&error_code=otp_expired#error=access_denied`);

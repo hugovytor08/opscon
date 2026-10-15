@@ -1,6 +1,12 @@
-# Meu espaço — incremento0.3.0 de continuidade
+# Meu espaço — incremento 0.3.3
 
-Esta pasta contém o primeiro incremento do aplicativo, com interface pensada primeiro para smartphone. A referência visual é o protótipo Casa Serena aprovado e, para composição móvel, as telas M1–M6 do guia fornecido por Vytor.
+Imagem antiga do Início retirada de `app/assets` e do shell. Cópia histórica fora da pasta publicada; shell v11. Acabamento da Casa definido pelo usuário: ilustração histórica `ref-casa.png`, com possibilidade de ocultar móveis na futura integração da planta. Evidência em `docs/validacao/incremento-0.3.3.md`.
+
+Base visual 0.3.2: sistema escuro nas seis áreas, Início recomposto, atalhos de compra/despesa e recebimento e foco contido nos diálogos. **Novo → Conferir JSON de documentos** valida e mostra rascunhos v1 por texto/arquivo, também offline; não confirma lançamentos financeiros de lotes. Relatório da base em `docs/validacao/incremento-0.3.2.md`; pendências em `docs/produto/backlog-reformulacao.json`.
+
+Casa mantém a isometria aproximada anterior, com oito regiões, ampliação e vínculo explícito aos cômodos cadastrados. O JSON/SVG novo foi validado e preservado em `docs/design/apartamento-real/revisao-2026-10-14/`, aguardando integração com o acabamento escolhido. Dimensões/móveis ainda estimados. Vínculos são preferências locais do navegador, não sincronizados nem incluídos no backup JSON; configurar novamente ao trocar de aparelho. Fotos/vídeos originais não integram os arquivos servidos. Dados e protocolo preservados. Evidência anterior em `docs/validacao/incremento-0.3.1.md`.
+
+Interface prioritária para smartphone. A direção de 14/10/2026 usa a linguagem do vídeo Samsung Health fornecido pelo usuário; referências M1–M6 e requisitos funcionais continuam rastreados, sem exigir a paleta clara anterior.
 
 Para prévia local, na raiz `C:\opscon`:
 

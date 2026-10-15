@@ -1,0 +1,201 @@
+{
+  "engine": "Chromium",
+  "syntheticOnly": true,
+  "physicalS23": false,
+  "layout": [
+    {
+      "width": 320,
+      "section": "inicio",
+      "overflow": false,
+      "smallButtons": []
+    },
+    {
+      "width": 320,
+      "section": "casa",
+      "overflow": false,
+      "smallButtons": []
+    },
+    {
+      "width": 320,
+      "section": "compras",
+      "overflow": false,
+      "smallButtons": []
+    },
+    {
+      "width": 320,
+      "section": "mercado",
+      "overflow": false,
+      "smallButtons": []
+    },
+    {
+      "width": 320,
+      "section": "financas",
+      "overflow": false,
+      "smallButtons": []
+    },
+    {
+      "width": 320,
+      "section": "projetos",
+      "overflow": false,
+      "smallButtons": []
+    },
+    {
+      "width": 360,
+      "section": "inicio",
+      "overflow": false,
+      "smallButtons": []
+    },
+    {
+      "width": 360,
+      "section": "casa",
+      "overflow": false,
+      "smallButtons": []
+    },
+    {
+      "width": 360,
+      "section": "compras",
+      "overflow": false,
+      "smallButtons": []
+    },
+    {
+      "width": 360,
+      "section": "mercado",
+      "overflow": false,
+      "smallButtons": []
+    },
+    {
+      "width": 360,
+      "section": "financas",
+      "overflow": false,
+      "smallButtons": []
+    },
+    {
+      "width": 360,
+      "section": "projetos",
+      "overflow": false,
+      "smallButtons": []
+    },
+    {
+      "width": 390,
+      "section": "inicio",
+      "overflow": false,
+      "smallButtons": []
+    },
+    {
+      "width": 390,
+      "section": "casa",
+      "overflow": false,
+      "smallButtons": []
+    },
+    {
+      "width": 390,
+      "section": "compras",
+      "overflow": false,
+      "smallButtons": []
+    },
+    {
+      "width": 390,
+      "section": "mercado",
+      "overflow": false,
+      "smallButtons": []
+    },
+    {
+      "width": 390,
+      "section": "financas",
+      "overflow": false,
+      "smallButtons": []
+    },
+    {
+      "width": 390,
+      "section": "projetos",
+      "overflow": false,
+      "smallButtons": []
+    },
+    {
+      "width": 412,
+      "section": "inicio",
+      "overflow": false,
+      "smallButtons": []
+    },
+    {
+      "width": 412,
+      "section": "casa",
+      "overflow": false,
+      "smallButtons": []
+    },
+    {
+      "width": 412,
+      "section": "compras",
+      "overflow": false,
+      "smallButtons": []
+    },
+    {
+      "width": 412,
+      "section": "mercado",
+      "overflow": false,
+      "smallButtons": []
+    },
+    {
+      "width": 412,
+      "section": "financas",
+      "overflow": false,
+      "smallButtons": []
+    },
+    {
+      "width": 412,
+      "section": "projetos",
+      "overflow": false,
+      "smallButtons": []
+    },
+    {
+      "width": 1200,
+      "section": "inicio",
+      "overflow": false,
+      "smallButtons": []
+    },
+    {
+      "width": 1200,
+      "section": "casa",
+      "overflow": false,
+      "smallButtons": []
+    },
+    {
+      "width": 1200,
+      "section": "compras",
+      "overflow": false,
+      "smallButtons": []
+    },
+    {
+      "width": 1200,
+      "section": "mercado",
+      "overflow": false,
+      "smallButtons": []
+    },
+    {
+      "width": 1200,
+      "section": "financas",
+      "overflow": false,
+      "smallButtons": []
+    },
+    {
+      "width": 1200,
+      "section": "projetos",
+      "overflow": false,
+      "smallButtons": []
+    }
+  ],
+  "quickExpense": {
+    "unpaid": 550,
+    "paid": 300
+  },
+  "income": 2500,
+  "importPreview": {
+    "lines": 20,
+    "fileDocuments": 3,
+    "mutations": 0,
+    "hostileTextEscaped": true,
+    "offline": true
+  },
+  "focusTrap": true,
+  "reducedMotion": true
+}

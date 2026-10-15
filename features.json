@@ -246,7 +246,7 @@
     "priority": "must-have",
     "priority_scope": "preparacao_da_V1",
     "status": "in_progress",
-    "progress_note": "Direção visual do protótipo v0.2 aprovada por Vytor; interface móvel inicial implementada. Comparação fina M1–M6, acessibilidade e teste no aparelho real ainda pendentes.",
+    "progress_note": "Direção visual do protótipo v0.2 aprovada por Vytor; interface móvel inicial implementada. Comparação fina M1–M6, acessibilidade e teste no aparelho real ainda pendentes. 14/10/2026: sistema escuro e composição do Início implementados nas seis áreas (0.3.2), com referência no vídeo original. Ver docs/validacao/incremento-0.3.2.md; revisão pelo usuário e S23 físico pendentes.",
     "scope_status": "proposto_para_validacao",
     "user_value": "Verificar a facilidade dos fluxos e a fidelidade visual antes de investir na implementação completa.",
     "acceptance_criteria": [
@@ -885,7 +885,15 @@
       "Qual modelo espacial aprovado representa os ambientes de modo suficiente sem exigir editor arquitetônico?",
       "Quais ajustes observados nos aparelhos escolhidos precisam de aprovação visual final de Vytor?"
     ],
-    "progress_note": "Shell mobile-first, cinco abas, Mercado via menu/atalho, busca, mapa ilustrativo e lista implementados; isometria vinculada e QA final pendentes."
+    "progress_note": "Shell mobile-first, cinco abas, Mercado via menu/atalho, busca, mapa ilustrativo e lista implementados. Em 12/10/2026, acervo real consolidado (18 originais, 29 quadros), planta 2D/isometria SVG, geometria relativa e oito regiões visuais entregues para revisão; QA local em 360/390/412 px passou. Fotos confirmadas como estado atual e janela da sala informada como aproximadamente 1,60 m. Escala confiável, aprovação da planta, vínculo aos IDs existentes e integração/QA final continuam pendentes; nenhum cômodo cadastrado ou CA concluído. Integração 0.3.1: mapa estimado dos oito ambientes em Casa, seleção/zoom/vínculo manual aos IDs existentes e fallback de imagem; preferências de vínculo locais e fora do backup. Testes totais 37/37, incluindo offline, preservação de fila/dados e 320–1200 px. Revisão da planta, S23 e acessibilidade completa pendentes; feature/CA não concluídos. Ver docs/validacao/incremento-0.3.1.md. Editor local da planta entregue em 12/10/2026, com prioridade para formato/proporções: arraste de paredes/cantos, isometria, desfazer, rascunho separado e importação/exportação JSON/SVG. 5/5 testes de geometria e 12 cenários de navegador passaram, incluindo 360–412 px, toque simulado e HTML offline. Alterações do usuário aguardam revisão/aplicação ao mapa; fonte e dados existentes preservados. Ver docs/validacao/editor-planta-2026-10-12.md. 14/10/2026: novo tema/navegação, foco de diálogos e alvos verificados no Chromium; novo JSON/SVG validado e preservado. Mapa definitivo, pinch/pan e recuperação de vínculos ainda pendentes. Backlog próprio em docs/produto/backlog-reformulacao.json. 14/10/2026, resposta do usuário: acabamento de Casa deve seguir a ilustração histórica ref-casa.png e permitir ocultar móveis. Imagem antiga do Início retirada do app/cache no ajuste 0.3.3, preservada apenas no acervo histórico. Nova planta e camada opcional ainda pendentes.",
+    "evidence_paths": [
+      "docs/design/apartamento-real/analise.md",
+      "docs/design/apartamento-real/integracao.md",
+      "docs/design/apartamento-real/evidencias/validacao.json",
+      "docs/validacao/apartamento-real-2026-10-12.md",
+      "docs/validacao/editor-planta-2026-10-12.md",
+      "docs/design/apartamento-real/editor/previews/qa.json"
+    ]
   },
   {
     "id": "F015",
@@ -1233,6 +1241,7 @@
     "open_questions": [
       "Qual dificuldade recorrente observada justifica a próxima evolução?",
       "O benefício compensa custo recorrente, manutenção e novas permissões ou integrações?"
-    ]
+    ],
+    "progress_note": "Decisão de 14/10/2026 autoriza visual escuro, fidelidade da planta, importação e histórico no backlog próprio da reformulação (IMP-01–07), sem reutilizar F020 nem aprovar outras candidatas."
   }
 ]

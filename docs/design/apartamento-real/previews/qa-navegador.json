@@ -1,0 +1,38 @@
+[
+  {
+    "width": 360,
+    "overflow": false,
+    "duplicateIds": [],
+    "collisions": [],
+    "selected": 2,
+    "contextHidden": true,
+    "contextVisible": true
+  },
+  {
+    "width": 390,
+    "overflow": false,
+    "duplicateIds": [],
+    "collisions": [],
+    "selected": 2,
+    "contextHidden": true,
+    "contextVisible": true
+  },
+  {
+    "width": 412,
+    "overflow": false,
+    "duplicateIds": [],
+    "collisions": [],
+    "selected": 2,
+    "contextHidden": true,
+    "contextVisible": true
+  },
+  {
+    "width": 1200,
+    "overflow": false,
+    "duplicateIds": [],
+    "collisions": [],
+    "selected": 2,
+    "contextHidden": true,
+    "contextVisible": true
+  }
+]

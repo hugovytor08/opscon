@@ -1,0 +1,153 @@
+{
+  "format": "casa-serena-import",
+  "version": 1,
+  "batchLabel": "EXEMPLO SINTÉTICO — não importar na base pessoal",
+  "documents": [
+    {
+      "id": "doc-001",
+      "sourceImages": [
+        "nota-exemplo.png"
+      ],
+      "kind": "itemized_purchase",
+      "eventHint": "compra-exemplo-01",
+      "reference": "NOTA-EXEMPLO-001",
+      "transactionId": null,
+      "issuedOn": "2026-10-10",
+      "dueOn": null,
+      "paidOn": null,
+      "currency": "BRL",
+      "merchant": {
+        "name": "Mercado Exemplo",
+        "branch": "Filial de teste",
+        "locality": null
+      },
+      "transactionStatus": "unknown",
+      "direction": "outgoing",
+      "totals": {
+        "itemsGrossCents": 2050,
+        "discountCents": 0,
+        "extraCents": 0,
+        "totalCents": 2050,
+        "amountPaidCents": null
+      },
+      "paymentMethod": "unknown",
+      "lineItems": [
+        {
+          "lineId": "line-001",
+          "sourceText": "OLEO EXEMPLO 900ML 2 UN X 8,50 = 17,00",
+          "description": "Óleo 900 ml",
+          "suggestedProduct": "Óleo de soja",
+          "brand": "Exemplo",
+          "gtin": null,
+          "soldQuantity": "2",
+          "soldUnit": "un",
+          "packageSize": "900",
+          "packageUnit": "ml",
+          "unitPriceDecimal": "8.50",
+          "grossLineCents": 1700,
+          "lineDiscountCents": 0,
+          "netLineCents": 1700,
+          "uncertainties": []
+        },
+        {
+          "lineId": "line-002",
+          "sourceText": "PAO 0,350 KG X 10,00 = 3,50",
+          "description": "Pão por peso",
+          "suggestedProduct": "Pão",
+          "brand": null,
+          "gtin": null,
+          "soldQuantity": "0.350",
+          "soldUnit": "kg",
+          "packageSize": null,
+          "packageUnit": "unknown",
+          "unitPriceDecimal": "10.00",
+          "grossLineCents": 350,
+          "lineDiscountCents": 0,
+          "netLineCents": 350,
+          "uncertainties": []
+        }
+      ],
+      "evidence": [
+        "Exemplo inteiramente sintético; totais e ausência de acréscimos são dados do cenário de teste."
+      ],
+      "uncertainties": [
+        "A nota não identifica a conta de pagamento."
+      ]
+    },
+    {
+      "id": "doc-002",
+      "sourceImages": [
+        "pix-exemplo.png"
+      ],
+      "kind": "payment_receipt",
+      "eventHint": "compra-exemplo-01",
+      "reference": null,
+      "transactionId": "PIX-EXEMPLO-001",
+      "issuedOn": "2026-10-10",
+      "dueOn": null,
+      "paidOn": "2026-10-10",
+      "currency": "BRL",
+      "merchant": {
+        "name": "Mercado Exemplo",
+        "branch": "Filial de teste",
+        "locality": null
+      },
+      "transactionStatus": "completed",
+      "direction": "outgoing",
+      "totals": {
+        "itemsGrossCents": null,
+        "discountCents": null,
+        "extraCents": null,
+        "totalCents": 2050,
+        "amountPaidCents": 2050
+      },
+      "paymentMethod": "pix",
+      "lineItems": [],
+      "evidence": [
+        "Cenário sintético de Pix concluído, referente à nota do mesmo grupo."
+      ],
+      "uncertainties": [
+        "Conciliar com doc-001 e escolher conta real na revisão do app."
+      ]
+    },
+    {
+      "id": "doc-003",
+      "sourceImages": [
+        "conta-agua-exemplo.png"
+      ],
+      "kind": "utility_bill",
+      "eventHint": null,
+      "reference": "AGUA-EXEMPLO-001",
+      "transactionId": null,
+      "issuedOn": "2026-10-10",
+      "dueOn": "2026-10-20",
+      "paidOn": null,
+      "currency": "BRL",
+      "merchant": {
+        "name": "Companhia de Água Exemplo",
+        "branch": null,
+        "locality": null
+      },
+      "transactionStatus": "unknown",
+      "direction": "outgoing",
+      "totals": {
+        "itemsGrossCents": null,
+        "discountCents": null,
+        "extraCents": null,
+        "totalCents": 12000,
+        "amountPaidCents": null
+      },
+      "paymentMethod": "boleto",
+      "lineItems": [],
+      "evidence": [
+        "Cenário sintético de conta a vencer, sem comprovante de quitação."
+      ],
+      "uncertainties": [
+        "Pagamento não comprovado."
+      ]
+    }
+  ],
+  "warnings": [
+    "Dados fictícios para teste isolado. doc-001 e doc-002 representam a mesma compra, sujeita a conciliação; doc-003 não está paga."
+  ]
+}

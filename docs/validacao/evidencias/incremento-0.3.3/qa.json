@@ -1,0 +1,14 @@
+{
+  "release": "0.3.3",
+  "shell": "meu-espaco-shell-v11",
+  "shellFilesPresent": 25,
+  "oldTabPreservedUntilClosed": true,
+  "oldCacheRemoved": true,
+  "removedImageReturns404": true,
+  "homeImages": 0,
+  "offlineReload": true,
+  "stateQueueGenerationPreserved": true,
+  "syntheticOnly": true,
+  "physicalS23": false,
+  "historicalImageSha256": "5b28a6f99bb62f85decf395d5eff2dc0fe4eba0e34bf9424f9ac325c9b109ebd"
+}

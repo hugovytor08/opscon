@@ -1,5 +1,7 @@
 # Matriz de aceite da V1
 
+14/10/2026 — evidência adicional do incremento 0.3.2 em `incremento-0.3.2.md`: seis áreas no tema novo, ações rápidas com conta explícita, foco em diálogos, conferência de JSON sem escrita e shell offline. RF/CA não foram aprovados por esse bloco; IMP-01–07 e tarefas de expansão estão em `../produto/backlog-reformulacao.json`. S23 físico, correção auditável de movimentos, mapa definitivo e confirmação financeira de importação seguem pendentes.
+
 Auditoria e incremento 0.3.0 de 11/10/2026. Estados: **não implementado**, **parcial**, **implementado sem validação completa**, **aprovado**. Nenhum CA foi aprovado nesta sessão. Protótipo aprovado e teste de domínio isolado não liberam o requisito integrado. G-A, G-B, G-V1 e G-P permanecem abertos.
 
 Evidências reproduzíveis: `npm run check`; `npm test` (domínio, Auth/PKCE simulado, IndexedDB real no Chromium e migração/RLS em PostgreSQL PGlite); `node tmp/app_qa.cjs` em127.0.0.1:8766 (seis áreas,320/360/390/430/768/1536px, backup/offline). PGlite usa identidade de teste e não comprova JWT/e-mail. No projeto Free fornecido, a migração foi aplicada, RLS/permissões verificadas e ensaio SQL de finanças/recibos/conflitos/isolamento passou com rollback e contagens0/0/0. Evidências em `evidencias/supabase-*.png`. Login real/recuperação integrada e S23 ainda pendentes; as provas SQL não substituem essa jornada.
@@ -19,7 +21,7 @@ Evidências reproduzíveis: `npm run check`; `npm test` (domínio, Auth/PKCE sim
 | CA-11 | não implementado | RF-03/15 | F010 | Sem comandos de ajuste/devolução/reembolso | Histórico e correção financeira | E09: compra paga300, devolução100, caixa só aumenta após reembolso |
 | CA-12 | parcial | RF-14/19 | F006/F008/F009/F010/F013 | Testes continuidade: resposta perdida/reenvio/ACK com nova escrita; SQL recibo/conflito | Falhas no Supabase real, correções/fatura/Mercado completo | Resposta perdida e duas revisões em duas sessões reais, mesmo UUID divergente |
 | CA-13 | parcial | RF-01/16/18 | F007/F008/F011/F013 | `getSummary` e `getMarketSummary` sinalizam preço ausente | Faltantes localizáveis em todos agregados; planejamento completo | Item/mercado sem preço, listar faltantes e consultar bases temporais |
-| CA-14 | parcial | RF-01/14 | F007/F014 | Mapa/Lista e lista no app | Falha forçada da imagem, edição completa e preferência no backup | Bloquear imagem, executar cadastro/edição/compra/pagamento pela lista |
+| CA-14 | parcial | RF-01/14 | F007/F014 | Mapa real estimado, vínculo explícito, Mapa/Lista; `tests/house-map.test.mjs` verifica imagem 404 e cadastro/seleção pela lista | Edição/compra/pagamento integrados no fallback; vínculos locais fora do backup | Percurso completo pela lista e revisão dos vínculos após recuperação no S23 |
 | CA-15 | parcial | RF-02/03/04/05/06/07/10/11/13/14/15/19/20 | F006/F010/F015 | JSONv1 restaurado em contexto Chromium limpo, IDs/totais iguais; inválido não altera base | Fatura/reserva/devolução/configurações/anexos ainda ausentes do modelo/pacote | E17 integrado, recuperação real e restauração de exclusão já propagada |
 | CA-16 | parcial | RF-14/17 | F008/F009 | `expense.record` permite gasto sem Casa | Categoria/contexto e filtros não implementados | E10: viagem120/passeio80/relacionamento50; geral250 sem soma de recortes |
 | CA-17 | implementado sem validação completa | RF-18 | F013 | Domínio verifica subtotal parcial e carrinho sem efeito financeiro | Quantidade/unidade/seção pela UI, telefone real | Arroz sem preço/leite6, ambos no carrinho, conferir conta inalterada |
@@ -27,7 +29,7 @@ Evidências reproduzíveis: `npm run check`; `npm test` (domínio, Auth/PKCE sim
 | CA-19 | parcial | RF-20 | F013 | `market.reuse` cria novos IDs e mantém histórico | Edição da quantidade/unidade da nova entrada | Reutilizar leite, mudar para2 e conferir aquisição anterior48,90 |
 | CA-20 | parcial | RF-03/16 | F004/F012/F013/F014 | PDF visual inspecionado; QA desktop seis áreas | Comparação detalhada lado a lado, densidade e contraste | D1–D5 com dados de teste, documentar diferenças deliberadas |
 | CA-21 | parcial | RF-03/16 | F004/F013/F014 | Cinco abas/menu Mercado; QA320–1536 sem overflow | M1–M6 lado a lado e S23/Samsung Internet | Instalar em HTTPS, teclado/toque/foco e retorno em todas áreas |
-| CA-22 | parcial | RF-17/18/19 | F004/F012/F013/F014 | Composições próprias em `app/ui.js`; planta em Casa | Avaliação cruzada final com projetos de outros assuntos | Compras/Mercado/Finanças/viagem com conteúdo próprio e nenhuma planta |
+| CA-22 | parcial | RF-17/18/19 | F004/F012/F013/F014 | `tests/house-map.test.mjs` confirma mapa somente em Casa nas seis áreas | Avaliação cruzada final com projetos de outros assuntos | Compras/Mercado/Finanças/viagem com conteúdo próprio e nenhuma planta |
 
 ## Riscos transversais
 

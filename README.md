@@ -1,6 +1,6 @@
 # Meu espaço / Casa Serena
 
-PWA pessoal para Casa, Compras, Mercado, Finanças e Projetos. Incremento de desenvolvimento 0.3.0: a V1 ainda não está concluída. Dados locais em IndexedDB, fila de sincronização com Supabase e backup JSON independente.
+PWA pessoal para Casa, Compras, Mercado, Finanças e Projetos. Incremento de desenvolvimento 0.3.3: imagem antiga do Início removida; base visual escura, captura rápida e conferência local de rascunhos JSON mantidas. A gravação financeira de lotes ainda não está disponível. A V1 continua em andamento. Dados em IndexedDB, fila Supabase e backup independente preservados. Casa inclui o mapa estimado anterior; **Vincular ambientes** ainda guarda os vínculos somente no navegador. Referência de acabamento escolhida: ilustração antiga de Casa, com móveis ocultáveis na futura integração. Relatório em `docs/validacao/incremento-0.3.3.md`; backlog em `docs/produto/backlog-reformulacao.json`.
 
 ## Subir no GitHub
 

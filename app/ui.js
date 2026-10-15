@@ -1,8 +1,12 @@
+import { renderDashboard } from './dashboard.js';
+import { parseImportDraft, IMPORT_LIMITS } from './import-draft.js';
+import { renderImportReview } from './import-review.js';
 import { applyCommand, getSummary } from './domain.js';
 import { loadLocal, saveState, exportBackup, importBackup, restoreBackup } from './storage.js';
 import { remoteConfig } from './config.js';
 import { SupabaseClient } from './supabase.js';
 import { SyncEngine } from './sync.js';
+import { houseMap, readBindings, saveBindings } from './house-map.js';
 
 const sections = { inicio: 'Início', casa: 'Casa', compras: 'Compras', mercado: 'Mercado', financas: 'Finanças', projetos: 'Projetos' };
 const icons = { inicio: 'home', casa: 'house', compras: 'bag', mercado: 'basket', financas: 'chart', projetos: 'flag' };
@@ -32,7 +36,6 @@ const chip = (label, tone = '') => `<span class="chip ${tone}">${esc(label)}</sp
 const button = (label, action, klass = 'primary-button', attrs = '') => `<button type="button" class="${klass}" data-action="${action}" ${attrs}>${label}</button>`;
 const heading = (title, subtitle, action = '') => `<div class="page-heading"><div><h1>${title}</h1>${subtitle ? `<p>${subtitle}</p>` : ''}</div>${action ? `<div class="head-actions">${action}</div>` : ''}</div>`;
 const empty = (icon, title, text, action = '') => `<div class="empty-state"><span class="empty-icon">${svg(icon)}</span><h2>${title}</h2><p>${text}</p>${action}</div>`;
-const art = (name, file, extra = '') => `<div class="crop ${name}-art ${extra}"><img src="./assets/${file}" alt="" loading="lazy"></div>`;
 const field = (name, label, attrs = '') => `<label>${label}<input class="input" name="${name}" ${attrs}></label>`;
 const moneyField = (name, label, value = '') => field(name, label, `inputmode="decimal" autocomplete="off" placeholder="0,00" value="${esc(value)}" required`);
 const submitActions = (label = 'Salvar') => `<div class="modal-actions"><button type="button" class="outline-button" data-action="close-overlay">Cancelar</button><button type="submit" class="primary-button">${label}</button></div>`;
@@ -81,8 +84,11 @@ function renderNav() {
 function render(resetScroll = false) {
   renderNav();
   renderSyncStatus();
+  $('#view').dataset.section = ui.section;
   const pages = { inicio: renderHome, casa: renderHouse, compras: renderShopping, mercado: renderMarket, financas: renderFinance, projetos: renderProjects };
   $('#view').innerHTML = pages[ui.section]();
+  const mapScroll = $('.apartment-map-scroll');
+  if (mapScroll && ui.mapScroll) { mapScroll.scrollLeft = ui.mapScroll.x; mapScroll.scrollTop = ui.mapScroll.y; }
   renderOverlay();
   if (resetScroll) window.scrollTo({ top: 0, behavior: 'instant' });
 }
@@ -99,7 +105,11 @@ function syncMessage() {
   if (!local?.sync.lastSyncedAt) return 'Nenhum envio confirmado ainda';
   return `Sincronizado · ${new Intl.DateTimeFormat('pt-BR', { dateStyle: 'short', timeStyle: 'short' }).format(new Date(local.sync.lastSyncedAt))}`;
 }
-function renderSyncStatus() { $('#sync-status').textContent = syncMessage(); }
+function renderSyncStatus() {
+  const status = $('#sync-status');
+  status.textContent = syncMessage();
+  status.dataset.status = local?.sync.conflict ? 'conflict' : syncEngine?.error || remoteSetupError ? 'error' : local?.queue.length ? 'pending' : local?.sync.lastSyncedAt ? 'synced' : 'local';
+}
 async function refreshLocal() {
   const latest = await loadLocal();
   if (local) local = { ...local, sync: latest.sync, queue: latest.queue };
@@ -134,6 +144,7 @@ function navigate(section) {
   ui.itemId = null;
   ui.projectId = null;
   render(true);
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) $('#view').animate([{ opacity: .4, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none' }], { duration: 180, easing: 'ease-out' });
   $('#view').focus({ preventScroll: true });
   void refreshLocal().catch(error => toast(error.message, true));
 }
@@ -146,38 +157,32 @@ function toast(message, isError = false) {
 }
 
 function renderHome() {
-  const summary = getSummary(state);
-  const nextProject = (state.projects ?? []).map(project => ({ project, task: (state.tasks ?? []).find(task => task.projectId === project.id && !task.done) })).find(pair => pair.task);
-  const pendingItem = (state.items ?? []).find(item => !itemPurchase(item.id));
-  const hero = nextProject
-    ? { kicker: 'Projeto em andamento', title: nextProject.project.name, text: `Próxima ação: ${nextProject.task.title}`, action: `<button class="primary-button" type="button" data-open-project="${esc(nextProject.project.id)}">Retomar projeto ${svg('arrow')}</button>`, image: art('mountain', 'ref-projetos.png') }
-    : pendingItem
-      ? { kicker: 'Sua próxima escolha', title: pendingItem.name, text: 'Uma ideia pode começar pequena e ganhar detalhes quando fizer sentido.', action: `<button class="primary-button" type="button" data-open-item="${esc(pendingItem.id)}">Ver item ${svg('arrow')}</button>`, image: art('living', 'ref-inicio.png') }
-      : { kicker: 'Seu espaço, no seu ritmo', title: 'Planos que ganham forma, um passo de cada vez.', text: 'Guarde uma ideia, organize a casa ou prepare a próxima ida ao Mercado.', action: button(`Guardar uma ideia ${svg('arrow')}`, 'new-item'), image: art('living', 'ref-inicio.png') };
-  const open = obligationsOpen().slice(0, 3);
-  const missing = (state.items ?? []).filter(item => !itemPurchase(item.id) && item.estimateCents == null).slice(0, 2);
-  return `${heading('Seu próximo passo', new Intl.DateTimeFormat('pt-BR', { dateStyle: 'full' }).format(new Date()), button(`${svg('plus')} Novo`, 'new', 'primary-button'))}
-    <section class="home-hero mobile-editorial">${hero.image}<div class="hero-copy"><span class="hero-kicker">${esc(hero.kicker)}</span><h2>${esc(hero.title)}</h2><p>${esc(hero.text)}</p>${hero.action}</div></section>
-    <div class="home-mobile-grid">
-      ${card(`<div class="card-header"><h2>Próximos vencimentos</h2>${button(`Ver todos ${svg('arrow')}`, 'go-finance', 'text-button')}</div>${open.length ? open.map(obligation => `<button class="list-row row-button" type="button" data-pay="${esc(obligation.id)}"><span class="icon-disc">${svg('card')}</span><span class="main"><strong>${esc(purchaseLabel(obligation.purchaseId))}</strong><span class="sub">${formatDate(obligation.dueDate)}</span></span><strong class="amount">${brl(payable(obligation))}</strong>${svg('chevron')}</button>`).join('') : `<p class="muted">Nenhum pagamento pendente registrado.</p>`}`,'card-pad')}
-      ${card(`<div class="card-header"><h2>Falta completar</h2>${chip(String(missing.length))}</div>${missing.length ? missing.map(item => `<button type="button" class="list-row row-button" data-open-item="${esc(item.id)}"><span class="icon-disc amber">${svg('spark')}</span><span class="main"><strong>${esc(item.name)}</strong><span class="sub">Adicionar uma estimativa quando quiser</span></span>${svg('chevron')}</button>`).join('') : `<p class="muted">Suas ideias ainda não têm informações pendentes.</p>`}`,'card-pad')}
-      ${card(`<div class="card-header"><h2>Guardar uma ideia</h2><span class="icon-disc">${svg('spark')}</span></div><p>Salve algo que deseja comprar ou pesquisar. Os detalhes ficam para depois.</p><form data-form="quick-item" class="form-grid"><input class="input" name="name" aria-label="Nome do item" placeholder="Nome do item" maxlength="100" required><button class="primary-button" type="submit">Salvar item</button></form>`,'card-pad')}
-      <button type="button" class="market-shortcut home-market-shortcut" data-nav="mercado"><span class="icon-disc">${svg('basket')}</span><span class="main"><strong>Ir ao Mercado</strong><span>Lista pronta para acompanhar suas compras</span></span>${svg('arrow')}</button>
-    </div>
-    ${(state.accounts ?? []).length ? card(`<div class="stat-block"><span class="icon-disc">${svg('card')}</span><div><span>Saldo registrado</span><strong>${brl(summary.balanceCents ?? 0)}</strong></div></div><div class="stat-block"><span class="icon-disc amber">${svg('clock')}</span><div><span>A pagar</span><strong>${brl(summary.openCents ?? 0)}</strong></div></div>`,'stats-ribbon') : ''}`;
+  return renderDashboard({ state, summary: getSummary(state),
+    nextProject: state.projects.map(project => ({ project, task: state.tasks.find(task => task.projectId === project.id && !task.done) })).find(pair => pair.task),
+    open: obligationsOpen().map(obligation => ({ ...obligation, openCents: payable(obligation) })),
+    planned: state.items.filter(item => !itemPurchase(item.id)), missing: state.items.filter(item => !itemPurchase(item.id) && item.estimateCents == null),
+    market: [...state.markets].reverse().find(entry => entry.status !== 'closed'),
+    heading, card, button, svg, esc, brl, formatDate, purchaseLabel });
 }
 
 function renderHouse() {
   const rooms = state.rooms ?? [];
-  const selected = get('rooms', ui.roomId) ?? rooms[0];
+  const bindings = readBindings(state, local?.sync.ownerId);
+  const visual = houseMap.regions.find(region => region.id === ui.visualRoomId);
+  const selected = visual ? get('rooms', bindings[visual.id]) : get('rooms', ui.roomId) ?? rooms[0];
+  const selectedVisual = visual?.id ?? Object.keys(bindings).find(id => bindings[id] === selected?.id);
   const items = selected ? (state.items ?? []).filter(item => item.roomId === selected.id) : [];
-  const mapPositions = { sala: 'sala', cozinha: 'cozinha', quarto: 'quarto' };
-  const roomButtons = rooms.filter(room => mapPositions[room.name.toLocaleLowerCase('pt-BR')]).map(room => `<button type="button" class="room-pin ${mapPositions[room.name.toLocaleLowerCase('pt-BR')]} ${selected?.id === room.id ? 'active' : ''}" data-room="${esc(room.id)}" aria-label="Selecionar ${esc(room.name)}">${esc(room.name)}</button>`).join('');
+  const regions = houseMap.regions.map(region => {
+    const label = `${region.number}. ${region.name}${bindings[region.id] ? ` · ${get('rooms', bindings[region.id])?.name}` : ' · Sem vínculo'}`;
+    return `<g><polygon class="map-region ${selectedVisual === region.id ? 'is-selected' : ''}" points="${region.polygon.map(point => point.join(',')).join(' ')}" data-map-region="${region.id}" role="button" tabindex="0" aria-label="${esc(label)}" aria-pressed="${selectedVisual === region.id}"></polygon><g class="map-marker" transform="translate(${region.labelPosition.join(' ')})"><circle r="23"></circle><text text-anchor="middle" dominant-baseline="central">${region.number}</text></g></g>`;
+  }).join('');
+  const map = `<div class="apartment-map-scroll" tabindex="0" aria-label="Mapa do apartamento; use Ampliar para ver detalhes"><div class="apartment-map-canvas" style="width:${ui.mapZoom ? 200 : 100}%"><img class="apartment-map-image" src="./assets/apartamento-real/casa-isometrica.svg" alt="Isometria do apartamento reconstruída da planta e das fotos"><svg class="apartment-map-overlay" viewBox="${houseMap.viewBox.join(' ')}" aria-label="Ambientes do apartamento">${regions}</svg></div></div>`;
+  const visualList = `<div class="map-room-list">${houseMap.regions.map(region => `<button type="button" class="map-room-choice ${selectedVisual === region.id ? 'active' : ''}" data-map-region="${region.id}" aria-pressed="${selectedVisual === region.id}"><strong>${region.number}. ${esc(region.name)}</strong><small>${bindings[region.id] ? esc(get('rooms', bindings[region.id])?.name) : 'Sem vínculo'}</small></button>`).join('')}</div>`;
   const roomList = rooms.length ? rooms.map(room => `<button type="button" class="room-list-card ${selected?.id === room.id ? 'active' : ''}" data-room="${esc(room.id)}"><span class="room-illustration">${svg('house')}</span><span><strong>${esc(room.name)}</strong><small>${(state.items ?? []).filter(item => item.roomId === room.id).length} itens</small></span>${svg('chevron')}</button>`).join('') : empty('house', 'A Casa começa por um cômodo', 'Crie um ambiente e organize seus itens sem precisar completar um cadastro longo.', button(`${svg('plus')} Criar cômodo`, 'new-room'));
   return `${heading('Minha casa', 'Organize cada ambiente.', button(`${svg('plus')} Cômodo`, 'new-room', 'outline-button'))}
     <div class="house-topline"><span>Uma casa, várias escolhas</span><div class="segmented"><button type="button" class="${ui.houseMode === 'mapa' ? 'active' : ''}" data-house-mode="mapa">Mapa</button><button type="button" class="${ui.houseMode === 'lista' ? 'active' : ''}" data-house-mode="lista">Lista</button></div></div>
-    <div class="house-layout"><div>${ui.houseMode === 'mapa' ? card(`<div class="house-visual">${art('house', 'ref-casa.png')}<div class="house-map-pins">${roomButtons}</div></div><p class="caption">Representação aproximada · seus cômodos estão na lista</p><div class="room-tabs">${rooms.map(room => `<button type="button" class="${selected?.id === room.id ? 'active' : ''}" data-room="${esc(room.id)}">${esc(room.name)}</button>`).join('')}</div>`,'house-stage') : card(`<div class="room-list-grid">${roomList}</div>`,'card-pad')}</div>
-    <div>${selected ? card(`<div class="card-header"><div><span class="eyebrow">Ambiente selecionado</span><h2>${esc(selected.name)}</h2></div><button type="button" class="soft-button" data-action="new-item" data-room-context="${esc(selected.id)}">${svg('plus')} Item</button></div><p class="muted">${items.length} ${items.length === 1 ? 'item organizado' : 'itens organizados'} neste cômodo.</p>${items.length ? items.map(item => itemRow(item)).join('') : empty('bag', 'Este cômodo está livre para começar', 'Guarde uma ideia para este ambiente ou continue por outra área.', `<button class="text-button" type="button" data-action="new-item" data-room-context="${esc(selected.id)}">Adicionar item ${svg('arrow')}</button>`)}`,'room-panel') : card(empty('house', 'Seus cômodos aparecerão aqui', 'O mapa é uma referência visual; a lista mantém todas as ações disponíveis.'),'room-panel')}</div></div>`;
+    <div class="house-layout"><div>${ui.houseMode === 'mapa' && !ui.mapUnavailable ? card(`${map}<div class="map-toolbar"><button type="button" class="outline-button" data-map-zoom aria-pressed="${!!ui.mapZoom}">${ui.mapZoom ? 'Reduzir' : 'Ampliar'}</button>${button('Vincular ambientes', 'map-bindings', 'outline-button')}</div><p class="caption">Representação aproximada · dimensões e móveis estimados. Os móveis ilustrados não são itens cadastrados.</p>${visualList}<div class="room-tabs" aria-label="Cômodos cadastrados">${rooms.map(room => `<button type="button" class="${selected?.id === room.id ? 'active' : ''}" data-room="${esc(room.id)}">${esc(room.name)}</button>`).join('')}</div>`,'house-stage') : card(`${ui.mapUnavailable && ui.houseMode === 'mapa' ? '<p role="status">O mapa está indisponível. Continue pela lista de cômodos.</p>' : ''}<div class="room-list-grid">${roomList}</div>`,'card-pad')}</div>
+    <div>${selected ? card(`<div class="card-header"><div><span class="eyebrow">Ambiente selecionado</span><h2>${esc(selected.name)}</h2></div><button type="button" class="soft-button" data-action="new-item" data-room-context="${esc(selected.id)}">${svg('plus')} Item</button></div><p class="muted">${items.length} ${items.length === 1 ? 'item organizado' : 'itens organizados'} neste cômodo.</p>${items.length ? items.map(item => itemRow(item)).join('') : empty('bag', 'Este cômodo está livre para começar', 'Guarde uma ideia para este ambiente ou continue por outra área.', `<button class="text-button" type="button" data-action="new-item" data-room-context="${esc(selected.id)}">Adicionar item ${svg('arrow')}</button>`)}`,'room-panel') : card(empty('house', visual ? esc(visual.name) : 'Seus cômodos aparecerão aqui', visual ? 'Este ambiente ainda não está vinculado a um cômodo cadastrado.' : 'Vincule os ambientes do mapa aos seus cômodos ou continue pela lista.', `${button('Vincular cômodo', 'map-bindings', 'outline-button')} ${button('Criar cômodo', 'new-room', 'outline-button')}`),'room-panel')}</div></div>`;
 }
 
 function itemRow(item) {
@@ -199,14 +204,14 @@ function renderItemDetail(item) {
   const obligations = purchase ? (state.obligations ?? []).filter(obligation => obligation.purchaseId === purchase.id) : [];
   return `<div class="detail-page"><button type="button" class="back-link" data-action="back-shopping">${svg('back')} Compras</button>
     ${heading(esc(item.name), get('rooms', item.roomId)?.name ? `Casa · ${esc(get('rooms', item.roomId).name)}` : 'Um registro do seu espaço', button(`${svg('edit')} Editar`, 'edit-item', 'outline-button'))}
-    <div class="item-detail-hero">${art('sofa', 'ref-compras.png')}<div><span class="eyebrow">${purchase ? 'Adquirido' : 'Em pesquisa'}</span><h2>${purchase ? brl(purchase.totalCents) : item.estimateCents == null ? 'Sem preço' : brl(item.estimateCents)}</h2><p>${purchase ? 'A compra e cada pagamento continuam separados.' : 'Uma ideia guardada não cria gasto nem obrigação.'}</p></div></div>
+    <div class="item-detail-hero"><span class="record-icon">${svg('bag')}</span><div><span class="eyebrow">${purchase ? 'Adquirido' : 'Em pesquisa'}</span><h2>${purchase ? brl(purchase.totalCents) : item.estimateCents == null ? 'Sem preço' : brl(item.estimateCents)}</h2><p>${purchase ? 'A compra e cada pagamento continuam separados.' : 'Uma ideia guardada não cria gasto nem obrigação.'}</p></div></div>
     ${purchase ? card(`<div class="card-header"><h2>Compra e parcelas</h2>${chip('Registrada')}</div><p class="muted">Comprado em ${formatDate(purchase.date)} · valor real ${brl(purchase.totalCents)}.</p>${obligations.map((obligation, index) => `<div class="installment-card"><span><strong>Parcela ${index + 1}/${obligations.length}</strong><small>Vence ${formatDate(obligation.dueDate)}</small></span><span><strong>${brl(payable(obligation))}</strong>${payable(obligation) ? `<button type="button" class="text-button" data-pay="${esc(obligation.id)}">Registrar pagamento</button>` : chip('Paga')}</span></div>`).join('')}`,'card-pad') : card(`<h2>Próxima etapa</h2><p class="muted">Quando a compra acontecer, registre o valor real e os vencimentos. Nenhum pagamento será presumido.</p>${button(`${svg('bag')} Registrar compra`, 'buy-item')}`,'card-pad')}
     ${!purchase && item.estimateCents == null ? `<div class="status-alert">${svg('info')} Preço ausente permanece desconhecido, não zero.</div>` : ''}</div>`;
 }
 
 function renderMarket() {
   const market = currentMarket();
-  if (!market) return `${heading('Mercado', 'Uma lista ágil para cada ida às compras.', button(`${svg('plus')} Nova lista`, 'new-market'))}
+  if (!market) return `${heading('Mercado', 'Uma lista ágil para cada ida às compras.', button(`${svg('plus')} Nova lista`, 'new-market'))}${button(`${svg('list')} Conferir JSON de documentos`, 'import-json', 'text-button')}
     <div class="market-intro">${svg('basket')}<div><h2>Comece pela lista, feche pelo total real.</h2><p>Marque os produtos no carrinho. A lista não altera suas finanças antes do fechamento.</p></div></div>
     ${card(empty('basket', 'Sua primeira lista está pronta para nascer', 'Adicione produtos sem precisar informar preço por unidade.', button(`${svg('plus')} Criar lista`, 'new-market')),'card-pad')}`;
   const closed = market.status === 'closed';
@@ -265,8 +270,8 @@ function renderProjects() {
     ${projects.length ? `<div class="project-list">${projects.map(project => {
       const tasks = (state.tasks ?? []).filter(task => task.projectId === project.id);
       const done = tasks.filter(task => task.done).length;
-      return `<button type="button" class="project-teaser" data-open-project="${esc(project.id)}">${art('mountain', 'ref-projetos.png')}<span class="teaser-copy"><span class="eyebrow">Seu projeto</span><strong>${esc(project.name)}</strong><small>${done} de ${tasks.length} tarefas concluídas</small></span>${svg('arrow')}</button>`;
-    }).join('')}</div>` : `<section class="project-cover project-empty">${art('mountain', 'ref-projetos.png')}<div class="cover-content"><h2>Seu próximo plano pode começar pequeno.</h2><p>Crie um projeto e acompanhe o que precisa acontecer, sem transformar estimativas em dívidas.</p>${button(`${svg('plus')} Criar projeto`, 'new-project')}</div></section>`}`;
+      return `<button type="button" class="project-teaser" data-open-project="${esc(project.id)}"><span class="icon-disc">${svg('flag')}</span><span class="teaser-copy"><span class="eyebrow">Seu projeto</span><strong>${esc(project.name)}</strong><small>${done} de ${tasks.length} tarefas concluídas</small></span>${svg('arrow')}</button>`;
+    }).join('')}</div>` : `<section class="project-cover project-empty"><span class="project-emblem" aria-hidden="true">${svg('flag')}</span><div class="cover-content"><h2>Seu próximo plano pode começar pequeno.</h2><p>Crie um projeto e acompanhe o que precisa acontecer, sem transformar estimativas em dívidas.</p>${button(`${svg('plus')} Criar projeto`, 'new-project')}</div></section>`}`;
 }
 
 function renderProjectDetail(project) {
@@ -275,29 +280,42 @@ function renderProjectDetail(project) {
   const progress = tasks.length ? Math.round(done / tasks.length * 100) : 0;
   const next = tasks.find(task => !task.done);
   return `<div class="detail-page"><button type="button" class="back-link" data-action="back-projects">${svg('back')} Projetos</button>${heading(esc(project.name), project.outcome ? `Resultado: ${esc(project.outcome)}` : 'Um plano em andamento')}
-    <section class="project-cover">${art('mountain', 'ref-projetos.png')}<div class="cover-content">${chip('Projeto')}<h2>${esc(project.name)}</h2>${project.outcome ? `<p>${esc(project.outcome)}</p>` : ''}</div></section>
+    <section class="project-cover"><span class="project-emblem" aria-hidden="true">${svg('flag')}</span><div class="cover-content">${chip('Projeto')}<h2>${esc(project.name)}</h2>${project.outcome ? `<p>${esc(project.outcome)}</p>` : ''}</div></section>
     <div class="project-grid"><div class="project-main">${card(`<span class="icon-disc">${svg('flag')}</span><div class="main"><span>Próxima ação</span><strong>${next ? esc(next.title) : tasks.length ? 'Tudo concluído por agora' : 'Adicione a primeira tarefa'}</strong></div>${button(next ? 'Ver tarefas' : 'Criar tarefa', next ? 'focus-tasks' : 'new-task')}`,'next-action')}
     ${card(`<div class="card-header"><h2>Planejamento</h2><span class="muted small">${done} de ${tasks.length} concluídas</span></div><div class="progress-track"><div class="progress-fill" style="width:${progress}%"></div></div>${tasks.length ? tasks.map(task => `<div class="task-row ${task.done ? 'done' : ''}"><button type="button" data-task-toggle="${esc(task.id)}" aria-label="${task.done ? 'Reabrir' : 'Concluir'} ${esc(task.title)}">${task.done ? svg('check') : ''}</button><span>${esc(task.title)}</span></div>`).join('') : `<p class="muted">Tarefas pequenas ajudam a tirar este plano do papel.</p>`}${button(`${svg('plus')} Tarefa`, 'new-task', 'text-button')}`,'task-card')}</div>
     <div class="project-side">${card(`<h2>Previsão do projeto</h2><div class="large-money">${project.estimateCents == null ? 'Não informada' : brl(project.estimateCents)}</div><p class="muted">Uma estimativa não cria pagamento ou dívida.</p>`,'project-cost')}</div></div></div>`;
 }
 
 function modal(title, content, wide = false) {
-  return `<div class="overlay-backdrop" data-backdrop="true"><div class="modal ${wide ? 'wide' : ''}" role="dialog" aria-modal="true" aria-label="${esc(title)}"><div class="modal-header"><h2>${esc(title)}</h2><button type="button" class="icon-button" data-action="close-overlay" aria-label="Fechar">${svg('close')}</button></div>${content}</div></div>`;
+  return `<div class="overlay-backdrop" data-backdrop="true"><div class="modal ${wide ? 'wide' : ''}" role="dialog" aria-modal="true" aria-label="${esc(title)}" tabindex="-1"><div class="modal-header"><h2>${esc(title)}</h2><button type="button" class="icon-button" data-action="close-overlay" aria-label="Fechar">${svg('close')}</button></div>${content}</div></div>`;
 }
 
 function renderOverlay() {
   const root = $('#overlay-root');
+  document.querySelectorAll('.main-shell, .sidebar, #mobile-nav').forEach(element => { element.inert = !!ui.overlay; });
   if (!ui.overlay) { root.innerHTML = ''; return; }
   const active = currentMarket();
   switch (ui.overlay) {
+    case 'import-json':
+      root.innerHTML = modal('Conferir documentos', `<form data-form="import-preview" class="form-grid"><p>Cole o JSON extraído no ChatGPT ou escolha o arquivo. A conferência é local e não grava registros.</p><label>JSON do lote<textarea class="input import-json-input" name="json" spellcheck="false" autocomplete="off" placeholder="Cole o objeto JSON aqui…" aria-describedby="import-error">${esc(ui.importRaw ?? '')}</textarea></label><label>Ou abrir arquivo JSON<input class="input" type="file" name="file" accept=".json,application/json"></label><p class="hint">Contrato casa-serena-import v1 · até 512 KiB, 20 documentos e 500 linhas. Campos desconhecidos permanecem pendentes.</p><p id="import-error" class="error-text" role="alert"></p>${submitActions('Conferir lote')}</form>`, true);
+      break;
+    case 'import-review':
+      root.innerHTML = modal('Conferência do lote', renderImportReview(ui.importReview, { esc, brl, formatDate, button, svg }), true);
+      break;
+    case 'map-bindings': {
+      const bindings = readBindings(state, local?.sync.ownerId);
+      root.innerHTML = modal('Vincular ambientes do mapa', `<form data-form="map-bindings" class="form-grid"><p>Escolha qual cômodo cadastrado corresponde a cada ambiente. Nenhum cadastro será criado ou renomeado.</p>${houseMap.regions.map(region => `<label>${region.number}. ${esc(region.name)}<select class="input" name="${region.id}">${locationOptions(bindings[region.id])}</select></label>`).join('')}<p class="hint">Os vínculos ficam somente neste navegador. Ao trocar de aparelho ou restaurar dados de outra origem, confira e refaça os vínculos quando necessário.</p>${submitActions('Salvar vínculos')}</form>`);
+      break;
+    }
     case 'menu':
-      root.innerHTML = `<div class="overlay-backdrop" data-backdrop="true"></div><aside class="drawer" role="dialog" aria-modal="true" aria-label="Menu de áreas"><div class="brand"><span class="brand-mark">${svg('leaf')}</span>Meu espaço</div><button type="button" class="nav-link drawer-new" data-action="new">${svg('plus')} Novo registro</button>${Object.keys(sections).map(section => `<button type="button" class="nav-link ${ui.section === section ? 'active' : ''}" data-nav="${section}">${svg(icons[section])}${sections[section]}</button>`).join('')}<div class="drawer-bottom"><button type="button" class="utility-link" data-action="settings">${svg('info')} Dados e backup</button></div></aside>`;
+      root.innerHTML = `<div class="overlay-backdrop" data-backdrop="true"></div><aside class="drawer" tabindex="-1" role="dialog" aria-modal="true" aria-label="Menu de áreas"><button type="button" class="icon-button drawer-close" data-action="close-overlay" aria-label="Fechar menu">${svg('close')}</button><div class="brand"><span class="brand-mark">${svg('leaf')}</span>Meu espaço</div><button type="button" class="nav-link drawer-new" data-action="new">${svg('plus')} Novo registro</button>${Object.keys(sections).map(section => `<button type="button" class="nav-link ${ui.section === section ? 'active' : ''}" data-nav="${section}">${svg(icons[section])}${sections[section]}</button>`).join('')}<div class="drawer-bottom"><button type="button" class="utility-link" data-action="settings">${svg('info')} Dados e backup</button></div></aside>`;
       break;
     case 'new':
       root.innerHTML = modal('O que você quer fazer?', [
         ['spark', 'Guardar uma ideia', 'Só o nome é obrigatório', 'new-item'],
         ['basket', 'Montar lista de Mercado', 'Produtos e carrinho', 'new-market'],
         ['card', 'Registrar movimentação', 'Despesa, receita ou transferência', 'new-finance'],
+        ['list', 'Conferir JSON de documentos', 'Prévia local, sem gravar registros', 'import-json'],
         ['flag', 'Criar projeto', 'Tarefas e próximos passos', 'new-project'],
       ].map(([icon, title, description, action]) => `<button type="button" class="choice-row" data-action="${action}"><span class="icon-disc">${svg(icon)}</span><span class="main"><strong>${title}</strong><small>${description}</small></span>${svg('chevron')}</button>`).join(''));
       break;
@@ -397,15 +415,21 @@ function renderSearchResults() {
 }
 
 function openOverlay(name) {
+  clearTimeout(noticeTimer);
+  $('#toast-root').innerHTML = '';
+  if (!ui.overlay) ui.overlayTrigger = document.activeElement;
   ui.overlay = name;
   renderOverlay();
-  $('#overlay-root .modal input[autofocus], #global-search, #overlay-root .modal button')?.focus();
+  $('#overlay-root input[autofocus], #global-search, #overlay-root [role="dialog"]')?.focus();
 }
 
 function closeOverlay() {
   ui.overlay = null;
   ui.pendingBackup = null;
+  ui.importRaw = null;
+  ui.importReview = null;
   renderOverlay();
+  if (ui.overlayTrigger?.isConnected) ui.overlayTrigger.focus({ preventScroll: true });
   void refreshLocal().catch(error => toast(error.message, true));
 }
 
@@ -445,6 +469,21 @@ async function submitForm(form) {
   let type, payload;
   try {
     switch (kind) {
+      case 'import-preview': {
+        const file = form.elements.file.files?.[0];
+        if (file && value('json')) throw new Error('Escolha uma fonte: texto colado ou arquivo.');
+        if (file && file.size > IMPORT_LIMITS.bytes) throw new Error('O limite é 512 KiB; divida o lote.');
+        const raw = file ? await file.text() : value('json');
+        const review = parseImportDraft(raw);
+        ui.importRaw = raw; ui.importReview = review;
+        openOverlay('import-review'); return;
+      }
+      case 'map-bindings': {
+        const latest = await loadLocal();
+        if (latest.generation !== local.generation) throw new Error('Os dados mudaram. Feche e abra os vínculos novamente.');
+        saveBindings(Object.fromEntries(houseMap.regions.map(region => [region.id, value(region.id)])), latest.state, latest.sync.ownerId);
+        state = latest.state; local = latest; ui.overlay = null; render(); toast('Vínculos salvos neste navegador'); return;
+      }
       case 'auth-code':
         ui.authEmail = value('email');
         if (remote.config.authMode === 'magic-link') {
@@ -506,6 +545,12 @@ async function submitForm(form) {
       default: return;
     }
   } catch (error) {
+    if (kind === 'import-preview') {
+      $('#import-error').textContent = error.message || 'Não foi possível conferir o JSON.';
+      form.elements.json.setAttribute('aria-invalid', 'true');
+      form.elements.json.focus();
+      return;
+    }
     toast(error.message || 'Confira os campos informados.', true);
     return;
   }
@@ -515,7 +560,7 @@ async function submitForm(form) {
   if (kind === 'item-create' || kind === 'quick-item') {
     ui.section = 'compras'; ui.itemId = state.items.at(-1)?.id; ui.listTab = 'planned';
   } else if (kind === 'room-create') {
-    ui.section = 'casa'; ui.roomId = state.rooms.at(-1)?.id; ui.houseMode = 'lista';
+    ui.section = 'casa'; ui.roomId = state.rooms.at(-1)?.id; ui.visualRoomId = null; ui.houseMode = 'lista';
   } else if (kind === 'market-create') {
     ui.section = 'mercado'; ui.marketId = state.markets.at(-1)?.id;
   } else if (kind === 'project-create') {
@@ -524,7 +569,8 @@ async function submitForm(form) {
     ui.section = 'financas';
   }
   render(true);
-  toast('Salvo neste aparelho');
+  $('#view').focus({ preventScroll: true });
+  toast(kind === 'expense-create' ? (payload.accountId ? 'Despesa e pagamento salvos neste aparelho' : 'Despesa salva · continua a pagar') : kind === 'income-create' ? 'Recebimento salvo na conta escolhida' : 'Salvo neste aparelho');
 }
 
 async function handleAction(action, source = null) {
@@ -533,7 +579,7 @@ async function handleAction(action, source = null) {
   if (action === 'go-finance') { navigate('financas'); return; }
   if (action === 'back-shopping') { ui.itemId = null; render(true); return; }
   if (action === 'back-projects') { ui.projectId = null; render(true); return; }
-  if (action === 'focus-tasks') { $('.task-card')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+  if (action === 'focus-tasks') { $('.task-card')?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start' }); return; }
   if (action === 'export-backup') {
     downloadBackup();
     toast('Backup gerado para download');
@@ -600,9 +646,20 @@ document.addEventListener('click', async event => {
   const nav = event.target.closest('[data-nav]');
   if (nav) { navigate(nav.dataset.nav); return; }
   const room = event.target.closest('[data-room]');
-  if (room) { ui.roomId = room.dataset.room; render(); return; }
+  if (room) { ui.roomId = room.dataset.room; ui.visualRoomId = null; render(); return; }
+  const mapRegion = event.target.closest('[data-map-region]');
+  if (mapRegion) {
+    ui.visualRoomId = mapRegion.dataset.mapRegion;
+    ui.roomId = readBindings(state, local?.sync.ownerId)[ui.visualRoomId] ?? null;
+    const keyboard = event.detail === 0;
+    const selector = mapRegion.tagName.toLowerCase() === 'polygon' ? 'polygon' : 'button';
+    render();
+    if (keyboard) $(`${selector}[data-map-region="${ui.visualRoomId}"]`)?.focus({ preventScroll: true });
+    return;
+  }
+  if (event.target.closest('[data-map-zoom]')) { ui.mapZoom = !ui.mapZoom; ui.mapScroll = null; render(); $('[data-map-zoom]')?.focus({ preventScroll: true }); return; }
   const mode = event.target.closest('[data-house-mode]');
-  if (mode) { ui.houseMode = mode.dataset.houseMode; localStorage.setItem('casa-serena-house-mode', ui.houseMode); render(); return; }
+  if (mode) { ui.houseMode = mode.dataset.houseMode; if (ui.houseMode === 'lista') ui.visualRoomId = null; localStorage.setItem('casa-serena-house-mode', ui.houseMode); render(); return; }
   const tab = event.target.closest('[data-list-tab]');
   if (tab) { ui.listTab = tab.dataset.listTab; render(); return; }
   const item = event.target.closest('[data-open-item]');
@@ -637,7 +694,7 @@ document.addEventListener('click', async event => {
     const { searchKind: kind, searchId: id } = result.dataset;
     ui.section = ({ item: 'compras', room: 'casa', market: 'mercado', project: 'projetos', account: 'financas' })[kind];
     if (kind === 'item') ui.itemId = id;
-    if (kind === 'room') ui.roomId = id;
+    if (kind === 'room') { ui.roomId = id; ui.visualRoomId = null; }
     if (kind === 'market') ui.marketId = id;
     if (kind === 'project') ui.projectId = id;
     ui.overlay = null; render(true);
@@ -660,9 +717,25 @@ document.addEventListener('input', event => {
 });
 
 document.addEventListener('keydown', event => {
+  if (ui.overlay && event.key === 'Tab') {
+    const dialog = $('#overlay-root [role="dialog"]');
+    const controls = [...(dialog?.querySelectorAll('button:not(:disabled), input:not(:disabled), select:not(:disabled), textarea:not(:disabled), a[href], [tabindex="0"]') ?? [])].filter(element => element.getClientRects().length);
+    const first = controls[0], last = controls.at(-1);
+    if (!first) { event.preventDefault(); dialog?.focus(); return; }
+    if (event.shiftKey && (document.activeElement === first || !controls.includes(document.activeElement))) { event.preventDefault(); last.focus(); }
+    else if (!event.shiftKey && (document.activeElement === last || !controls.includes(document.activeElement))) { event.preventDefault(); first.focus(); }
+  }
+  if (event.target.matches('polygon[data-map-region]') && ['Enter', ' '].includes(event.key)) { event.preventDefault(); event.target.dispatchEvent(new MouseEvent('click', { bubbles: true, detail: 0 })); return; }
   if (event.key === 'Escape' && ui.overlay) { closeOverlay(); return; }
   if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') { event.preventDefault(); openOverlay('search'); }
 });
+
+document.addEventListener('scroll', event => {
+  if (event.target.matches?.('.apartment-map-scroll')) ui.mapScroll = { x: event.target.scrollLeft, y: event.target.scrollTop };
+}, true);
+document.addEventListener('error', event => {
+  if (event.target.matches?.('.apartment-map-image') && !ui.mapUnavailable) { ui.mapUnavailable = true; render(); }
+}, true);
 
 async function boot() {
   $('#view').innerHTML = `<div class="loading-state">Abrindo seu espaço…</div>`;

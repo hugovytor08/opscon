@@ -1,0 +1,58 @@
+{
+  "sourceId": "IMG-016",
+  "sourceSize": [
+    900,
+    1600
+  ],
+  "sourcePoints": [
+    [
+      119,
+      873
+    ],
+    [
+      701,
+      868
+    ],
+    [
+      728,
+      1362
+    ],
+    [
+      96,
+      1404
+    ]
+  ],
+  "targetSize": [
+    1200,
+    1000
+  ],
+  "targetPoints": [
+    [
+      0,
+      0
+    ],
+    [
+      1200,
+      0
+    ],
+    [
+      1200,
+      1000
+    ],
+    [
+      0,
+      1000
+    ]
+  ],
+  "coefficientsOutputToInput": [
+    0.5246799769368081,
+    -0.030873518392044486,
+    119.0,
+    0.04496631476150659,
+    0.4158497935163495,
+    873.0,
+    5.660481731356367e-05,
+    -8.201581658379663e-05
+  ],
+  "note": "Pontos aproximados da moldura impressa; corre\u00e7\u00e3o visual de perspectiva, n\u00e3o calibra\u00e7\u00e3o dimensional."
+}

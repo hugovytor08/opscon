@@ -1,0 +1,17 @@
+{
+  "result": "PASS",
+  "checks": [
+    "18 originais preservados byte a byte",
+    "dois vídeos e 29 quadros: tempos, arquivos e cobertura inicial/final",
+    "áreas declaradas somam 53,05 m²; escala relativa e IDs sem cadastro",
+    "perímetro coberto sem sobreposição; elementos e vãos contidos nos ambientes corretos",
+    "SVGs autocontidos, acessíveis, sem scripts/recursos externos ou IDs duplicados",
+    "oito regiões iguais aos pisos do SVG e à projeção independente do modelo",
+    "QA em 360/390/412/1200 px: sem overflow/colisões; seleção e mobiliário operantes"
+  ],
+  "limits": [
+    "não mede o apartamento",
+    "não substitui revisão do usuário",
+    "não testa app integrado/aparelho físico"
+  ]
+}

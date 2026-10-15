@@ -1,0 +1,283 @@
+[
+  {
+    "id": "VID-001",
+    "source": "evidencias/originais/VID-001--WhatsApp Video 2026-10-12 at 21.20.13.mp4",
+    "duration": 3.910589,
+    "width": 478,
+    "height": 850,
+    "method": "Chrome HTMLVideoElement, sem áudio: amostragem a cada 2 s e final; VID-002 inclui transições 13,15,17,19,21,23,25,27,29 s",
+    "frames": [
+      {
+        "id": "VID-001-000050",
+        "videoId": "VID-001",
+        "timeSeconds": 0.05,
+        "timeLabel": "00:00",
+        "file": "evidencias/quadros/VID-001-000050.jpg",
+        "rooms": "quarto-1",
+        "associationConfidence": "alta"
+      },
+      {
+        "id": "VID-001-002000",
+        "videoId": "VID-001",
+        "timeSeconds": 2,
+        "timeLabel": "00:02",
+        "file": "evidencias/quadros/VID-001-002000.jpg",
+        "rooms": "quarto-1",
+        "associationConfidence": "alta"
+      },
+      {
+        "id": "VID-001-003711",
+        "videoId": "VID-001",
+        "timeSeconds": 3.711,
+        "timeLabel": "00:03",
+        "file": "evidencias/quadros/VID-001-003711.jpg",
+        "rooms": "quarto-1",
+        "associationConfidence": "alta"
+      }
+    ]
+  },
+  {
+    "id": "VID-002",
+    "source": "evidencias/originais/VID-002--WhatsApp Video 2026-10-12 at 21.32.18.mp4",
+    "duration": 31.201056,
+    "width": 478,
+    "height": 850,
+    "method": "Chrome HTMLVideoElement, sem áudio: amostragem a cada 2 s e final; VID-002 inclui transições 13,15,17,19,21,23,25,27,29 s",
+    "frames": [
+      {
+        "id": "VID-002-000050",
+        "videoId": "VID-002",
+        "timeSeconds": 0.05,
+        "timeLabel": "00:00",
+        "file": "evidencias/quadros/VID-002-000050.jpg",
+        "rooms": "sala",
+        "associationConfidence": "alta"
+      },
+      {
+        "id": "VID-002-002000",
+        "videoId": "VID-002",
+        "timeSeconds": 2,
+        "timeLabel": "00:02",
+        "file": "evidencias/quadros/VID-002-002000.jpg",
+        "rooms": "cozinha;sala",
+        "associationConfidence": "alta"
+      },
+      {
+        "id": "VID-002-004000",
+        "videoId": "VID-002",
+        "timeSeconds": 4,
+        "timeLabel": "00:04",
+        "file": "evidencias/quadros/VID-002-004000.jpg",
+        "rooms": "cozinha",
+        "associationConfidence": "alta"
+      },
+      {
+        "id": "VID-002-006000",
+        "videoId": "VID-002",
+        "timeSeconds": 6,
+        "timeLabel": "00:06",
+        "file": "evidencias/quadros/VID-002-006000.jpg",
+        "rooms": "area-servico;cozinha",
+        "associationConfidence": "alta"
+      },
+      {
+        "id": "VID-002-008000",
+        "videoId": "VID-002",
+        "timeSeconds": 8,
+        "timeLabel": "00:08",
+        "file": "evidencias/quadros/VID-002-008000.jpg",
+        "rooms": "area-servico;cozinha",
+        "associationConfidence": "alta"
+      },
+      {
+        "id": "VID-002-010000",
+        "videoId": "VID-002",
+        "timeSeconds": 10,
+        "timeLabel": "00:10",
+        "file": "evidencias/quadros/VID-002-010000.jpg",
+        "rooms": "area-servico;cozinha",
+        "associationConfidence": "alta"
+      },
+      {
+        "id": "VID-002-012000",
+        "videoId": "VID-002",
+        "timeSeconds": 12,
+        "timeLabel": "00:12",
+        "file": "evidencias/quadros/VID-002-012000.jpg",
+        "rooms": "sala;circulacao",
+        "associationConfidence": "alta"
+      },
+      {
+        "id": "VID-002-013000",
+        "videoId": "VID-002",
+        "timeSeconds": 13,
+        "timeLabel": "00:13",
+        "file": "evidencias/quadros/VID-002-013000.jpg",
+        "rooms": "sala;circulacao",
+        "associationConfidence": "alta"
+      },
+      {
+        "id": "VID-002-014000",
+        "videoId": "VID-002",
+        "timeSeconds": 14,
+        "timeLabel": "00:14",
+        "file": "evidencias/quadros/VID-002-014000.jpg",
+        "rooms": "sala;circulacao",
+        "associationConfidence": "alta"
+      },
+      {
+        "id": "VID-002-015000",
+        "videoId": "VID-002",
+        "timeSeconds": 15,
+        "timeLabel": "00:15",
+        "file": "evidencias/quadros/VID-002-015000.jpg",
+        "rooms": "circulacao",
+        "associationConfidence": "alta"
+      },
+      {
+        "id": "VID-002-016000",
+        "videoId": "VID-002",
+        "timeSeconds": 16,
+        "timeLabel": "00:16",
+        "file": "evidencias/quadros/VID-002-016000.jpg",
+        "rooms": "circulacao",
+        "associationConfidence": "alta"
+      },
+      {
+        "id": "VID-002-017000",
+        "videoId": "VID-002",
+        "timeSeconds": 17,
+        "timeLabel": "00:17",
+        "file": "evidencias/quadros/VID-002-017000.jpg",
+        "rooms": "circulacao",
+        "associationConfidence": "alta"
+      },
+      {
+        "id": "VID-002-018000",
+        "videoId": "VID-002",
+        "timeSeconds": 18,
+        "timeLabel": "00:18",
+        "file": "evidencias/quadros/VID-002-018000.jpg",
+        "rooms": "banheiro;circulacao",
+        "associationConfidence": "alta"
+      },
+      {
+        "id": "VID-002-019000",
+        "videoId": "VID-002",
+        "timeSeconds": 19,
+        "timeLabel": "00:19",
+        "file": "evidencias/quadros/VID-002-019000.jpg",
+        "rooms": "banheiro;circulacao",
+        "associationConfidence": "alta"
+      },
+      {
+        "id": "VID-002-020000",
+        "videoId": "VID-002",
+        "timeSeconds": 20,
+        "timeLabel": "00:20",
+        "file": "evidencias/quadros/VID-002-020000.jpg",
+        "rooms": "banheiro;circulacao",
+        "associationConfidence": "alta"
+      },
+      {
+        "id": "VID-002-021000",
+        "videoId": "VID-002",
+        "timeSeconds": 21,
+        "timeLabel": "00:21",
+        "file": "evidencias/quadros/VID-002-021000.jpg",
+        "rooms": "quarto-2",
+        "associationConfidence": "media: associação pelo percurso"
+      },
+      {
+        "id": "VID-002-022000",
+        "videoId": "VID-002",
+        "timeSeconds": 22,
+        "timeLabel": "00:22",
+        "file": "evidencias/quadros/VID-002-022000.jpg",
+        "rooms": "quarto-2",
+        "associationConfidence": "media: associação pelo percurso"
+      },
+      {
+        "id": "VID-002-023000",
+        "videoId": "VID-002",
+        "timeSeconds": 23,
+        "timeLabel": "00:23",
+        "file": "evidencias/quadros/VID-002-023000.jpg",
+        "rooms": "quarto-2",
+        "associationConfidence": "media: associação pelo percurso"
+      },
+      {
+        "id": "VID-002-024000",
+        "videoId": "VID-002",
+        "timeSeconds": 24,
+        "timeLabel": "00:24",
+        "file": "evidencias/quadros/VID-002-024000.jpg",
+        "rooms": "quarto-1",
+        "associationConfidence": "media: associação pelo percurso"
+      },
+      {
+        "id": "VID-002-025000",
+        "videoId": "VID-002",
+        "timeSeconds": 25,
+        "timeLabel": "00:25",
+        "file": "evidencias/quadros/VID-002-025000.jpg",
+        "rooms": "quarto-1",
+        "associationConfidence": "media: associação pelo percurso"
+      },
+      {
+        "id": "VID-002-026000",
+        "videoId": "VID-002",
+        "timeSeconds": 26,
+        "timeLabel": "00:26",
+        "file": "evidencias/quadros/VID-002-026000.jpg",
+        "rooms": "quarto-1",
+        "associationConfidence": "media: associação pelo percurso"
+      },
+      {
+        "id": "VID-002-027000",
+        "videoId": "VID-002",
+        "timeSeconds": 27,
+        "timeLabel": "00:27",
+        "file": "evidencias/quadros/VID-002-027000.jpg",
+        "rooms": "quarto-3;circulacao",
+        "associationConfidence": "media: associação pelo percurso"
+      },
+      {
+        "id": "VID-002-028000",
+        "videoId": "VID-002",
+        "timeSeconds": 28,
+        "timeLabel": "00:28",
+        "file": "evidencias/quadros/VID-002-028000.jpg",
+        "rooms": "quarto-3;circulacao",
+        "associationConfidence": "media: associação pelo percurso"
+      },
+      {
+        "id": "VID-002-029000",
+        "videoId": "VID-002",
+        "timeSeconds": 29,
+        "timeLabel": "00:29",
+        "file": "evidencias/quadros/VID-002-029000.jpg",
+        "rooms": "quarto-3;circulacao",
+        "associationConfidence": "media: associação pelo percurso"
+      },
+      {
+        "id": "VID-002-030000",
+        "videoId": "VID-002",
+        "timeSeconds": 30,
+        "timeLabel": "00:30",
+        "file": "evidencias/quadros/VID-002-030000.jpg",
+        "rooms": "quarto-3;circulacao",
+        "associationConfidence": "media: associação pelo percurso"
+      },
+      {
+        "id": "VID-002-031001",
+        "videoId": "VID-002",
+        "timeSeconds": 31.001,
+        "timeLabel": "00:31",
+        "file": "evidencias/quadros/VID-002-031001.jpg",
+        "rooms": "quarto-3;circulacao",
+        "associationConfidence": "media: associação pelo percurso"
+      }
+    ]
+  }
+]

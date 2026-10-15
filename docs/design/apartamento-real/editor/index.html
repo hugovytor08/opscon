@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Editor da planta · Casa Serena</title><meta name="description" content="Ajuste as proporções dos cômodos do seu apartamento, confira em 2D e isometria e baixe seu projeto."><!-- EDITOR_STYLE --></head>
+<body>
+<header class="header"><div><p class="eyebrow">CASA SERENA · EDITOR DA PLANTA</p><h1>Edite a planta do apartamento.</h1><p class="intro">Ajuste os cômodos e confira o resultado.</p></div><div class="file-actions"><button id="import-project" class="outline">Abrir projeto</button><button id="export-project" class="primary">Baixar projeto <span aria-hidden="true">↓</span></button><button id="export-drawings" class="outline">Exportar desenhos</button><input id="project-file" type="file" accept=".json,application/json" hidden></div></header>
+<main>
+ <div class="utility"><div class="history"><button id="undo" disabled>↶ Desfazer</button><button id="redo" disabled>↷ Refazer</button></div><span id="save-status" role="status">Cópia inicial pronta</span></div>
+ <div id="storage-alert" class="notice" role="alert" hidden></div><div id="message" class="message" role="status" hidden></div>
+ <div class="workspace">
+  <aside class="inspector" aria-label="Ajustes do ambiente">
+   <label class="field">Ambiente<select id="room-select"></select></label>
+   <div class="section-heading"><h2>Proporções do cômodo</h2><span class="pill">Editável</span></div>
+   <div class="dimensions"><label class="field">Largura (%)<input id="room-width" type="number" min="1" max="500" step="1" inputmode="decimal"></label><label class="field">Profundidade (%)<input id="room-depth" type="number" min="1" max="500" step="1" inputmode="decimal"></label></div>
+   <div class="quick-actions"><button data-size-axis="0" data-delta="-5" aria-label="Reduzir largura em cinco pontos percentuais">−5% largura</button><button data-size-axis="0" data-delta="5" aria-label="Aumentar largura em cinco pontos percentuais">+5% largura</button><button data-size-axis="1" data-delta="-5" aria-label="Reduzir profundidade em cinco pontos percentuais">−5% profundidade</button><button data-size-axis="1" data-delta="5" aria-label="Aumentar profundidade em cinco pontos percentuais">+5% profundidade</button></div>
+   <p class="hint">Os campos ajustam as bordas direita e inferior. Para mudar outros lados, arraste os pontos da planta.</p>
+   <details id="more-options" class="more-options"><summary>Nome e outras opções</summary><div>
+   <label class="field">Nome na planta<input id="room-name" maxlength="80"></label>
+   <div class="room-fact"><span>Área informada no papel</span><strong id="paper-area"></strong><small>Referência original; não recalculada como medida do desenho.</small></div>
+   <label class="checkbox"><input id="show-furniture" type="checkbox">Mostrar móveis na isometria</label>
+   <button id="reset-project" class="reset">Voltar à planta inicial</button>
+   <p class="hint">As proporções ainda são estimadas. Baixe o projeto para guardar uma cópia e continuar em outro dispositivo.</p>
+   </div></details>
+  </aside>
+  <section class="stage" aria-label="Planta editável">
+   <div class="stage-heading"><div><h2 id="selected-title">Sala</h2><p id="edit-instruction">Arraste círculos para mover paredes e quadrados para ajustar cantos.</p></div><div class="zoom"><button id="zoom-out" aria-label="Diminuir ampliação">−</button><output id="zoom-value">100%</output><button id="zoom-in" aria-label="Ampliar planta">+</button><button id="zoom-fit" aria-label="Enquadrar a planta">Enquadrar</button></div></div>
+   <div class="view-tabs" role="tablist" aria-label="Vista da planta"><button id="tab-plan" role="tab" aria-selected="true" aria-controls="plan-panel">Planta 2D</button><button id="tab-iso" role="tab" aria-selected="false" aria-controls="iso-panel" tabindex="-1">Isometria</button></div>
+   <div class="canvases"><section id="plan-panel" class="canvas-panel" role="tabpanel" aria-labelledby="tab-plan"><p class="canvas-caption">Planta 2D · arraste para editar</p><div id="plan-viewport" class="viewport editable"></div></section><section id="iso-panel" class="canvas-panel" role="tabpanel" aria-labelledby="tab-iso"><p class="canvas-caption">Isometria · acompanha seus ajustes</p><div id="iso-viewport" class="viewport"></div></section></div>
+   <div class="legend"><span><i class="circle" aria-hidden="true"></i>Mover parede</span><span><i class="square" aria-hidden="true"></i>Ajustar canto</span><p>Paredes compartilhadas ajustam os ambientes vizinhos.</p></div>
+   <div id="room-list" class="room-list" aria-label="Selecionar ambiente"></div>
+  </section>
+ </div>
+ <footer><p>Este editor guarda um projeto separado. Aplicar a versão editada no Casa Serena é uma próxima etapa.</p><a id="download-original" href="#">Baixar uma cópia da planta inicial</a></footer>
+</main>
+<dialog id="export-dialog"><div class="dialog-heading"><h2>Exportar seu desenho</h2><button id="close-export" aria-label="Fechar exportação">×</button></div><p>Arquivos editáveis da versão que está na tela.</p><div class="export-options"><button data-export="plan">Planta 2D · SVG</button><button data-export="iso">Isometria · SVG</button><button data-export="regions">Áreas selecionáveis · JSON</button></div></dialog>
+<!-- EDITOR_BASELINE -->
+<!-- EDITOR_SCRIPT -->
+</body></html>

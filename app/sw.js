@@ -1,7 +1,8 @@
-const CACHE = 'meu-espaco-shell-v8';
+const CACHE = 'meu-espaco-shell-v11';
 const SHELL = [
   './', './index.html', './styles.css', './ui.js', './domain.js', './storage.js', './sync.js', './supabase.js', './config.js',
-  './manifest.webmanifest', './icon.svg', './icon-192.png', './icon-512.png', './ui.css', './assets/ref-inicio.png',
+  './manifest.webmanifest', './icon.svg', './icon-192.png', './icon-512.png', './ui.css', './design-system.css', './dashboard.js', './import-draft.js', './import-review.js', './import-schema.js',
+  './house-map.js', './house-map-data.js', './assets/apartamento-real/casa-isometrica.svg',
   './assets/ref-casa.png', './assets/ref-compras.png', './assets/ref-projetos.png'
 ];
 

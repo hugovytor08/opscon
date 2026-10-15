@@ -1,0 +1,1973 @@
+{
+  "schemaVersion": 1,
+  "artifactStatus": "editado_para_revisao",
+  "coordinateSystem": {
+    "unit": "UR",
+    "meaning": "unidade relativa do traçado da imagem retificada; não é metro",
+    "scaleToMeters": null,
+    "origin": "canto superior esquerdo da moldura retificada IMG-016",
+    "axes": {
+      "x": "direita da planta impressa",
+      "y": "baixo da planta impressa"
+    },
+    "geographicNorth": null,
+    "sourceRectification": "evidencias/retificacao.json"
+  },
+  "declaredTotalArea": {
+    "value": 53.05,
+    "unit": "m2",
+    "sourceId": "IMG-016",
+    "fieldVerified": false
+  },
+  "confirmedLinearMeasurements": [],
+  "projection": {
+    "matrix": [
+      [
+        0.78,
+        -0.78,
+        0
+      ],
+      [
+        0.45,
+        0.45,
+        -1
+      ]
+    ],
+    "translation": [
+      570,
+      90
+    ],
+    "viewBox": [
+      157.239,
+      215.948,
+      945.125,
+      824.546
+    ]
+  },
+  "rooms": [
+    {
+      "id": "vis-q1",
+      "name": "Quarto 1",
+      "number": 1,
+      "appRoomId": null,
+      "polygon": [
+        [
+          268.2457,
+          256.0826
+        ],
+        [
+          472.5932,
+          256.0826
+        ],
+        [
+          472.5932,
+          517.1497
+        ],
+        [
+          268.2457,
+          517.1497
+        ]
+      ],
+      "labelAnchor": [
+        370.4195,
+        415.8114
+      ],
+      "geometryStatus": "estimado",
+      "topologyStatus": "observado_sem_medida",
+      "declaredArea": {
+        "value": 8.8,
+        "unit": "m2",
+        "status": "transcrito_do_documento",
+        "fieldVerified": false,
+        "evidence": [
+          {
+            "sourceId": "IMG-016",
+            "region": "quadro de áreas e rótulo impresso"
+          }
+        ]
+      },
+      "sources": [
+        "IMG-016",
+        "IMG-008",
+        "IMG-009",
+        "VID-001"
+      ]
+    },
+    {
+      "id": "vis-q2",
+      "name": "Quarto 2",
+      "number": 2,
+      "appRoomId": null,
+      "polygon": [
+        [
+          472.5932,
+          256.0826
+        ],
+        [
+          665.4411,
+          256.0826
+        ],
+        [
+          665.4411,
+          474.8245
+        ],
+        [
+          472.5932,
+          474.8245
+        ]
+      ],
+      "labelAnchor": [
+        565.5241,
+        363.0929
+      ],
+      "geometryStatus": "estimado",
+      "topologyStatus": "observado_sem_medida",
+      "declaredArea": {
+        "value": 7.54,
+        "unit": "m2",
+        "status": "transcrito_do_documento",
+        "fieldVerified": false,
+        "evidence": [
+          {
+            "sourceId": "IMG-016",
+            "region": "quadro de áreas e rótulo impresso"
+          }
+        ]
+      },
+      "sources": [
+        "IMG-016",
+        "IMG-014",
+        "IMG-015"
+      ]
+    },
+    {
+      "id": "vis-q3",
+      "name": "Quarto 3",
+      "number": 3,
+      "appRoomId": null,
+      "polygon": [
+        [
+          268.2457,
+          517.1497
+        ],
+        [
+          526.7515,
+          517.1497
+        ],
+        [
+          526.7515,
+          739.7338
+        ],
+        [
+          268.2457,
+          739.7338
+        ]
+      ],
+      "labelAnchor": [
+        402.8332,
+        620.9669
+      ],
+      "geometryStatus": "estimado",
+      "topologyStatus": "observado_sem_medida",
+      "declaredArea": {
+        "value": 8.1,
+        "unit": "m2",
+        "status": "transcrito_do_documento",
+        "fieldVerified": false,
+        "evidence": [
+          {
+            "sourceId": "IMG-016",
+            "region": "quadro de áreas e rótulo impresso"
+          }
+        ]
+      },
+      "sources": [
+        "IMG-016",
+        "IMG-006",
+        "IMG-007"
+      ]
+    },
+    {
+      "id": "vis-banho",
+      "name": "Banheiro",
+      "number": 4,
+      "appRoomId": null,
+      "polygon": [
+        [
+          526.7515,
+          517.1497
+        ],
+        [
+          637.4411,
+          517.1497
+        ],
+        [
+          637.4411,
+          739.7338
+        ],
+        [
+          526.7515,
+          739.7338
+        ]
+      ],
+      "labelAnchor": [
+        581.7836,
+        620.9669
+      ],
+      "geometryStatus": "estimado",
+      "topologyStatus": "observado_sem_medida",
+      "declaredArea": {
+        "value": 3.26,
+        "unit": "m2",
+        "status": "transcrito_do_documento",
+        "fieldVerified": false,
+        "evidence": [
+          {
+            "sourceId": "IMG-016",
+            "region": "quadro de áreas e rótulo impresso"
+          }
+        ]
+      },
+      "sources": [
+        "IMG-016",
+        "IMG-004",
+        "IMG-005",
+        "IMG-010"
+      ]
+    },
+    {
+      "id": "vis-sala",
+      "name": "Sala",
+      "number": 5,
+      "appRoomId": null,
+      "polygon": [
+        [
+          637.4411,
+          474.8245
+        ],
+        [
+          1099.65,
+          474.8245
+        ],
+        [
+          1099.65,
+          868.1154
+        ],
+        [
+          1015.6463,
+          868.1154
+        ],
+        [
+          1015.6463,
+          739.7338
+        ],
+        [
+          637.4411,
+          739.7338
+        ]
+      ],
+      "labelAnchor": [
+        882.4006,
+        580.2706
+      ],
+      "geometryStatus": "estimado",
+      "topologyStatus": "observado_sem_medida",
+      "declaredArea": {
+        "value": 16.32,
+        "unit": "m2",
+        "status": "transcrito_do_documento",
+        "fieldVerified": false,
+        "evidence": [
+          {
+            "sourceId": "IMG-016",
+            "region": "quadro de áreas e rótulo impresso"
+          }
+        ]
+      },
+      "sources": [
+        "IMG-016",
+        "IMG-001",
+        "IMG-002",
+        "IMG-003"
+      ]
+    },
+    {
+      "id": "vis-cozinha",
+      "name": "Cozinha",
+      "number": 6,
+      "appRoomId": null,
+      "polygon": [
+        [
+          718.5941,
+          739.7338
+        ],
+        [
+          1015.6463,
+          739.7338
+        ],
+        [
+          1015.6463,
+          950
+        ],
+        [
+          718.5941,
+          950
+        ]
+      ],
+      "labelAnchor": [
+        868.954,
+        880.4248
+      ],
+      "geometryStatus": "estimado",
+      "topologyStatus": "observado_sem_medida",
+      "declaredArea": {
+        "value": 4.4,
+        "unit": "m2",
+        "status": "transcrito_do_documento",
+        "fieldVerified": false,
+        "evidence": [
+          {
+            "sourceId": "IMG-016",
+            "region": "quadro de áreas e rótulo impresso"
+          }
+        ]
+      },
+      "sources": [
+        "IMG-016",
+        "IMG-011",
+        "IMG-012",
+        "IMG-013"
+      ]
+    },
+    {
+      "id": "vis-servico",
+      "name": "Área de serviço",
+      "number": 7,
+      "appRoomId": null,
+      "polygon": [
+        [
+          637.4411,
+          739.7338
+        ],
+        [
+          718.5941,
+          739.7338
+        ],
+        [
+          718.5941,
+          950
+        ],
+        [
+          637.4411,
+          950
+        ]
+      ],
+      "labelAnchor": [
+        668.5677,
+        880.4248
+      ],
+      "geometryStatus": "estimado",
+      "topologyStatus": "observado_sem_medida",
+      "declaredArea": {
+        "value": 2.2,
+        "unit": "m2",
+        "status": "transcrito_do_documento",
+        "fieldVerified": false,
+        "evidence": [
+          {
+            "sourceId": "IMG-016",
+            "region": "quadro de áreas e rótulo impresso"
+          }
+        ]
+      },
+      "sources": [
+        "IMG-016",
+        "IMG-013",
+        "VID-002-006000",
+        "VID-002-008000"
+      ]
+    },
+    {
+      "id": "vis-circulacao",
+      "name": "Circulação",
+      "number": 8,
+      "appRoomId": null,
+      "polygon": [
+        [
+          472.5932,
+          474.8245
+        ],
+        [
+          637.4411,
+          474.8245
+        ],
+        [
+          637.4411,
+          517.1497
+        ],
+        [
+          472.5932,
+          517.1497
+        ]
+      ],
+      "labelAnchor": [
+        546.7631,
+        495.6092
+      ],
+      "geometryStatus": "estimado",
+      "topologyStatus": "observado_sem_medida",
+      "declaredArea": {
+        "value": 2.43,
+        "unit": "m2",
+        "status": "transcrito_do_documento",
+        "fieldVerified": false,
+        "evidence": [
+          {
+            "sourceId": "IMG-016",
+            "region": "quadro de áreas e rótulo impresso"
+          }
+        ]
+      },
+      "sources": [
+        "IMG-016",
+        "VID-002-016000"
+      ]
+    }
+  ],
+  "perimeter": [
+    [
+      268.2457,
+      256.0826
+    ],
+    [
+      665.4411,
+      256.0826
+    ],
+    [
+      665.4411,
+      474.8245
+    ],
+    [
+      1099.65,
+      474.8245
+    ],
+    [
+      1099.65,
+      868.1154
+    ],
+    [
+      1015.6463,
+      868.1154
+    ],
+    [
+      1015.6463,
+      950
+    ],
+    [
+      637.4411,
+      950
+    ],
+    [
+      637.4411,
+      739.7338
+    ],
+    [
+      268.2457,
+      739.7338
+    ]
+  ],
+  "walls": [
+    {
+      "id": "wall-ext-1",
+      "a": [
+        268.2457,
+        256.0826
+      ],
+      "b": [
+        665.4411,
+        256.0826
+      ],
+      "thickness": 14,
+      "exterior": true,
+      "geometryStatus": "estimado",
+      "observedStatus": "observado_sem_medida",
+      "evidence": [
+        {
+          "sourceId": "IMG-016",
+          "region": "planta inferior: traçado da parede correspondente"
+        }
+      ],
+      "renderHeight": 72
+    },
+    {
+      "id": "wall-ext-2",
+      "a": [
+        665.4411,
+        256.0826
+      ],
+      "b": [
+        665.4411,
+        474.8245
+      ],
+      "thickness": 14,
+      "exterior": true,
+      "geometryStatus": "estimado",
+      "observedStatus": "observado_sem_medida",
+      "evidence": [
+        {
+          "sourceId": "IMG-016",
+          "region": "planta inferior: traçado da parede correspondente"
+        }
+      ],
+      "renderHeight": 26
+    },
+    {
+      "id": "wall-ext-3",
+      "a": [
+        665.4411,
+        474.8245
+      ],
+      "b": [
+        1099.65,
+        474.8245
+      ],
+      "thickness": 14,
+      "exterior": true,
+      "geometryStatus": "estimado",
+      "observedStatus": "observado_sem_medida",
+      "evidence": [
+        {
+          "sourceId": "IMG-016",
+          "region": "planta inferior: traçado da parede correspondente"
+        }
+      ],
+      "renderHeight": 72
+    },
+    {
+      "id": "wall-ext-4",
+      "a": [
+        1099.65,
+        474.8245
+      ],
+      "b": [
+        1099.65,
+        868.1154
+      ],
+      "thickness": 14,
+      "exterior": true,
+      "geometryStatus": "estimado",
+      "observedStatus": "observado_sem_medida",
+      "evidence": [
+        {
+          "sourceId": "IMG-016",
+          "region": "planta inferior: traçado da parede correspondente"
+        }
+      ],
+      "renderHeight": 26
+    },
+    {
+      "id": "wall-ext-5",
+      "a": [
+        1099.65,
+        868.1154
+      ],
+      "b": [
+        1015.6463,
+        868.1154
+      ],
+      "thickness": 14,
+      "exterior": true,
+      "geometryStatus": "estimado",
+      "observedStatus": "observado_sem_medida",
+      "evidence": [
+        {
+          "sourceId": "IMG-016",
+          "region": "planta inferior: traçado da parede correspondente"
+        }
+      ],
+      "renderHeight": 26
+    },
+    {
+      "id": "wall-ext-6",
+      "a": [
+        1015.6463,
+        868.1154
+      ],
+      "b": [
+        1015.6463,
+        950
+      ],
+      "thickness": 14,
+      "exterior": true,
+      "geometryStatus": "estimado",
+      "observedStatus": "observado_sem_medida",
+      "evidence": [
+        {
+          "sourceId": "IMG-016",
+          "region": "planta inferior: traçado da parede correspondente"
+        }
+      ],
+      "renderHeight": 26
+    },
+    {
+      "id": "wall-ext-7",
+      "a": [
+        1015.6463,
+        950
+      ],
+      "b": [
+        637.4411,
+        950
+      ],
+      "thickness": 14,
+      "exterior": true,
+      "geometryStatus": "estimado",
+      "observedStatus": "observado_sem_medida",
+      "evidence": [
+        {
+          "sourceId": "IMG-016",
+          "region": "planta inferior: traçado da parede correspondente"
+        }
+      ],
+      "renderHeight": 26
+    },
+    {
+      "id": "wall-ext-8",
+      "a": [
+        637.4411,
+        950
+      ],
+      "b": [
+        637.4411,
+        739.7338
+      ],
+      "thickness": 14,
+      "exterior": true,
+      "geometryStatus": "estimado",
+      "observedStatus": "observado_sem_medida",
+      "evidence": [
+        {
+          "sourceId": "IMG-016",
+          "region": "planta inferior: traçado da parede correspondente"
+        }
+      ],
+      "renderHeight": 26
+    },
+    {
+      "id": "wall-ext-9",
+      "a": [
+        637.4411,
+        739.7338
+      ],
+      "b": [
+        268.2457,
+        739.7338
+      ],
+      "thickness": 14,
+      "exterior": true,
+      "geometryStatus": "estimado",
+      "observedStatus": "observado_sem_medida",
+      "evidence": [
+        {
+          "sourceId": "IMG-016",
+          "region": "planta inferior: traçado da parede correspondente"
+        }
+      ],
+      "renderHeight": 26
+    },
+    {
+      "id": "wall-ext-10",
+      "a": [
+        268.2457,
+        739.7338
+      ],
+      "b": [
+        268.2457,
+        256.0826
+      ],
+      "thickness": 14,
+      "exterior": true,
+      "geometryStatus": "estimado",
+      "observedStatus": "observado_sem_medida",
+      "evidence": [
+        {
+          "sourceId": "IMG-016",
+          "region": "planta inferior: traçado da parede correspondente"
+        }
+      ],
+      "renderHeight": 72
+    },
+    {
+      "id": "wall-q1-leste",
+      "a": [
+        472.5932,
+        256.0826
+      ],
+      "b": [
+        472.5932,
+        517.1497
+      ],
+      "thickness": 14,
+      "exterior": false,
+      "geometryStatus": "estimado",
+      "observedStatus": "observado_sem_medida",
+      "evidence": [
+        {
+          "sourceId": "IMG-016",
+          "region": "planta inferior: traçado da parede correspondente"
+        }
+      ],
+      "renderHeight": 26
+    },
+    {
+      "id": "wall-q2-sul",
+      "a": [
+        472.5932,
+        474.8245
+      ],
+      "b": [
+        665.4411,
+        474.8245
+      ],
+      "thickness": 14,
+      "exterior": false,
+      "geometryStatus": "estimado",
+      "observedStatus": "observado_sem_medida",
+      "evidence": [
+        {
+          "sourceId": "IMG-016",
+          "region": "planta inferior: traçado da parede correspondente"
+        }
+      ],
+      "renderHeight": 26
+    },
+    {
+      "id": "wall-q3-norte",
+      "a": [
+        268.2457,
+        517.1497
+      ],
+      "b": [
+        526.7515,
+        517.1497
+      ],
+      "thickness": 14,
+      "exterior": false,
+      "geometryStatus": "estimado",
+      "observedStatus": "observado_sem_medida",
+      "evidence": [
+        {
+          "sourceId": "IMG-016",
+          "region": "planta inferior: traçado da parede correspondente"
+        }
+      ],
+      "renderHeight": 26
+    },
+    {
+      "id": "wall-q3-leste",
+      "a": [
+        526.7515,
+        517.1497
+      ],
+      "b": [
+        526.7515,
+        739.7338
+      ],
+      "thickness": 14,
+      "exterior": false,
+      "geometryStatus": "estimado",
+      "observedStatus": "observado_sem_medida",
+      "evidence": [
+        {
+          "sourceId": "IMG-016",
+          "region": "planta inferior: traçado da parede correspondente"
+        }
+      ],
+      "renderHeight": 26
+    },
+    {
+      "id": "wall-banho-norte",
+      "a": [
+        526.7515,
+        517.1497
+      ],
+      "b": [
+        637.4411,
+        517.1497
+      ],
+      "thickness": 14,
+      "exterior": false,
+      "geometryStatus": "estimado",
+      "observedStatus": "observado_sem_medida",
+      "evidence": [
+        {
+          "sourceId": "IMG-016",
+          "region": "planta inferior: traçado da parede correspondente"
+        }
+      ],
+      "renderHeight": 26
+    },
+    {
+      "id": "wall-banho-leste",
+      "a": [
+        637.4411,
+        517.1497
+      ],
+      "b": [
+        637.4411,
+        739.7338
+      ],
+      "thickness": 14,
+      "exterior": false,
+      "geometryStatus": "estimado",
+      "observedStatus": "observado_sem_medida",
+      "evidence": [
+        {
+          "sourceId": "IMG-016",
+          "region": "planta inferior: traçado da parede correspondente"
+        }
+      ],
+      "renderHeight": 26
+    },
+    {
+      "id": "wall-cozinha-norte",
+      "a": [
+        637.4411,
+        739.7338
+      ],
+      "b": [
+        1015.6463,
+        739.7338
+      ],
+      "thickness": 14,
+      "exterior": false,
+      "geometryStatus": "estimado",
+      "observedStatus": "observado_sem_medida",
+      "evidence": [
+        {
+          "sourceId": "IMG-016",
+          "region": "planta inferior: traçado da parede correspondente"
+        }
+      ],
+      "renderHeight": 26
+    },
+    {
+      "id": "wall-servico-leste",
+      "a": [
+        718.5941,
+        739.7338
+      ],
+      "b": [
+        718.5941,
+        950
+      ],
+      "thickness": 14,
+      "exterior": false,
+      "geometryStatus": "estimado",
+      "observedStatus": "observado_sem_medida",
+      "evidence": [
+        {
+          "sourceId": "IMG-016",
+          "region": "planta inferior: traçado da parede correspondente"
+        }
+      ],
+      "renderHeight": 26
+    }
+  ],
+  "openings": [
+    {
+      "id": "door-q1",
+      "kind": "door",
+      "wallId": "wall-q1-leste",
+      "a": [
+        472.5932,
+        481.6268
+      ],
+      "b": [
+        472.5932,
+        513.3706
+      ],
+      "connects": [
+        "vis-q1",
+        "vis-circulacao"
+      ],
+      "geometryStatus": "estimado",
+      "existenceStatus": "observado_sem_medida",
+      "evidence": [
+        {
+          "sourceId": "IMG-016",
+          "region": "símbolo da abertura"
+        },
+        {
+          "sourceId": "IMG-009",
+          "region": "abertura visível nas fotos/quadros"
+        }
+      ],
+      "confidence": "alta para existência; média para posição e largura",
+      "swing": {
+        "hinge": [
+          472.5932,
+          513.3706
+        ],
+        "openEnd": [
+          440.84940000000006,
+          513.3706
+        ],
+        "status": "estimado",
+        "evidence": [
+          {
+            "sourceId": "IMG-016",
+            "region": "arco de abertura; não calibra ângulo real da porta"
+          }
+        ]
+      }
+    },
+    {
+      "id": "door-q2",
+      "kind": "door",
+      "wallId": "wall-q2-sul",
+      "a": [
+        482.2643,
+        474.8245
+      ],
+      "b": [
+        521.9159,
+        474.8245
+      ],
+      "connects": [
+        "vis-q2",
+        "vis-circulacao"
+      ],
+      "geometryStatus": "estimado",
+      "existenceStatus": "observado_sem_medida",
+      "evidence": [
+        {
+          "sourceId": "IMG-016",
+          "region": "símbolo da abertura"
+        },
+        {
+          "sourceId": "IMG-015",
+          "region": "abertura visível nas fotos/quadros"
+        }
+      ],
+      "confidence": "alta para existência; média para posição e largura",
+      "swing": {
+        "hinge": [
+          482.2643,
+          474.8245
+        ],
+        "openEnd": [
+          482.2643,
+          435.1729
+        ],
+        "status": "estimado",
+        "evidence": [
+          {
+            "sourceId": "IMG-016",
+            "region": "arco de abertura; não calibra ângulo real da porta"
+          }
+        ]
+      }
+    },
+    {
+      "id": "door-q3",
+      "kind": "door",
+      "wallId": "wall-q3-norte",
+      "a": [
+        479.8466,
+        517.1497
+      ],
+      "b": [
+        520.9488,
+        517.1497
+      ],
+      "connects": [
+        "vis-q3",
+        "vis-circulacao"
+      ],
+      "geometryStatus": "estimado",
+      "existenceStatus": "observado_sem_medida",
+      "evidence": [
+        {
+          "sourceId": "IMG-016",
+          "region": "símbolo da abertura"
+        },
+        {
+          "sourceId": "IMG-007",
+          "region": "abertura visível nas fotos/quadros"
+        }
+      ],
+      "confidence": "alta para existência; média para posição e largura",
+      "swing": {
+        "hinge": [
+          520.9488,
+          517.1497
+        ],
+        "openEnd": [
+          520.9488,
+          558.2519
+        ],
+        "status": "estimado",
+        "evidence": [
+          {
+            "sourceId": "IMG-016",
+            "region": "arco de abertura; não calibra ângulo real da porta"
+          }
+        ]
+      }
+    },
+    {
+      "id": "door-banho",
+      "kind": "door",
+      "wallId": "wall-banho-norte",
+      "a": [
+        540.5095,
+        517.1497
+      ],
+      "b": [
+        581.1583,
+        517.1497
+      ],
+      "connects": [
+        "vis-banho",
+        "vis-circulacao"
+      ],
+      "geometryStatus": "estimado",
+      "existenceStatus": "observado_sem_medida",
+      "evidence": [
+        {
+          "sourceId": "IMG-016",
+          "region": "símbolo da abertura"
+        },
+        {
+          "sourceId": "IMG-010",
+          "region": "abertura visível nas fotos/quadros"
+        }
+      ],
+      "confidence": "alta para existência; média para posição e largura",
+      "swing": {
+        "hinge": [
+          540.5095,
+          517.1497
+        ],
+        "openEnd": [
+          540.5095,
+          557.7985000000001
+        ],
+        "status": "estimado",
+        "evidence": [
+          {
+            "sourceId": "IMG-016",
+            "region": "arco de abertura; não calibra ângulo real da porta"
+          }
+        ]
+      }
+    },
+    {
+      "id": "door-entrada",
+      "kind": "door",
+      "wallId": "wall-ext-5",
+      "a": [
+        1036.4984,
+        868.1154
+      ],
+      "b": [
+        1093.0965,
+        868.1154
+      ],
+      "connects": [
+        "vis-sala",
+        "exterior"
+      ],
+      "geometryStatus": "estimado",
+      "existenceStatus": "observado_sem_medida",
+      "evidence": [
+        {
+          "sourceId": "IMG-016",
+          "region": "símbolo da abertura"
+        },
+        {
+          "sourceId": "IMG-016",
+          "region": "abertura visível nas fotos/quadros"
+        }
+      ],
+      "confidence": "alta para existência; média para posição e largura",
+      "swing": {
+        "hinge": [
+          1093.0965,
+          868.1154
+        ],
+        "openEnd": [
+          1093.0965,
+          811.5172999999999
+        ],
+        "status": "estimado",
+        "evidence": [
+          {
+            "sourceId": "IMG-016",
+            "region": "arco de abertura; não calibra ângulo real da porta"
+          }
+        ]
+      }
+    },
+    {
+      "id": "portal-cozinha",
+      "kind": "passage",
+      "wallId": "wall-cozinha-norte",
+      "a": [
+        849.3948,
+        739.7338
+      ],
+      "b": [
+        960.6366,
+        739.7338
+      ],
+      "connects": [
+        "vis-sala",
+        "vis-cozinha"
+      ],
+      "geometryStatus": "estimado",
+      "existenceStatus": "observado_sem_medida",
+      "evidence": [
+        {
+          "sourceId": "IMG-016",
+          "region": "símbolo da abertura"
+        },
+        {
+          "sourceId": "IMG-001",
+          "region": "abertura visível nas fotos/quadros"
+        }
+      ],
+      "confidence": "alta para existência; média para posição e largura"
+    },
+    {
+      "id": "portal-servico",
+      "kind": "passage",
+      "wallId": "wall-servico-leste",
+      "a": [
+        718.5941,
+        849.2357
+      ],
+      "b": [
+        718.5941,
+        909.3253
+      ],
+      "connects": [
+        "vis-cozinha",
+        "vis-servico"
+      ],
+      "geometryStatus": "estimado",
+      "existenceStatus": "observado_sem_medida",
+      "evidence": [
+        {
+          "sourceId": "IMG-016",
+          "region": "símbolo da abertura"
+        },
+        {
+          "sourceId": "IMG-013",
+          "region": "abertura visível nas fotos/quadros"
+        }
+      ],
+      "confidence": "alta para existência; média para posição e largura"
+    },
+    {
+      "id": "passagem-circulacao",
+      "kind": "open_connection",
+      "wallId": null,
+      "a": [
+        637.4411,
+        474.8245
+      ],
+      "b": [
+        637.4411,
+        517.1497
+      ],
+      "connects": [
+        "vis-sala",
+        "vis-circulacao"
+      ],
+      "geometryStatus": "estimado",
+      "existenceStatus": "observado_sem_medida",
+      "confidence": "alta",
+      "evidence": [
+        {
+          "sourceId": "IMG-016",
+          "region": "sala ligada à circulação sem folha desenhada"
+        },
+        {
+          "sourceId": "VID-002-016000",
+          "region": "percurso pelo corredor"
+        }
+      ]
+    },
+    {
+      "id": "window-q1",
+      "kind": "window",
+      "wallId": "wall-ext-10",
+      "a": [
+        268.2457,
+        352.864
+      ],
+      "b": [
+        268.2457,
+        466.9559
+      ],
+      "connects": [
+        "vis-q1",
+        "exterior"
+      ],
+      "geometryStatus": "estimado",
+      "existenceStatus": "observado_sem_medida",
+      "evidence": [
+        {
+          "sourceId": "IMG-016",
+          "region": "símbolo da abertura"
+        },
+        {
+          "sourceId": "IMG-008",
+          "region": "abertura visível nas fotos/quadros"
+        }
+      ],
+      "confidence": "alta para existência; média para posição e largura"
+    },
+    {
+      "id": "window-q2",
+      "kind": "window",
+      "wallId": "wall-ext-2",
+      "a": [
+        665.4411,
+        301.7192
+      ],
+      "b": [
+        665.4411,
+        412.664
+      ],
+      "connects": [
+        "vis-q2",
+        "exterior"
+      ],
+      "geometryStatus": "estimado",
+      "existenceStatus": "observado_sem_medida",
+      "evidence": [
+        {
+          "sourceId": "IMG-016",
+          "region": "símbolo da abertura"
+        },
+        {
+          "sourceId": "IMG-014",
+          "region": "abertura visível nas fotos/quadros"
+        }
+      ],
+      "confidence": "alta para existência; média para posição e largura"
+    },
+    {
+      "id": "window-q3",
+      "kind": "window",
+      "wallId": "wall-ext-10",
+      "a": [
+        268.2457,
+        567.8125
+      ],
+      "b": [
+        268.2457,
+        667.477
+      ],
+      "connects": [
+        "vis-q3",
+        "exterior"
+      ],
+      "geometryStatus": "estimado",
+      "existenceStatus": "observado_sem_medida",
+      "evidence": [
+        {
+          "sourceId": "IMG-016",
+          "region": "símbolo da abertura"
+        },
+        {
+          "sourceId": "IMG-006",
+          "region": "abertura visível nas fotos/quadros"
+        }
+      ],
+      "confidence": "alta para existência; média para posição e largura"
+    },
+    {
+      "id": "window-sala",
+      "kind": "window",
+      "wallId": "wall-ext-3",
+      "a": [
+        724.7062,
+        474.8245
+      ],
+      "b": [
+        919.0737,
+        474.8245
+      ],
+      "connects": [
+        "vis-sala",
+        "exterior"
+      ],
+      "geometryStatus": "estimado",
+      "existenceStatus": "observado_sem_medida",
+      "evidence": [
+        {
+          "sourceId": "IMG-016",
+          "region": "símbolo da abertura"
+        },
+        {
+          "sourceId": "IMG-002",
+          "region": "abertura visível nas fotos/quadros"
+        }
+      ],
+      "confidence": "alta para existência; média para posição e largura",
+      "reportedMeasurement": {
+        "elementId": "window-sala",
+        "value": 1.6,
+        "unit": "m",
+        "qualifier": "aproximadamente",
+        "status": "estimado",
+        "source": "usuário: confirmou largura da janela, não da parede",
+        "usedToScaleGeometry": false
+      }
+    },
+    {
+      "id": "window-banho",
+      "kind": "window",
+      "wallId": "wall-ext-9",
+      "a": [
+        546.1377,
+        739.7338
+      ],
+      "b": [
+        572.4031,
+        739.7338
+      ],
+      "connects": [
+        "vis-banho",
+        "exterior"
+      ],
+      "geometryStatus": "estimado",
+      "existenceStatus": "observado_sem_medida",
+      "evidence": [
+        {
+          "sourceId": "IMG-016",
+          "region": "símbolo da abertura"
+        },
+        {
+          "sourceId": "IMG-005",
+          "region": "abertura visível nas fotos/quadros"
+        }
+      ],
+      "confidence": "alta para existência; média para posição e largura"
+    },
+    {
+      "id": "window-servico",
+      "kind": "window",
+      "wallId": "wall-ext-8",
+      "a": [
+        637.4411,
+        806.442
+      ],
+      "b": [
+        637.4411,
+        918.9587
+      ],
+      "connects": [
+        "vis-servico",
+        "exterior"
+      ],
+      "geometryStatus": "estimado",
+      "existenceStatus": "observado_sem_medida",
+      "evidence": [
+        {
+          "sourceId": "IMG-016",
+          "region": "símbolo da abertura"
+        },
+        {
+          "sourceId": "VID-002-008000",
+          "region": "abertura visível nas fotos/quadros"
+        }
+      ],
+      "confidence": "alta para existência; média para posição e largura"
+    }
+  ],
+  "fixedElements": [
+    {
+      "id": "fix-box",
+      "roomId": "vis-banho",
+      "kind": "shower-screen",
+      "polygon": [
+        [
+          534.8813,
+          652.5273
+        ],
+        [
+          628.686,
+          652.5273
+        ],
+        [
+          628.686,
+          729.7674
+        ],
+        [
+          534.8813,
+          729.7674
+        ]
+      ],
+      "height": 34,
+      "sources": [
+        "IMG-004",
+        "IMG-005",
+        "IMG-016"
+      ],
+      "status": "observado_sem_medida",
+      "positionStatus": "estimado",
+      "sizeStatus": "estimado",
+      "confidence": "média; transposição das vistas para a planta"
+    },
+    {
+      "id": "fix-vaso",
+      "roomId": "vis-banho",
+      "kind": "toilet",
+      "polygon": [
+        [
+          598.6685,
+          535.4215
+        ],
+        [
+          628.686,
+          535.4215
+        ],
+        [
+          628.686,
+          584.4233
+        ],
+        [
+          598.6685,
+          584.4233
+        ]
+      ],
+      "height": 22,
+      "sources": [
+        "IMG-004",
+        "IMG-010",
+        "IMG-016"
+      ],
+      "status": "observado_sem_medida",
+      "positionStatus": "estimado",
+      "sizeStatus": "estimado",
+      "confidence": "média; transposição das vistas para a planta"
+    },
+    {
+      "id": "fix-pia",
+      "roomId": "vis-banho",
+      "kind": "sink",
+      "polygon": [
+        [
+          603.046,
+          602.6951
+        ],
+        [
+          628.686,
+          602.6951
+        ],
+        [
+          628.686,
+          633.425
+        ],
+        [
+          603.046,
+          633.425
+        ]
+      ],
+      "height": 34,
+      "sources": [
+        "IMG-010",
+        "IMG-016"
+      ],
+      "status": "observado_sem_medida",
+      "positionStatus": "estimado",
+      "sizeStatus": "estimado",
+      "confidence": "média; transposição das vistas para a planta"
+    },
+    {
+      "id": "fix-bancada",
+      "roomId": "vis-cozinha",
+      "kind": "counter",
+      "polygon": [
+        [
+          738.1529,
+          925.3811
+        ],
+        [
+          937.4106,
+          925.3811
+        ],
+        [
+          937.4106,
+          944.6481
+        ],
+        [
+          738.1529,
+          944.6481
+        ]
+      ],
+      "height": 38,
+      "sources": [
+        "IMG-011",
+        "IMG-012",
+        "IMG-016"
+      ],
+      "status": "observado_sem_medida",
+      "positionStatus": "estimado",
+      "sizeStatus": "estimado",
+      "confidence": "média; transposição das vistas para a planta"
+    },
+    {
+      "id": "fix-tanque",
+      "roomId": "vis-servico",
+      "kind": "laundry-sink",
+      "polygon": [
+        [
+          664.9666,
+          918.9587
+        ],
+        [
+          705.3058,
+          918.9587
+        ],
+        [
+          705.3058,
+          944.1129
+        ],
+        [
+          664.9666,
+          944.1129
+        ]
+      ],
+      "height": 35,
+      "sources": [
+        "VID-002-006000",
+        "IMG-016"
+      ],
+      "status": "observado_sem_medida",
+      "positionStatus": "estimado",
+      "sizeStatus": "estimado",
+      "confidence": "média; transposição das vistas para a planta"
+    },
+    {
+      "id": "fix-chuveiro",
+      "roomId": "vis-banho",
+      "kind": "electric-shower",
+      "polygon": [
+        [
+          615.5533,
+          673.2908
+        ],
+        [
+          629.9368,
+          673.2908
+        ],
+        [
+          629.9368,
+          694.8848
+        ],
+        [
+          615.5533,
+          694.8848
+        ]
+      ],
+      "height": 63,
+      "sources": [
+        "IMG-005"
+      ],
+      "status": "observado_sem_medida",
+      "positionStatus": "estimado",
+      "sizeStatus": "estimado",
+      "confidence": "presença confirmada nas fotos adotadas pelo usuário; posição gráfica estimada"
+    }
+  ],
+  "contextFurniture": [
+    {
+      "id": "ctx-cama-q1",
+      "roomId": "vis-q1",
+      "kind": "mattress",
+      "polygon": [
+        [
+          398.6054,
+          284.4087
+        ],
+        [
+          458.5004,
+          284.4087
+        ],
+        [
+          458.5004,
+          471.677
+        ],
+        [
+          398.6054,
+          471.677
+        ]
+      ],
+      "height": 22,
+      "sources": [
+        "IMG-008",
+        "IMG-009",
+        "VID-001-002000"
+      ],
+      "positionStatus": "estimado",
+      "sizeStatus": "estimado",
+      "confidence": "média; transposição das vistas para a planta"
+    },
+    {
+      "id": "ctx-tapete-q1",
+      "roomId": "vis-q1",
+      "kind": "rug",
+      "polygon": [
+        [
+          282.3385,
+          282.0482
+        ],
+        [
+          390.8543,
+          282.0482
+        ],
+        [
+          390.8543,
+          500.522
+        ],
+        [
+          282.3385,
+          500.522
+        ]
+      ],
+      "height": 1,
+      "sources": [
+        "IMG-008",
+        "IMG-009"
+      ],
+      "positionStatus": "estimado",
+      "sizeStatus": "estimado",
+      "confidence": "média; transposição das vistas para a planta"
+    },
+    {
+      "id": "ctx-colchao-q3",
+      "roomId": "vis-q3",
+      "kind": "mattress",
+      "polygon": [
+        [
+          283.0431,
+          669.9687
+        ],
+        [
+          463.4328,
+          669.9687
+        ],
+        [
+          463.4328,
+          725.6147
+        ],
+        [
+          283.0431,
+          725.6147
+        ]
+      ],
+      "height": 6,
+      "sources": [
+        "IMG-006",
+        "IMG-007"
+      ],
+      "positionStatus": "estimado",
+      "sizeStatus": "estimado",
+      "confidence": "média; transposição das vistas para a planta"
+    },
+    {
+      "id": "ctx-mesa-q3",
+      "roomId": "vis-q3",
+      "kind": "desk",
+      "polygon": [
+        [
+          284.4525,
+          537.0826
+        ],
+        [
+          402.8332,
+          537.0826
+        ],
+        [
+          402.8332,
+          584.4233
+        ],
+        [
+          284.4525,
+          584.4233
+        ]
+      ],
+      "height": 34,
+      "sources": [
+        "IMG-006",
+        "IMG-007"
+      ],
+      "positionStatus": "estimado",
+      "sizeStatus": "estimado",
+      "confidence": "média; transposição das vistas para a planta"
+    },
+    {
+      "id": "ctx-cadeira-q3",
+      "roomId": "vis-q3",
+      "kind": "chair",
+      "polygon": [
+        [
+          373.9427,
+          610.1699
+        ],
+        [
+          406.3564,
+          610.1699
+        ],
+        [
+          406.3564,
+          645.0525
+        ],
+        [
+          373.9427,
+          645.0525
+        ]
+      ],
+      "height": 20,
+      "sources": [
+        "IMG-006",
+        "IMG-007"
+      ],
+      "positionStatus": "estimado",
+      "sizeStatus": "estimado",
+      "confidence": "média; transposição das vistas para a planta"
+    },
+    {
+      "id": "ctx-sofa-sala",
+      "roomId": "vis-sala",
+      "kind": "sofa",
+      "polygon": [
+        [
+          993.6425,
+          611.831
+        ],
+        [
+          1081.1814,
+          611.831
+        ],
+        [
+          1081.1814,
+          709.8345
+        ],
+        [
+          993.6425,
+          709.8345
+        ]
+      ],
+      "height": 24,
+      "sources": [
+        "IMG-001",
+        "IMG-002"
+      ],
+      "positionStatus": "estimado",
+      "sizeStatus": "estimado",
+      "confidence": "média; transposição das vistas para a planta"
+    },
+    {
+      "id": "ctx-mesa-sala",
+      "roomId": "vis-sala",
+      "kind": "round-table",
+      "polygon": [
+        [
+          1019.8169,
+          544.5575
+        ],
+        [
+          1064.4996,
+          544.5575
+        ],
+        [
+          1064.4996,
+          602.6951
+        ],
+        [
+          1019.8169,
+          602.6951
+        ]
+      ],
+      "height": 34,
+      "sources": [
+        "IMG-001",
+        "IMG-002"
+      ],
+      "positionStatus": "estimado",
+      "sizeStatus": "estimado",
+      "confidence": "média; transposição das vistas para a planta"
+    },
+    {
+      "id": "ctx-movel-rede",
+      "roomId": "vis-sala",
+      "kind": "cabinet",
+      "polygon": [
+        [
+          655.475,
+          482.3825
+        ],
+        [
+          695.9259,
+          482.3825
+        ],
+        [
+          695.9259,
+          504.3009
+        ],
+        [
+          655.475,
+          504.3009
+        ]
+      ],
+      "height": 32,
+      "sources": [
+        "IMG-001",
+        "IMG-002"
+      ],
+      "positionStatus": "estimado",
+      "sizeStatus": "estimado",
+      "confidence": "média; transposição das vistas para a planta"
+    },
+    {
+      "id": "ctx-geladeira",
+      "roomId": "vis-cozinha",
+      "kind": "fridge",
+      "polygon": [
+        [
+          936.188,
+          773.7171
+        ],
+        [
+          999.7547,
+          773.7171
+        ],
+        [
+          999.7547,
+          868.6506
+        ],
+        [
+          936.188,
+          868.6506
+        ]
+      ],
+      "height": 62,
+      "sources": [
+        "IMG-013"
+      ],
+      "positionStatus": "estimado",
+      "sizeStatus": "estimado",
+      "confidence": "média; transposição das vistas para a planta"
+    },
+    {
+      "id": "ctx-fogao",
+      "roomId": "vis-cozinha",
+      "kind": "stove",
+      "polygon": [
+        [
+          944.7451,
+          915.7475
+        ],
+        [
+          1003.422,
+          915.7475
+        ],
+        [
+          1003.422,
+          944.6481
+        ],
+        [
+          944.7451,
+          944.6481
+        ]
+      ],
+      "height": 36,
+      "sources": [
+        "IMG-011",
+        "IMG-012"
+      ],
+      "positionStatus": "estimado",
+      "sizeStatus": "estimado",
+      "confidence": "média; transposição das vistas para a planta"
+    },
+    {
+      "id": "ctx-banquetas-q2",
+      "roomId": "vis-q2",
+      "kind": "stored-stools",
+      "polygon": [
+        [
+          521.9159,
+          372.5351
+        ],
+        [
+          576.7808,
+          372.5351
+        ],
+        [
+          576.7808,
+          421.3192
+        ],
+        [
+          521.9159,
+          421.3192
+        ]
+      ],
+      "height": 22,
+      "sources": [
+        "IMG-014",
+        "IMG-015"
+      ],
+      "positionStatus": "estimado",
+      "sizeStatus": "estimado",
+      "confidence": "média; transposição das vistas para a planta"
+    }
+  ],
+  "representedState": {
+    "structure": "planta impressa conferida com fotos e quadros; traçado relativo",
+    "furniture": "Fotos confirmadas pelo usuário como estado atual; vídeo completo usado apenas para estrutura",
+    "contextVisibleByDefault": false,
+    "temporalStatus": "atual_confirmado_pelo_usuario",
+    "confirmationSource": "resposta do usuário nesta sessão em 12/10/2026"
+  },
+  "unknowns": [
+    "cotas lineares e espessuras reais",
+    "pé-direito",
+    "posição/largura exatas das aberturas",
+    "sentido real da porta de entrada; somente símbolo impresso disponível"
+  ],
+  "notObserved": [
+    "varanda",
+    "pilares separados",
+    "janela própria da cozinha"
+  ],
+  "warnings": [
+    "Área do documento não calibra comprimento ou largura.",
+    "Alturas e cortes de parede são convenção visual, não medidas.",
+    "IDs visuais não são IDs cadastrados no app."
+  ],
+  "artifactDate": "2026-10-12",
+  "reportedReferences": [
+    {
+      "elementId": "window-sala",
+      "value": 1.6,
+      "unit": "m",
+      "qualifier": "aproximadamente",
+      "status": "estimado",
+      "source": "usuário: confirmou largura da janela, não da parede",
+      "usedToScaleGeometry": false
+    }
+  ],
+  "editor": {
+    "geometryAdjusted": true,
+    "version": 1,
+    "editedBy": "usuario",
+    "editedAt": "2026-10-15T00:27:49.006Z"
+  }
+}

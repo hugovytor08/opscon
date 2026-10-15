@@ -1,0 +1,43 @@
+{
+  "sources": [
+    {
+      "source": "C:/Users/hugov/Downloads/minha-planta.json",
+      "copy": "docs/design/apartamento-real/revisao-2026-10-14/minha-planta.json",
+      "sha256": "15cd6c01d9199cc72c2e4f51ef31f63a84df274664808707d37cf295582f865f",
+      "bytes": 40632
+    },
+    {
+      "source": "C:/Users/hugov/Downloads/casa-isometrica.svg",
+      "copy": "docs/design/apartamento-real/revisao-2026-10-14/casa-isometrica.svg",
+      "sha256": "ad2353f65ddcff8b2c9ad2ea0136c24aa72693b4c530e9af147e9c35513fe867",
+      "bytes": 38029
+    },
+    {
+      "source": "C:/Users/hugov/Downloads/planta-2d.svg",
+      "copy": "docs/design/apartamento-real/revisao-2026-10-14/planta-2d.svg",
+      "sha256": "16bab1c0edb259e01881e47763295ba69369ea36dd514d9f382616ed12403380",
+      "bytes": 10577
+    }
+  ],
+  "appliedToApp": false,
+  "unit": "UR",
+  "scaleToMeters": null,
+  "rooms": 8,
+  "walls": 18,
+  "openings": 14,
+  "svgViewBox": "157.239 215.948 945.125 824.546",
+  "generatedViewBox": [
+    157.239,
+    215.948,
+    945.125,
+    824.546
+  ],
+  "exactSvg": false,
+  "svgMatchesWithFurnitureHidden": true,
+  "trimmedSvg": false,
+  "firstDifference": {
+    "at": 29731,
+    "supplied": "width=\"1.5\" /></g></g><g style=\"display:none\" id=\"iso-mobiliario-contextual\" pointer-events=\"none\"><g id=\"iso-ctx-tapete-q1\"><title>rug · dimensão estimada</tit",
+    "regenerated": "width=\"1.5\" /></g></g><g style=\"display:inline\" id=\"iso-mobiliario-contextual\" pointer-events=\"none\"><g id=\"iso-ctx-tapete-q1\"><title>rug · dimensão estimada</t"
+  }
+}
