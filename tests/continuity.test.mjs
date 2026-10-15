@@ -73,7 +73,7 @@ test('IndexedDB real + protocolo simulado: migração, perda de resposta, offlin
       assert.equal(new URL(probe.page.url()).hash, '');
       const preserved = await probe.page.evaluate(async () => (await import('./storage.js')).loadState());
       assert.equal(preserved.items[0].name, 'Preservar após erro de acesso');
-      await probe.page.getByRole('button', { name: 'Solicitar novo acesso' }).click();
+      await probe.page.getByRole('button', { name: 'Voltar ao acesso' }).click();
       await probe.page.getByRole('heading', { name: 'Dados e backup' }).waitFor();
       await probe.page.evaluate(() => navigator.serviceWorker.ready);
       // Activation can finish between the auth callback navigation and claim.

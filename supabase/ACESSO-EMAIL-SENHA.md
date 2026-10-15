@@ -1,0 +1,14 @@
+# Ativar e conferir e-mail e senha — 0.3.5
+
+Decisão do usuário em 15/10/2026: usar **e-mail e senha nativos**, dispensando nome de usuário e adaptador. O código não precisa de Edge Function, nova tabela ou migração para esse acesso. Os passos abaixo são manuais; nenhuma senha deve passar pelo chat ou pelo repositório.
+
+1. No projeto Supabase já usado pelo app, abra **Authentication → Users** e identifique a conta existente pelo e-mail. Preserve seu UUID; não exclua/recrie a conta para trocar o método de entrada. Essa é a conta do aplicativo, distinta da conta administrativa do dashboard.
+2. Confira que o provedor **Email** está ativo e mantenha **Allow new users to sign up** desabilitado nas configurações de Auth. O app apenas entra/recupera a conta existente; não oferece cadastro.
+3. Em **Authentication → URL Configuration**, autorize exatamente `http://127.0.0.1:8767/` para a prévia atual. Quando houver endereço HTTPS de teste, inclua sua URL exata. Não é necessário wildcard nem alterar tabelas. [URLs de retorno](https://supabase.com/docs/guides/auth/redirect-urls).
+4. Na prévia atualizada, abra **Dados e backup** pelo indicador de sincronização e entre com o e-mail e a senha dessa conta. Se já há senha, o login não envia e-mail. Se nunca definiu a senha ou a esqueceu, use **Esqueci minha senha**, abra o e-mail mais recente no mesmo navegador e defina a nova senha no aplicativo. O retorno deve permanecer na mesma origem que solicitou a recuperação. [Senha nativa](https://supabase.com/docs/reference/javascript/auth-signinwithpassword), [recuperação PKCE](https://supabase.com/docs/reference/javascript/auth-resetpasswordforemail).
+5. Se o e-mail de recuperação não chegar, confira a entrega/SMTP no projeto; o serviço padrão possui restrições e não é destinado à produção. Isso afeta recuperação, não o login normal com senha existente. Não contratar serviço ou mudar de plano neste bloco. [SMTP](https://supabase.com/docs/guides/auth/auth-smtp).
+6. Após entrar, preserve o procedimento existente de exportar backup antes de vincular uma base local já preenchida. Use **Vincular conta e recuperar dados** para o primeiro vínculo. Se houver divergência, revise as cópias; não limpe o navegador para forçar a entrada.
+
+Confira senha incorreta, entrada correta, renovação, saída e recuperação com a mesma conta. Em outro navegador limpo, confirme mesmos IDs e totais após o vínculo; esse ensaio real e o teste físico no S23 ainda são necessários. O app trata o limite de tentativas retornado pelo Supabase sem repetir o login automaticamente. Configuração efetiva e limites são do provedor; não foi criado limitador próprio. [Limites de Auth](https://supabase.com/docs/guides/auth/rate-limits).
+
+Não envie a senha, tokens, chave secreta ou UUID pessoal no chat. Basta informar se o acesso funcionou ou qual mensagem genérica apareceu.

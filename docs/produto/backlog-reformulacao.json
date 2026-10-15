@@ -1,6 +1,6 @@
 {
   "decisionDate": "2026-10-14",
-  "release": "0.3.3",
+  "release": "0.3.7",
   "scope": "Expansão autorizada pelo usuário: visual Samsung Health, nova geometria, importação e histórico. IDs RF/CA/F originais preservados. Aceite final continua pendente.",
   "tasks": [
     {
@@ -8,7 +8,7 @@
       "title": "Auditar vídeo original e identificar fontes novas",
       "status": "implemented_locally",
       "evidence": "docs/design/reformulacao-2026-10-14.md",
-      "remaining": "Referência escolhida em 14/10: ilustração histórica app/assets/ref-casa.png. Sem decisão pendente neste item."
+      "remaining": "Referência de acabamento escolhida em 14/10: app/assets/ref-casa.png. Em 15/10, a imagem vazia apartamento-sem-moveis-v2.png passa a ser a base escolhida para integração; a referência anterior fica histórica. Sem decisão visual pendente neste item."
     },
     {
       "id": "VIS-01",
@@ -39,8 +39,20 @@
       "features": [
         "F014"
       ],
-      "evidence": "docs/design/apartamento-real/revisao-2026-10-14/proveniencia.json",
-      "remaining": "Usar a qualidade de app/assets/ref-casa.png com a geometria nova; móveis em camada opcional que possa ser ocultada. Regenerar regiões/pisos/rótulos da mesma geometria, comparar lado a lado e integrar explicitamente. A opção de ocultar móveis ainda não está implementada no app."
+      "evidence": "docs/validacao/estudo-planta-vazia-2026-10-15.md",
+      "historicalGeometryEvidence": "docs/design/apartamento-real/revisao-2026-10-14/proveniencia.json",
+      "integrationVisualSource": "docs/design/apartamento-real/estudo-visual-2026-10-15/apartamento-sem-moveis-v2.png",
+      "integrationVisualSha256": "8cff27b8892ae51cf679b6aed5fd8648d19420e95eb652224ad6a82456fe579d",
+      "geometryGuideSource": "docs/design/apartamento-real/geometria.json",
+      "remaining": "Em 15/10 o usuário pediu integrar a v2 vazia e confirmou mesma geometria, só imagem melhorada. Conferir o registro das oito regiões no PNG e preservar IDs/vínculos, zoom/arraste e uso offline; não reaproveitar automaticamente os alvos da imagem anterior. A base pode ser integrada antes da biblioteca de móveis reais. Fogão aprovado visualmente. Editor LOCAL de móveis entregue em docs/design/apartamento-real/editor/dist/moveis.html: adicionar/mover/redimensionar, PNGs importáveis, histórico, salvamento e JSON/PNG exportáveis. Testes 11 + 18 passaram. Recorte externo inicial e âncora aproximada; oclusão interna completa, demais vistas, medidas físicas e validação S23 pendentes. Integração desse fluxo ao app principal ainda não executada.",
+      "visualStudyEvidence": "docs/validacao/estudo-planta-vazia-2026-10-15.md",
+      "visualStudyStatus": "v1_rejected_v2_visual_approved_by_user",
+      "objectStudyEvidence": "docs/validacao/primeiro-item-fogao-2026-10-15.md",
+      "furnitureEditorEvidence": "docs/validacao/editor-moveis-2026-10-15.md",
+      "furnitureEditorStatus": "implemented_locally_awaiting_user_review",
+      "objectAssetManifests": [
+        "docs/design/apartamento-real/itens/fogao-suggar-001/item.json"
+      ]
     },
     {
       "id": "CAS-02",
@@ -60,7 +72,7 @@
         "F014",
         "F015"
       ],
-      "remaining": "Separar listas pelo mesmo item/ID, migrar vínculo local para domínio/backup/conta e testar restauração."
+      "remaining": "Separar listas pelo mesmo item/ID, migrar vínculo local para domínio/backup/conta e testar restauração. Complemento de 15/10: somente duas listas no card aberto pela planta; seleção normal redundante removida em CAS-04."
     },
     {
       "id": "IMP-01",
@@ -94,7 +106,7 @@
       "id": "IMP-05",
       "title": "Histórico de preços e equivalência por produto/loja",
       "status": "not_started",
-      "remaining": "Produtos/variantes/embalagens, quantidades exatas, rateio em centavos, estabelecimento/filial e entrada manual no mesmo modelo."
+      "remaining": "Produtos/variantes/embalagens, quantidades exatas, rateio em centavos, estabelecimento/filial e entrada manual no mesmo modelo. Complemento de 15/10: médias/estimativas e comparação de variação por preço, quantidade, cesta e loja em MER-02."
     },
     {
       "id": "IMP-06",
@@ -114,11 +126,146 @@
       "status": "implemented_locally",
       "evidence": "docs/validacao/incremento-0.3.3.md",
       "remaining": "Sem aceite físico S23; arquivo histórico preservado fora da pasta publicada."
+    },
+    {
+      "id": "VIS-04",
+      "title": "Corrigir contraste do card de lista existente no Mercado",
+      "features": [
+        "F004",
+        "F014",
+        "F016"
+      ],
+      "depends_on": [],
+      "remaining": "Correção local comprovada em Chromium móvel/desktop e na prévia aberta; revisão do usuário e Samsung Internet/S23 físico continuam pendentes. Nenhum CA/gate concluído.",
+      "status": "implemented_locally",
+      "evidence": "docs/validacao/incremento-0.3.4.md",
+      "plan": "docs/produto/plano-ajustes-2026-10-15.md",
+      "requestedOn": "2026-10-15"
+    },
+    {
+      "id": "AUT-01",
+      "title": "Login nativo por e-mail e senha para a conta existente",
+      "features": [
+        "F003",
+        "F005",
+        "F006",
+        "F015",
+        "F016"
+      ],
+      "depends_on": [],
+      "remaining": "Usuário dispensou nome de usuário/adaptador e escolheu e-mail/senha. Cliente/UI nativos, recuperação PKCE, rejeição de outro proprietário e preservação offline comprovados com Auth simulado. Conferir cadastro fechado/conta e senha no projeto, realizar login/recuperação reais e validar no S23; passos em supabase/ACESSO-EMAIL-SENHA.md. Limites de tentativas são do provedor, sem limitador próprio. Proteção/criptografia da base local não foi alterada.",
+      "status": "partial",
+      "evidence": "docs/validacao/incremento-0.3.5.md",
+      "plan": "docs/produto/plano-ajustes-2026-10-15.md",
+      "requestedOn": "2026-10-15"
+    },
+    {
+      "id": "RET-01",
+      "title": "Permitir lançamentos retroativos com efeito explícito no saldo",
+      "features": [
+        "F002",
+        "F003",
+        "F008",
+        "F009",
+        "F010",
+        "F015",
+        "F016"
+      ],
+      "depends_on": [],
+      "remaining": "Cliente/UI/domínio 2 e SQL aditivo preparados e testados localmente: efeitos apply/included por conta, prévia, competência/data de cadastro, revisão auditável, migração/backup/fila v1 preservados. Falta aplicar manualmente 202610150001 no projeto conforme supabase/RETROATIVOS.md e comprovar sincronização/recuperação reais e S23. Nenhum salário ou valor pessoal registrado pelo agente.",
+      "status": "partial",
+      "evidence": "docs/validacao/incremento-0.3.6.md",
+      "plan": "docs/produto/plano-ajustes-2026-10-15.md",
+      "requestedOn": "2026-10-15"
+    },
+    {
+      "id": "BEN-01",
+      "title": "Carteira alimentação, previsão mensal e confirmação do crédito",
+      "features": [
+        "F003",
+        "F009",
+        "F011",
+        "F013",
+        "F015",
+        "F016"
+      ],
+      "depends_on": [
+        "RET-01"
+      ],
+      "remaining": "Implementação local e provas sintéticas concluídas: carteira separada, previsão/competência, confirmação editável, sobras, fevereiro, Mercado exclusivo/misto, insuficiência e continuidade 1/2/3. Aplicar manualmente os complementos 202610150001 e 202610150002 ausentes; validar ACK e recuperação no Supabase real e S23 físico. Nenhum saldo pessoal cadastrado pelo agente.",
+      "status": "partial",
+      "plan": "docs/produto/plano-ajustes-2026-10-15.md",
+      "requestedOn": "2026-10-15",
+      "evidence": "docs/validacao/incremento-0.3.7.md"
+    },
+    {
+      "id": "CAS-04",
+      "title": "Simplificar Casa para seleção na planta e card com duas listas",
+      "features": [
+        "F007",
+        "F014",
+        "F015",
+        "F016"
+      ],
+      "depends_on": [
+        "CAS-03"
+      ],
+      "remaining": "Retirar criação de cômodo e seletores normais redundantes; manter mesmos IDs e abrir Quero comprar/Já comprei pelo cômodo na planta. Fallback textual somente em contingência/acessibilidade; conservar gestos, móveis opcionais e vínculos recuperáveis.",
+      "status": "not_started",
+      "plan": "docs/produto/plano-ajustes-2026-10-15.md",
+      "requestedOn": "2026-10-15"
+    },
+    {
+      "id": "MER-01",
+      "title": "Entrada por listas de Mercado com gestão e conclusão independente",
+      "features": [
+        "F010",
+        "F013",
+        "F015",
+        "F016"
+      ],
+      "depends_on": [],
+      "remaining": "Mostrar todas as listas, selecionar detalhe, renomear, editar/remover produtos, excluir de forma recuperável, concluir e recuperar listas antigas. Não apagar aquisição/pagamentos/preços ao retirar lista da visualização.",
+      "status": "not_started",
+      "plan": "docs/produto/plano-ajustes-2026-10-15.md",
+      "requestedOn": "2026-10-15"
+    },
+    {
+      "id": "MER-02",
+      "title": "Estimativa das listas e comparação de preços entre compras e lojas",
+      "features": [
+        "F003",
+        "F008",
+        "F013",
+        "F016"
+      ],
+      "depends_on": [
+        "MER-01",
+        "IMP-05",
+        "IMP-06",
+        "IMP-07"
+      ],
+      "remaining": "Base confirmada compartilhada manual/importação; correspondência revisável, média por quantidade equivalente, último/mínimo/máximo, amostra/data/loja. Separar preço, quantidade e composição da cesta; estimativa não movimenta saldo nem vira preço efetivamente pago.",
+      "status": "not_started",
+      "plan": "docs/produto/plano-ajustes-2026-10-15.md",
+      "requestedOn": "2026-10-15"
     }
   ],
   "acceptance": {
     "anyGateCompleted": false,
     "physicalS23Validated": false,
     "finalPublicationAuthorizedByThisIncrement": false
+  },
+  "latestPlan": "docs/produto/plano-ajustes-2026-10-15.md",
+  "executionPrompt": "docs/produto/prompt-agente-ajustes-2026-10-15.md",
+  "planningDate": "2026-10-15",
+  "planningOnly": false,
+  "latestImplementation": "docs/validacao/incremento-0.3.7.md",
+  "confirmedDecisions": {
+    "authentication": "Decisão posterior em 15/10: e-mail + senha nativos; usuário dispensou nome de usuário e adaptador. Preservar a mesma identidade Auth.",
+    "benefitCredit": "Prever R$ 690 no dia 30 (último dia válido em fevereiro); confirmar recebimento antes de afetar saldo.",
+    "historicalSalary": "Salário de 30/09 ainda não incluído no saldo informado; futuro registro deve acrescentar o valor, que não foi fornecido nesta sessão.",
+    "house": "Sem criação de cômodos ou seletores redundantes no uso normal; seleção na planta e card Quero comprar/Já comprei.",
+    "houseVisual": "Integrar apartamento-sem-moveis-v2.png como base principal de Casa; usuário confirmou mesma geometria e melhoria apenas da imagem. Conferir alvos sobre o PNG; móveis reais em camada futura independente."
   }
 }

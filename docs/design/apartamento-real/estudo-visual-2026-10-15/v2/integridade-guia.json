@@ -1,0 +1,596 @@
+{
+  "source": "../../geometria.json",
+  "sourceSha256": "a15719bb55eb8ad0f9dd6e5d359304339bf13b9055c4862c16dc7029fff2c8e9",
+  "authority": "planta 2D reenviada pelo usuário; traçado relativo do documento, anterior à deformação de 14/10",
+  "units": "UR; alturas ilustrativas, sem medição de campo",
+  "wallTop": 290,
+  "windowSill": 112,
+  "openingHead": 240,
+  "sameWallHeight": true,
+  "rooms": [
+    {
+      "id": "vis-q1",
+      "polygon": [
+        [
+          46,
+          37
+        ],
+        [
+          336,
+          37
+        ],
+        [
+          336,
+          427
+        ],
+        [
+          46,
+          427
+        ]
+      ]
+    },
+    {
+      "id": "vis-q2",
+      "polygon": [
+        [
+          336,
+          37
+        ],
+        [
+          684,
+          37
+        ],
+        [
+          684,
+          315
+        ],
+        [
+          336,
+          315
+        ]
+      ]
+    },
+    {
+      "id": "vis-q3",
+      "polygon": [
+        [
+          46,
+          427
+        ],
+        [
+          448,
+          427
+        ],
+        [
+          448,
+          695
+        ],
+        [
+          46,
+          695
+        ]
+      ]
+    },
+    {
+      "id": "vis-banho",
+      "polygon": [
+        [
+          448,
+          427
+        ],
+        [
+          625,
+          427
+        ],
+        [
+          625,
+          695
+        ],
+        [
+          448,
+          695
+        ]
+      ]
+    },
+    {
+      "id": "vis-sala",
+      "polygon": [
+        [
+          625,
+          315
+        ],
+        [
+          1136,
+          315
+        ],
+        [
+          1136,
+          797
+        ],
+        [
+          995,
+          797
+        ],
+        [
+          995,
+          695
+        ],
+        [
+          625,
+          695
+        ]
+      ]
+    },
+    {
+      "id": "vis-cozinha",
+      "polygon": [
+        [
+          752,
+          695
+        ],
+        [
+          995,
+          695
+        ],
+        [
+          995,
+          950
+        ],
+        [
+          752,
+          950
+        ]
+      ]
+    },
+    {
+      "id": "vis-servico",
+      "polygon": [
+        [
+          625,
+          695
+        ],
+        [
+          752,
+          695
+        ],
+        [
+          752,
+          950
+        ],
+        [
+          625,
+          950
+        ]
+      ]
+    },
+    {
+      "id": "vis-circulacao",
+      "polygon": [
+        [
+          336,
+          315
+        ],
+        [
+          625,
+          315
+        ],
+        [
+          625,
+          427
+        ],
+        [
+          336,
+          427
+        ]
+      ]
+    }
+  ],
+  "walls": [
+    {
+      "id": "wall-ext-1",
+      "a": [
+        46,
+        37
+      ],
+      "b": [
+        684,
+        37
+      ],
+      "thickness": 14,
+      "top": 290
+    },
+    {
+      "id": "wall-ext-2",
+      "a": [
+        684,
+        37
+      ],
+      "b": [
+        684,
+        315
+      ],
+      "thickness": 14,
+      "top": 290
+    },
+    {
+      "id": "wall-ext-3",
+      "a": [
+        684,
+        315
+      ],
+      "b": [
+        1136,
+        315
+      ],
+      "thickness": 14,
+      "top": 290
+    },
+    {
+      "id": "wall-ext-4",
+      "a": [
+        1136,
+        315
+      ],
+      "b": [
+        1136,
+        797
+      ],
+      "thickness": 14,
+      "top": 290
+    },
+    {
+      "id": "wall-ext-5",
+      "a": [
+        1136,
+        797
+      ],
+      "b": [
+        995,
+        797
+      ],
+      "thickness": 14,
+      "top": 290
+    },
+    {
+      "id": "wall-ext-6",
+      "a": [
+        995,
+        797
+      ],
+      "b": [
+        995,
+        950
+      ],
+      "thickness": 14,
+      "top": 290
+    },
+    {
+      "id": "wall-ext-7",
+      "a": [
+        995,
+        950
+      ],
+      "b": [
+        625,
+        950
+      ],
+      "thickness": 14,
+      "top": 290
+    },
+    {
+      "id": "wall-ext-8",
+      "a": [
+        625,
+        950
+      ],
+      "b": [
+        625,
+        695
+      ],
+      "thickness": 14,
+      "top": 290
+    },
+    {
+      "id": "wall-ext-9",
+      "a": [
+        625,
+        695
+      ],
+      "b": [
+        46,
+        695
+      ],
+      "thickness": 14,
+      "top": 290
+    },
+    {
+      "id": "wall-ext-10",
+      "a": [
+        46,
+        695
+      ],
+      "b": [
+        46,
+        37
+      ],
+      "thickness": 14,
+      "top": 290
+    },
+    {
+      "id": "wall-q1-leste",
+      "a": [
+        336,
+        37
+      ],
+      "b": [
+        336,
+        427
+      ],
+      "thickness": 14,
+      "top": 290
+    },
+    {
+      "id": "wall-q2-sul",
+      "a": [
+        336,
+        315
+      ],
+      "b": [
+        684,
+        315
+      ],
+      "thickness": 14,
+      "top": 290
+    },
+    {
+      "id": "wall-q3-norte",
+      "a": [
+        46,
+        427
+      ],
+      "b": [
+        448,
+        427
+      ],
+      "thickness": 14,
+      "top": 290
+    },
+    {
+      "id": "wall-q3-leste",
+      "a": [
+        448,
+        427
+      ],
+      "b": [
+        448,
+        695
+      ],
+      "thickness": 14,
+      "top": 290
+    },
+    {
+      "id": "wall-banho-norte",
+      "a": [
+        448,
+        427
+      ],
+      "b": [
+        625,
+        427
+      ],
+      "thickness": 14,
+      "top": 290
+    },
+    {
+      "id": "wall-banho-leste",
+      "a": [
+        625,
+        427
+      ],
+      "b": [
+        625,
+        695
+      ],
+      "thickness": 14,
+      "top": 290
+    },
+    {
+      "id": "wall-cozinha-norte",
+      "a": [
+        625,
+        695
+      ],
+      "b": [
+        995,
+        695
+      ],
+      "thickness": 14,
+      "top": 290
+    },
+    {
+      "id": "wall-servico-leste",
+      "a": [
+        752,
+        695
+      ],
+      "b": [
+        752,
+        950
+      ],
+      "thickness": 14,
+      "top": 290
+    }
+  ],
+  "openings": [
+    {
+      "id": "door-q1",
+      "kind": "door",
+      "a": [
+        336,
+        333
+      ],
+      "b": [
+        336,
+        417
+      ]
+    },
+    {
+      "id": "door-q2",
+      "kind": "door",
+      "a": [
+        356,
+        315
+      ],
+      "b": [
+        438,
+        315
+      ]
+    },
+    {
+      "id": "door-q3",
+      "kind": "door",
+      "a": [
+        351,
+        427
+      ],
+      "b": [
+        436,
+        427
+      ]
+    },
+    {
+      "id": "door-banho",
+      "kind": "door",
+      "a": [
+        470,
+        427
+      ],
+      "b": [
+        535,
+        427
+      ]
+    },
+    {
+      "id": "door-entrada",
+      "kind": "door",
+      "a": [
+        1030,
+        797
+      ],
+      "b": [
+        1125,
+        797
+      ]
+    },
+    {
+      "id": "portal-cozinha",
+      "kind": "passage",
+      "a": [
+        859,
+        695
+      ],
+      "b": [
+        950,
+        695
+      ]
+    },
+    {
+      "id": "portal-servico",
+      "kind": "passage",
+      "a": [
+        752,
+        782
+      ],
+      "b": [
+        752,
+        874
+      ]
+    },
+    {
+      "id": "passagem-circulacao",
+      "kind": "open_connection",
+      "a": [
+        625,
+        315
+      ],
+      "b": [
+        625,
+        427
+      ]
+    },
+    {
+      "id": "window-q1",
+      "kind": "window",
+      "a": [
+        46,
+        160
+      ],
+      "b": [
+        46,
+        305
+      ]
+    },
+    {
+      "id": "window-q2",
+      "kind": "window",
+      "a": [
+        684,
+        95
+      ],
+      "b": [
+        684,
+        236
+      ]
+    },
+    {
+      "id": "window-q3",
+      "kind": "window",
+      "a": [
+        46,
+        488
+      ],
+      "b": [
+        46,
+        608
+      ]
+    },
+    {
+      "id": "window-sala",
+      "kind": "window",
+      "a": [
+        757,
+        315
+      ],
+      "b": [
+        916,
+        315
+      ]
+    },
+    {
+      "id": "window-banho",
+      "kind": "window",
+      "a": [
+        479,
+        695
+      ],
+      "b": [
+        521,
+        695
+      ]
+    },
+    {
+      "id": "window-servico",
+      "kind": "window",
+      "a": [
+        625,
+        748
+      ],
+      "b": [
+        625,
+        892
+      ]
+    }
+  ],
+  "furniture": 0,
+  "fixtures": 0
+}

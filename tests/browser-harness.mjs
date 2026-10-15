@@ -4,12 +4,12 @@ import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import path from 'node:path';
 const root = path.resolve(fileURLToPath(new URL('../app/', import.meta.url)));
-export async function withApp(run) {
+export async function withApp(run, { config } = {}) {
   const server = createServer(async (req, res) => {
     const filename = path.resolve(root, new URL(req.url, 'http://localhost').pathname.replace(/^\/+/, '') || 'index.html');
     if (!filename.startsWith(root + path.sep)) { res.writeHead(403).end(); return; }
     try {
-      const body = await readFile(filename);
+      const body = config && path.basename(filename) === 'config.js' ? Buffer.from(`export const remoteConfig = ${JSON.stringify(config)};`) : await readFile(filename);
       res.writeHead(200, { 'Content-Type': { '.js': 'text/javascript', '.html': 'text/html', '.css': 'text/css', '.svg': 'image/svg+xml', '.png': 'image/png', '.webmanifest': 'application/manifest+json' }[path.extname(filename)] ?? 'application/octet-stream' }); res.end(body);
     } catch { res.writeHead(404).end(); }
   });

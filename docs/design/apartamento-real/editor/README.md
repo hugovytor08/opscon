@@ -1,5 +1,25 @@
 # Editor local da planta
 
+## 15/10 — posicionar os móveis reais
+
+Abra **`dist/moveis.html`** no navegador ou entre em **Posicionar móveis** a partir do editor de cômodos. HTML independente, com planta vazia v2 e fogão aprovados embutidos; funciona sem servidor e sem rede.
+
+1. Em **Minhas peças**, toque em **Adicionar à planta** no fogão.
+2. Arraste a peça. Use a alça do canto, o controle **Tamanho** ou os botões Menor/Maior para redimensionar. As setas permitem ajustes pequenos.
+3. Use **Aproximar item**, roda do mouse/pinça e arraste do fundo para trabalhar de perto; **Enquadrar** recupera a vista inteira.
+4. Você pode duplicar, remover, desfazer e refazer. **Importar peça em PNG** aceita PNG/WebP transparentes, até 4 MB/4096 px por imagem. A biblioteca começa só com o fogão real do usuário.
+5. **Baixar projeto** guarda posições, tamanhos e peças importadas em `minha-casa-moveis.json`. **Abrir projeto** recupera a edição, inclusive em outro navegador limpo usando este HTML. O fogão embutido é referenciado pelo ID; os PNGs importados acompanham o JSON. **Exportar imagem** baixa uma cópia PNG de 1265 × 1243 para compartilhar.
+
+Rascunho em banco IndexedDB exclusivo `casa-serena-furniture-editor-v1`, sem acessar o armazenamento do app ou do editor anterior. Falha de gravação exibe aviso; o projeto em memória continua exportável. Para outro dispositivo, levar o HTML e o JSON; links de navegação entre modos também precisam do `dist/index.html` no mesmo diretório.
+
+O recorte inicial cobre paredes externas em primeiro plano, com contornos registrados no PNG aprovado. **Respeitar paredes à frente** pode ser desativado para ajuste livre. Paredes internas/portas não têm oclusão completa nesta versão; não é um motor 3D nem verificação de colisão. Âncora e escala são aproximadas e não demonstram que o móvel cabe fisicamente. O fogão tem uma orientação; girar para outra face exige novas vistas da peça.
+
+A montagem usa a imagem aprovada fixa. Edição de proporções no modo **Editar cômodos** é um projeto separado e não deforma automaticamente o PNG. Nenhuma edição deste protótipo altera os dados do Casa Serena.
+
+Fontes novas: `furniture.html`, `furniture.css`, `furniture.mjs`, `furniture-core.mjs`. `build.mjs` gera os dois HTMLs autocontidos; `serve.mjs` serve ambos opcionalmente na porta 8869. Verificação: seis testes novos + cinco de geometria aprovados, 18 cenários Chrome/Playwright aprovados, toque/pinça simulados por eventos do navegador e 360/390/412/1400 px. Evidências em `previews/moveis/qa.json` e `docs/validacao/editor-moveis-2026-10-15.md`. Downloads no teste Windows precisaram de execução do Chrome fora da restrição de arquivos, com perfis isolados. S23 físico não testado.
+
+## Histórico — editor de proporções de 12/10
+
 12/10/2026. Primeira versão focada no formato e nas proporções dos oito ambientes do apartamento.
 
 ## Usar

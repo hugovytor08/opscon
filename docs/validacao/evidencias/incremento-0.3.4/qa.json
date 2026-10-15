@@ -1,0 +1,1129 @@
+{
+  "release": "0.3.4",
+  "engine": "Chromium",
+  "syntheticOnly": true,
+  "physicalS23": false,
+  "measurements": {
+    "empty": [
+      {
+        "text": "Comece pela lista, feche pelo total real.",
+        "ratio": 10.952220977550473,
+        "foreground": [
+          246,
+          247,
+          251,
+          1
+        ],
+        "background": [
+          24,
+          62,
+          59,
+          1
+        ]
+      },
+      {
+        "text": "Marque os produtos no carrinho. A lista não altera suas finanças antes do fecham",
+        "ratio": 6.068424501301975,
+        "foreground": [
+          177,
+          187,
+          206,
+          1
+        ],
+        "background": [
+          24,
+          62,
+          59,
+          1
+        ]
+      },
+      {
+        "text": "Sua primeira lista está pronta para nascer",
+        "ratio": 15.579743593630319,
+        "foreground": [
+          246,
+          247,
+          251,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      },
+      {
+        "text": "Adicione produtos sem precisar informar preço por unidade.",
+        "ratio": 8.632449796382224,
+        "foreground": [
+          177,
+          187,
+          206,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      }
+    ],
+    "emptyList": [
+      {
+        "text": "Lista de teste",
+        "ratio": 15.579743593630319,
+        "foreground": [
+          246,
+          247,
+          251,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      },
+      {
+        "text": "0 de 0 produtos no carrinho",
+        "ratio": 8.632449796382224,
+        "foreground": [
+          177,
+          187,
+          206,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      },
+      {
+        "text": "Em andamento",
+        "ratio": 7.331751937340324,
+        "foreground": [
+          167,
+          215,
+          255,
+          1
+        ],
+        "background": [
+          35,
+          61,
+          89,
+          1
+        ]
+      },
+      {
+        "text": "Subtotal estimado",
+        "ratio": 13.257143880806716,
+        "foreground": [
+          246,
+          247,
+          251,
+          1
+        ],
+        "background": [
+          36,
+          43,
+          57,
+          1
+        ]
+      },
+      {
+        "text": "R$ 0,00",
+        "ratio": 13.257143880806716,
+        "foreground": [
+          246,
+          247,
+          251,
+          1
+        ],
+        "background": [
+          36,
+          43,
+          57,
+          1
+        ]
+      }
+    ],
+    "aberto-390": [
+      {
+        "text": "Lista de teste",
+        "ratio": 15.579743593630319,
+        "foreground": [
+          246,
+          247,
+          251,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      },
+      {
+        "text": "1 de 2 produtos no carrinho",
+        "ratio": 8.632449796382224,
+        "foreground": [
+          177,
+          187,
+          206,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      },
+      {
+        "text": "Em andamento",
+        "ratio": 7.331751937340324,
+        "foreground": [
+          167,
+          215,
+          255,
+          1
+        ],
+        "background": [
+          35,
+          61,
+          89,
+          1
+        ]
+      },
+      {
+        "text": "Arroz de teste",
+        "ratio": 8.632449796382224,
+        "foreground": [
+          177,
+          187,
+          206,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      },
+      {
+        "text": "1 unidade · sem preço",
+        "ratio": 8.632449796382224,
+        "foreground": [
+          177,
+          187,
+          206,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      },
+      {
+        "text": "Óleo de teste",
+        "ratio": 15.579743593630319,
+        "foreground": [
+          246,
+          247,
+          251,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      },
+      {
+        "text": "1 unidade · sem preço",
+        "ratio": 8.632449796382224,
+        "foreground": [
+          177,
+          187,
+          206,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      },
+      {
+        "text": "1 no carrinho · 1 por pegar",
+        "ratio": 8.632449796382224,
+        "foreground": [
+          177,
+          187,
+          206,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      },
+      {
+        "text": "Subtotal parcial",
+        "ratio": 13.257143880806716,
+        "foreground": [
+          246,
+          247,
+          251,
+          1
+        ],
+        "background": [
+          36,
+          43,
+          57,
+          1
+        ]
+      },
+      {
+        "text": "R$ 0,00",
+        "ratio": 13.257143880806716,
+        "foreground": [
+          246,
+          247,
+          251,
+          1
+        ],
+        "background": [
+          36,
+          43,
+          57,
+          1
+        ]
+      }
+    ],
+    "aberto-icon-390": [
+      {
+        "text": "",
+        "ratio": 7.022307539049219,
+        "foreground": [
+          160,
+          195,
+          255,
+          1
+        ],
+        "background": [
+          38,
+          52,
+          74,
+          1
+        ]
+      }
+    ],
+    "aberto-check-390": [
+      {
+        "text": "",
+        "ratio": 9.98846111798658,
+        "foreground": [
+          17,
+          45,
+          34,
+          1
+        ],
+        "background": [
+          157,
+          228,
+          182,
+          1
+        ]
+      }
+    ],
+    "aberto-1280": [
+      {
+        "text": "Lista de teste",
+        "ratio": 15.579743593630319,
+        "foreground": [
+          246,
+          247,
+          251,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      },
+      {
+        "text": "1 de 2 produtos no carrinho",
+        "ratio": 8.632449796382224,
+        "foreground": [
+          177,
+          187,
+          206,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      },
+      {
+        "text": "Em andamento",
+        "ratio": 7.331751937340324,
+        "foreground": [
+          167,
+          215,
+          255,
+          1
+        ],
+        "background": [
+          35,
+          61,
+          89,
+          1
+        ]
+      },
+      {
+        "text": "Arroz de teste",
+        "ratio": 8.632449796382224,
+        "foreground": [
+          177,
+          187,
+          206,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      },
+      {
+        "text": "1 unidade · sem preço",
+        "ratio": 8.632449796382224,
+        "foreground": [
+          177,
+          187,
+          206,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      },
+      {
+        "text": "Óleo de teste",
+        "ratio": 15.579743593630319,
+        "foreground": [
+          246,
+          247,
+          251,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      },
+      {
+        "text": "1 unidade · sem preço",
+        "ratio": 8.632449796382224,
+        "foreground": [
+          177,
+          187,
+          206,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      },
+      {
+        "text": "1 no carrinho · 1 por pegar",
+        "ratio": 8.632449796382224,
+        "foreground": [
+          177,
+          187,
+          206,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      },
+      {
+        "text": "Subtotal parcial",
+        "ratio": 13.257143880806716,
+        "foreground": [
+          246,
+          247,
+          251,
+          1
+        ],
+        "background": [
+          36,
+          43,
+          57,
+          1
+        ]
+      },
+      {
+        "text": "R$ 0,00",
+        "ratio": 13.257143880806716,
+        "foreground": [
+          246,
+          247,
+          251,
+          1
+        ],
+        "background": [
+          36,
+          43,
+          57,
+          1
+        ]
+      }
+    ],
+    "aberto-icon-1280": [
+      {
+        "text": "",
+        "ratio": 7.022307539049219,
+        "foreground": [
+          160,
+          195,
+          255,
+          1
+        ],
+        "background": [
+          38,
+          52,
+          74,
+          1
+        ]
+      }
+    ],
+    "aberto-check-1280": [
+      {
+        "text": "",
+        "ratio": 9.98846111798658,
+        "foreground": [
+          17,
+          45,
+          34,
+          1
+        ],
+        "background": [
+          157,
+          228,
+          182,
+          1
+        ]
+      }
+    ],
+    "focus": [
+      {
+        "text": "",
+        "ratio": 11.752838773568023,
+        "foreground": [
+          199,
+          217,
+          255,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      }
+    ],
+    "concluido-390": [
+      {
+        "text": "Lista de teste",
+        "ratio": 15.579743593630319,
+        "foreground": [
+          246,
+          247,
+          251,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      },
+      {
+        "text": "Compra concluída e guardada no histórico.",
+        "ratio": 8.632449796382224,
+        "foreground": [
+          177,
+          187,
+          206,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      },
+      {
+        "text": "Concluída",
+        "ratio": 8.58136007668786,
+        "foreground": [
+          214,
+          222,
+          237,
+          1
+        ],
+        "background": [
+          48,
+          57,
+          74,
+          1
+        ]
+      },
+      {
+        "text": "Arroz de teste",
+        "ratio": 8.632449796382224,
+        "foreground": [
+          177,
+          187,
+          206,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      },
+      {
+        "text": "1 unidade · sem preço",
+        "ratio": 8.632449796382224,
+        "foreground": [
+          177,
+          187,
+          206,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      },
+      {
+        "text": "Óleo de teste",
+        "ratio": 15.579743593630319,
+        "foreground": [
+          246,
+          247,
+          251,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      },
+      {
+        "text": "1 unidade · sem preço",
+        "ratio": 8.632449796382224,
+        "foreground": [
+          177,
+          187,
+          206,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      },
+      {
+        "text": "1 no carrinho · 1 por pegar",
+        "ratio": 8.632449796382224,
+        "foreground": [
+          177,
+          187,
+          206,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      },
+      {
+        "text": "Valor real",
+        "ratio": 13.257143880806716,
+        "foreground": [
+          246,
+          247,
+          251,
+          1
+        ],
+        "background": [
+          36,
+          43,
+          57,
+          1
+        ]
+      },
+      {
+        "text": "R$ 35,00",
+        "ratio": 13.257143880806716,
+        "foreground": [
+          246,
+          247,
+          251,
+          1
+        ],
+        "background": [
+          36,
+          43,
+          57,
+          1
+        ]
+      }
+    ],
+    "concluido-icon-390": [
+      {
+        "text": "",
+        "ratio": 7.022307539049219,
+        "foreground": [
+          160,
+          195,
+          255,
+          1
+        ],
+        "background": [
+          38,
+          52,
+          74,
+          1
+        ]
+      }
+    ],
+    "concluido-check-390": [
+      {
+        "text": "",
+        "ratio": 9.98846111798658,
+        "foreground": [
+          17,
+          45,
+          34,
+          1
+        ],
+        "background": [
+          157,
+          228,
+          182,
+          1
+        ]
+      }
+    ],
+    "concluido-1280": [
+      {
+        "text": "Lista de teste",
+        "ratio": 15.579743593630319,
+        "foreground": [
+          246,
+          247,
+          251,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      },
+      {
+        "text": "Compra concluída e guardada no histórico.",
+        "ratio": 8.632449796382224,
+        "foreground": [
+          177,
+          187,
+          206,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      },
+      {
+        "text": "Concluída",
+        "ratio": 8.58136007668786,
+        "foreground": [
+          214,
+          222,
+          237,
+          1
+        ],
+        "background": [
+          48,
+          57,
+          74,
+          1
+        ]
+      },
+      {
+        "text": "Arroz de teste",
+        "ratio": 8.632449796382224,
+        "foreground": [
+          177,
+          187,
+          206,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      },
+      {
+        "text": "1 unidade · sem preço",
+        "ratio": 8.632449796382224,
+        "foreground": [
+          177,
+          187,
+          206,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      },
+      {
+        "text": "Óleo de teste",
+        "ratio": 15.579743593630319,
+        "foreground": [
+          246,
+          247,
+          251,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      },
+      {
+        "text": "1 unidade · sem preço",
+        "ratio": 8.632449796382224,
+        "foreground": [
+          177,
+          187,
+          206,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      },
+      {
+        "text": "1 no carrinho · 1 por pegar",
+        "ratio": 8.632449796382224,
+        "foreground": [
+          177,
+          187,
+          206,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      },
+      {
+        "text": "Valor real",
+        "ratio": 13.257143880806716,
+        "foreground": [
+          246,
+          247,
+          251,
+          1
+        ],
+        "background": [
+          36,
+          43,
+          57,
+          1
+        ]
+      },
+      {
+        "text": "R$ 35,00",
+        "ratio": 13.257143880806716,
+        "foreground": [
+          246,
+          247,
+          251,
+          1
+        ],
+        "background": [
+          36,
+          43,
+          57,
+          1
+        ]
+      }
+    ],
+    "concluido-icon-1280": [
+      {
+        "text": "",
+        "ratio": 7.022307539049219,
+        "foreground": [
+          160,
+          195,
+          255,
+          1
+        ],
+        "background": [
+          38,
+          52,
+          74,
+          1
+        ]
+      }
+    ],
+    "concluido-check-1280": [
+      {
+        "text": "",
+        "ratio": 9.98846111798658,
+        "foreground": [
+          17,
+          45,
+          34,
+          1
+        ],
+        "background": [
+          157,
+          228,
+          182,
+          1
+        ]
+      }
+    ],
+    "offline": [
+      {
+        "text": "Lista de teste",
+        "ratio": 15.579743593630319,
+        "foreground": [
+          246,
+          247,
+          251,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      },
+      {
+        "text": "Compra concluída e guardada no histórico.",
+        "ratio": 8.632449796382224,
+        "foreground": [
+          177,
+          187,
+          206,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      },
+      {
+        "text": "Concluída",
+        "ratio": 8.58136007668786,
+        "foreground": [
+          214,
+          222,
+          237,
+          1
+        ],
+        "background": [
+          48,
+          57,
+          74,
+          1
+        ]
+      },
+      {
+        "text": "Arroz de teste",
+        "ratio": 8.632449796382224,
+        "foreground": [
+          177,
+          187,
+          206,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      },
+      {
+        "text": "1 unidade · sem preço",
+        "ratio": 8.632449796382224,
+        "foreground": [
+          177,
+          187,
+          206,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      },
+      {
+        "text": "Óleo de teste",
+        "ratio": 15.579743593630319,
+        "foreground": [
+          246,
+          247,
+          251,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      },
+      {
+        "text": "1 unidade · sem preço",
+        "ratio": 8.632449796382224,
+        "foreground": [
+          177,
+          187,
+          206,
+          1
+        ],
+        "background": [
+          25,
+          30,
+          41,
+          1
+        ]
+      },
+      {
+        "text": "R$ 35,00",
+        "ratio": 13.257143880806716,
+        "foreground": [
+          246,
+          247,
+          251,
+          1
+        ],
+        "background": [
+          36,
+          43,
+          57,
+          1
+        ]
+      }
+    ]
+  },
+  "layouts": [
+    {
+      "state": "aberto",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "state": "aberto",
+      "width": 1280,
+      "overflow": false
+    },
+    {
+      "state": "concluido",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "state": "concluido",
+      "width": 1280,
+      "overflow": false
+    }
+  ],
+  "focus": {
+    "active": true,
+    "visible": true,
+    "outline": "solid",
+    "width": 3
+  },
+  "offlineReload": true,
+  "visualChecksPreservedStateQueueGeneration": true,
+  "purchaseCents": 3500,
+  "payments": 0,
+  "errors": []
+}

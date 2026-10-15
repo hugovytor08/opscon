@@ -1,0 +1,21 @@
+{
+  "format": "casa-serena-furniture-project",
+  "version": 1,
+  "baseId": "apartamento-v2-8cff27b8892a",
+  "assets": [
+    {
+      "id": "vis-item-fogao-suggar-001",
+      "builtin": true
+    }
+  ],
+  "items": [
+    {
+      "id": "item-175b7cd4-c65b-49c2-a30f-f6ef45ebda11",
+      "assetId": "vis-item-fogao-suggar-001",
+      "x": 750,
+      "y": 1010,
+      "width": 100,
+      "respectWalls": true
+    }
+  ]
+}

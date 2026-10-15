@@ -65,3 +65,76 @@ test('link PKCE exige verificador do mesmo navegador, troca uma vez e exclui seg
   await assert.rejects(client.exchangeCode('test-code'), e => e.code === 'AUTH_LINK');
   await assert.rejects(client.sendLink('test@example.invalid', 'http://unsafe.example/'), e => e.code === 'AUTH_REDIRECT');
 });
+
+test('e-mail/senha usa Auth nativo, preserva espaços da senha e renova a mesma identidade', async () => {
+  const storage = memory(), calls = [], password = ' senha sintética com espaços ';
+  const client = new SupabaseClient({ ...config, authMode: 'password' }, { sessionStorage: storage, fetcher: async (url, options) => {
+    calls.push({ url, ...options, body: options.body && JSON.parse(options.body) });
+    return Response.json(url.endsWith('/user') ? { id: 'owner-a' } : { access_token: 'access', refresh_token: 'refresh', expires_in: url.endsWith('grant_type=password') ? 0 : 3600, user: { id: 'owner-a', email: 'test@example.invalid' } });
+  }});
+  await client.signInWithPassword(' test@example.invalid ', password, 'owner-a');
+  assert.equal(calls[0].url, `${config.url}/auth/v1/token?grant_type=password`);
+  assert.deepEqual(calls[0].body, { email: 'test@example.invalid', password });
+  assert.equal(calls[0].cache, 'no-store');
+  assert.equal((await client.session()).user.id, 'owner-a');
+  assert.ok(calls.some(call => call.url.endsWith('grant_type=refresh_token')));
+  assert.equal(storage.getItem(client.sessionKey).includes(password), false);
+});
+
+test('senha errada/conta inexistente são genéricas; limite e conta diferente não alteram a sessão anterior', async () => {
+  const storage = memory(); let status = 400;
+  const client = new SupabaseClient({ ...config, authMode: 'password' }, { sessionStorage: storage, fetcher: async () => Response.json(status === 200 ? { access_token: 'other', refresh_token: 'other', expires_in: 3600, user: { id: 'owner-b' } } : { message: 'private account detail' }, { status }) });
+  client.saveSession({ access_token: 'a', refresh_token: 'r', expires_in: 3600, user: { id: 'owner-a' } });
+  const before = storage.getItem(client.sessionKey);
+  for (status of [400, 401, 403, 422]) await assert.rejects(client.signInWithPassword('test@example.invalid', 'synthetic', 'owner-a'), error => error.code === 'AUTH_CREDENTIALS' && !error.message.includes('private'));
+  status = 429;
+  await assert.rejects(client.signInWithPassword('test@example.invalid', 'synthetic'), error => error.code === 'REMOTE_LIMIT');
+  status = 200;
+  await assert.rejects(client.signInWithPassword('other@example.invalid', 'synthetic', 'owner-a'), error => error.code === 'AUTH_OWNER');
+  assert.equal(storage.getItem(client.sessionKey), before);
+});
+
+test('recuperação nativa PKCE persiste o propósito, confirma identidade e atualiza senha sem guardá-la', async () => {
+  const storage = memory(), calls = [], password = 'nova senha sintética';
+  const fetcher = async (url, options) => {
+    calls.push({ url, method: options.method, body: options.body && JSON.parse(options.body) });
+    return Response.json(url.includes('/token') ? { access_token: 'a', refresh_token: 'r', expires_in: 3600, user: { id: 'owner-a' } } : url.endsWith('/user') ? { id: 'owner-a' } : {});
+  };
+  const client = new SupabaseClient({ ...config, authMode: 'password' }, { sessionStorage: storage, fetcher });
+  await client.recoverPassword('test@example.invalid', 'http://127.0.0.1:8767/');
+  assert.ok(calls[0].url.includes('/auth/v1/recover?redirect_to='));
+  assert.equal(calls[0].body.code_challenge_method, 's256');
+  assert.equal(Object.hasOwn(calls[0].body, 'create_user'), false);
+  await client.exchangeCode('synthetic-code', 'owner-a');
+  const challenge = Buffer.from(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(calls[1].body.code_verifier))).toString('base64url');
+  assert.equal(challenge, calls[0].body.code_challenge);
+  const reloaded = new SupabaseClient({ ...config, authMode: 'password' }, { sessionStorage: storage, fetcher });
+  assert.equal(reloaded.hasPasswordRecovery(), true);
+  await reloaded.updatePassword(password);
+  assert.equal(reloaded.hasPasswordRecovery(), false);
+  assert.deepEqual(calls.find(call => call.method === 'PUT').body, { password });
+  assert.equal(storage.getItem(`${client.sessionKey}:pkce`), null);
+  assert.equal(storage.getItem(`${client.sessionKey}:recovery`), null);
+  assert.equal(storage.getItem(client.sessionKey).includes(password), false);
+  await assert.rejects(reloaded.updatePassword(password), error => error.code === 'AUTH_LINK');
+});
+
+test('recuperação inválida ou de outro proprietário não substitui a sessão; logout limpa propósito offline', async () => {
+  const storage = memory();
+  const client = new SupabaseClient({ ...config, authMode: 'password' }, { sessionStorage: storage, fetcher: async url => {
+    if (url.includes('/logout')) throw new Error('offline');
+    return Response.json(url.includes('/token') ? { access_token: 'other', refresh_token: 'other', expires_in: 3600, user: { id: 'owner-b' } } : {});
+  }});
+  client.saveSession({ access_token: 'a', refresh_token: 'r', expires_in: 3600, user: { id: 'owner-a' } });
+  const before = storage.getItem(client.sessionKey);
+  await assert.rejects(client.updatePassword('synthetic-password'), error => error.code === 'AUTH_LINK');
+  await client.recoverPassword('test@example.invalid', 'http://127.0.0.1:8767/');
+  await assert.rejects(client.exchangeCode('code', 'owner-a'), error => error.code === 'AUTH_OWNER');
+  assert.equal(storage.getItem(client.sessionKey), before);
+  storage.setItem(`${client.sessionKey}:recovery`, JSON.stringify({ userId: 'owner-a', expiresAt: Date.now() - 1 }));
+  assert.equal(client.hasPasswordRecovery(), false);
+  await assert.rejects(client.signOut(), error => error.code === 'NETWORK');
+  assert.equal(storage.getItem(client.sessionKey), null);
+  assert.equal(storage.getItem(`${client.sessionKey}:recovery`), null);
+  assert.equal(storage.getItem(`${client.sessionKey}:pkce`), null);
+});

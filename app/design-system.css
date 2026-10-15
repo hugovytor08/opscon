@@ -87,7 +87,12 @@ button:active:not(:disabled) { filter: brightness(1.12); }
 .quick-action svg { width: 23px; height: 23px; }
 .income-action { background: #264c44; color: #d1f8e5; }
 .overview-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; }
-.money-card, .market-tile, .upcoming-card, .idea-tile, .project-tile { grid-column: 1 / -1; }
+.money-card, .benefit-card, .market-tile, .upcoming-card, .idea-tile, .project-tile { grid-column: 1 / -1; }
+.benefit-card { background: var(--surface-raised); }
+.benefit-wallet { padding-block: 12px; border-top: 1px solid var(--line); }
+.benefit-wallets { margin-block: 16px; }
+.benefit-wallets .card-header { flex-wrap: wrap; gap: 12px; }
+[data-split-fields]:not([hidden]) { display: grid; gap: 14px; }
 .overview-grid .card { text-align: left; color: var(--ink); }
 .overview-grid p { margin: 8px 0 0; font-size: 13px; }
 .overview-value { display: block; font-size: clamp(24px, 6.7vw, 36px); letter-spacing: -.04em; line-height: 1.25; overflow-wrap: anywhere; }
@@ -126,6 +131,18 @@ button:active:not(:disabled) { filter: brightness(1.12); }
 .mobile-product .product-glyph, .record-icon { background: #392d59; color: #cbb7ff; }
 .market-intro { border: 0; border-radius: var(--radius); background: #183e3b; }
 .market-intro > svg { color: #9aead1; }
+.market-banner { background: var(--paper); border-color: var(--line); border-radius: var(--radius); color: var(--ink); }
+.market-banner .big-icon { background: var(--sage-soft); color: var(--green); }
+.market-total { background: var(--surface-raised); border-color: var(--line); color: var(--ink); }
+.market-entry:disabled { opacity: 1; }
+.balance-review { display: grid; gap: 12px; border: 1px solid var(--line); border-radius: 18px; padding: 14px; min-width: 0; }
+.balance-review fieldset { border: 0; padding: 0; min-width: 0; }
+.balance-review legend { color: var(--ink); font-weight: 650; }
+.balance-result { color: var(--green); font-size: 14px; overflow-wrap: anywhere; }
+.movement-record { border-bottom: 1px solid var(--line); padding: 10px 0; }
+.movement-record .account-row { border: 0; padding: 0; align-items: flex-start; }
+.movement-record .account-row > span { min-width: 0; overflow-wrap: anywhere; }
+.movement-record .account-row > strong { flex-shrink: 0; }
 .market-check { border-color: #718a9f; }
 .market-entry.in-cart .market-check, .task-row.done button { background: #9de4b6; border-color: #9de4b6; color: #112d22; }
 .market-entry.in-cart strong, .task-row.done > span { color: var(--muted); }

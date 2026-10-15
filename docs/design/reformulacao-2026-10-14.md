@@ -17,6 +17,12 @@ As três fontes novas foram copiadas sem alteração para `docs/design/apartamen
 
 O usuário também pediu retirar a antiga imagem do Início por incompatibilidade com o novo design. `ref-inicio.png` foi retirada de `app/assets` e do shell offline no incremento 0.3.3; a cópia histórica permanece em `docs/design/referencias-historicas/ref-inicio.png`, fora da pasta publicada. O Início usa os cards do novo sistema visual.
 
+## Decisão posterior — 15/10/2026
+
+O usuário escolheu para o sistema a imagem vazia `docs/design/apartamento-real/estudo-visual-2026-10-15/apartamento-sem-moveis-v2.png` e confirmou que só melhorou a imagem, mantendo a geometria. O anexo recebido é idêntico por SHA-256 à v2 preservada (`8cff27b8892ae51cf679b6aed5fd8648d19420e95eb652224ad6a82456fe579d`). Esta decisão substitui `ref-casa.png` como base visual a integrar; as fontes e decisões de 14/10 acima permanecem históricas.
+
+A proveniência do guia da v2 aponta para `docs/design/apartamento-real/geometria.json`, conforme `docs/validacao/estudo-planta-vazia-2026-10-15.md`. Não alegar identidade numérica com o export de 14/10 ou alinhamento automático ao PNG. Conferir as oito regiões na nova projeção e preservar seus vínculos/IDs. Base vazia integrada primeiro; os móveis reais entram posteriormente em camada separada. Uso somente em Casa. Esta atualização é de planejamento, sem alteração executável.
+
 ## Leitura do vídeo e comparação
 
 O original mostra rolagem de cards de diferentes larguras/densidades no começo; navegação por áreas perto de 55–75 s; detalhe escuro, ação curta e retorno ao resumo perto de 85–100 s; e novos cards por contexto perto de 115–130 s. Ações alteram a informação principal. Não há uso de captura do Samsung Health como interface, imagem de saúde ou indicadores artificiais no Casa Serena.

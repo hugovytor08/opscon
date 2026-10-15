@@ -1,0 +1,24 @@
+{
+  "artifact": "apartamento-sem-moveis-v1.png",
+  "userReview": "rejected",
+  "rejectionReasons": ["alturas incoerentes de paredes", "janelas semelhantes a retângulos/painéis azuis", "fidelidade e acabamento abaixo do esperado"],
+  "supersededBy": "apartamento-sem-moveis-v2.png",
+  "pixels": [
+    1342,
+    1172
+  ],
+  "format": "PNG",
+  "mode": "RGB",
+  "sha256": "bd480920e5220fe8b36c172272dfc168d98fc6bd88aee45b8f6da5c030769d2a",
+  "tool": "image_gen built-in",
+  "prompt": "prompt-v1.txt",
+  "sourceSvgUnchanged": true,
+  "sourceRoomsPreservedInEmptySvg": 8,
+  "visualReview": {
+    "furnitureOrFixturesObserved": 0,
+    "roomArrangement": "conferido visualmente com estrutura-vazia.png",
+    "windowsObserved": 6,
+    "textOrBrandingObserved": false
+  },
+  "precision": "Ilustração raster; fidelidade geométrica conferida visualmente, não levantamento dimensional nem garantia de equivalência de pixels."
+}

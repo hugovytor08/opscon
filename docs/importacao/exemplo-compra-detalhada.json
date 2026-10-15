@@ -1,0 +1,81 @@
+{
+  "format": "casa-serena-import",
+  "version": 1,
+  "batchLabel": null,
+  "documents": [
+    {
+      "id": "doc-001",
+      "sourceImages": [
+        "imagem-01"
+      ],
+      "kind": "itemized_purchase",
+      "eventHint": null,
+      "reference": null,
+      "transactionId": null,
+      "issuedOn": null,
+      "dueOn": null,
+      "paidOn": null,
+      "currency": "BRL",
+      "merchant": {
+        "name": "Mercado Exemplo",
+        "branch": null,
+        "locality": null
+      },
+      "transactionStatus": "unknown",
+      "direction": "outgoing",
+      "totals": {
+        "itemsGrossCents": 1350,
+        "discountCents": 0,
+        "extraCents": 0,
+        "totalCents": 1350,
+        "amountPaidCents": null
+      },
+      "paymentMethod": "unknown",
+      "lineItems": [
+        {
+          "lineId": "line-001",
+          "sourceText": "ÓLEO 900 ML 1 UN 8,50",
+          "description": "Óleo 900 ml",
+          "suggestedProduct": "Óleo",
+          "brand": null,
+          "gtin": null,
+          "soldQuantity": "1",
+          "soldUnit": "un",
+          "packageSize": "900",
+          "packageUnit": "ml",
+          "unitPriceDecimal": "8.50",
+          "grossLineCents": 850,
+          "lineDiscountCents": 0,
+          "netLineCents": 850,
+          "uncertainties": []
+        },
+        {
+          "lineId": "line-002",
+          "sourceText": "LEITE 1 L 1 UN 5,00",
+          "description": "Leite 1 L",
+          "suggestedProduct": "Leite",
+          "brand": null,
+          "gtin": null,
+          "soldQuantity": "1",
+          "soldUnit": "un",
+          "packageSize": "1",
+          "packageUnit": "l",
+          "unitPriceDecimal": "5.00",
+          "grossLineCents": 500,
+          "lineDiscountCents": 0,
+          "netLineCents": 500,
+          "uncertainties": []
+        }
+      ],
+      "evidence": [
+        "Exemplo fictício: óleo 900 ml, 1 un, R$ 8,50; leite 1 L, 1 un, R$ 5,00; total R$ 13,50; sem descontos ou acréscimos."
+      ],
+      "uncertainties": [
+        "Data e conta de pagamento não informadas."
+      ]
+    }
+  ],
+  "warnings": [
+    "Exemplo fictício para teste; não representa compra do usuário."
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "format": "casa-serena-import",
+  "version": 1,
+  "batchLabel": null,
+  "documents": [
+    {
+      "id": "doc-001",
+      "sourceImages": [
+        "imagem-01"
+      ],
+      "kind": "other",
+      "eventHint": null,
+      "reference": null,
+      "transactionId": null,
+      "issuedOn": null,
+      "dueOn": null,
+      "paidOn": null,
+      "currency": "BRL",
+      "merchant": {
+        "name": "Padaria Exemplo",
+        "branch": null,
+        "locality": null
+      },
+      "transactionStatus": "unknown",
+      "direction": "outgoing",
+      "totals": {
+        "itemsGrossCents": null,
+        "discountCents": null,
+        "extraCents": null,
+        "totalCents": 2000,
+        "amountPaidCents": null
+      },
+      "paymentMethod": "unknown",
+      "lineItems": [],
+      "evidence": [
+        "Exemplo fictício: Compra na Padaria Exemplo — R$ 20,00."
+      ],
+      "uncertainties": [
+        "O print não informa produtos nem data."
+      ]
+    }
+  ],
+  "warnings": [
+    "Exemplo fictício para teste; não representa compra do usuário."
+  ]
+}

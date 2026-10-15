@@ -1,0 +1,19 @@
+# Carteira alimentação — domínio 3
+
+`accounts.kind` separa `bank` e `benefit`. Contas antigas migram para `bank` sem alterar ID, nome, referência, saldo, vínculos, auditoria ou operações. Uma carteira alimentação guarda a política explícita de R$ 690 (`monthlyCreditCents: 69000`) no dia 30 (`creditDay: 30`). Criar a carteira exige saldo informado pelo usuário; o estado inicial continua vazio. Não é um cartão de crédito/fatura.
+
+`getBenefitPlan(state, accountId, AAAA-MM)` apenas projeta a data válida do mês e encontra a confirmação existente. Não grava, credita, cria meses antigos ou reinicia sobras. `benefit.confirm` cria uma receita confirmada com data e valor reais editáveis, `benefitPeriod` e os efeitos no saldo de referência da RET-01. O período do benefício é independente da data real, permitindo recebimento antecipado. Uma restrição por carteira/competência recusa segunda confirmação mesmo com UUID diferente; a idempotência financeira conserva o mesmo resultado no reenvio do UUID original.
+
+Receitas bancárias e transferências continuam próprias de contas bancárias. Entradas do alimentação usam a confirmação de competência; o benefício não pode virar dinheiro bancário por uma transferência. Pagamentos podem indicar a carteira, inclusive em compromissos registrados separadamente. Um débito aplicado maior que o saldo alimentação conhecido falha com orientação para dividir ou conferir os recebimentos. Débitos históricos já incluídos no saldo não são cobrados novamente; revisão de classificação não pode produzir saldo negativo.
+
+`market.close` e `expense.record` aceitam uma origem única ou duas partes explícitas (alimentação e banco), positivas, distintas e cuja soma em centavos seja exatamente o total. Geram uma compra, uma obrigação e um pagamento por origem, com a mesma data e alocações correspondentes. Ambas as partes são validadas antes da escrita atômica no IndexedDB. Falha de saldo/soma/origem não deixa compra ou pagamento parcial. As duas partes recebem `recordedAt` e ficam vinculadas à mesma operação auditada. Reutilizar uma lista não copia pagamentos.
+
+`getSummary.balanceCents` soma apenas bancos; `benefitBalanceCents` soma carteiras alimentação. Receitas do benefício não entram em `incomeCents` bancário/global ou mensal. Aquisições, obrigações e pagamentos continuam nos totais históricos reais, qualquer que seja a origem. Início e Finanças apresentam os saldos separadamente. Nada é salvo por consultar previsão, preencher prévia ou navegar entre meses.
+
+## Continuidade e SQL
+
+Leituras e replays não migram estados 1/2. A próxima escrita migra uma cópia para 3 e enfileira uma nova operação. Entradas antigas em voo conservam payload, UUID, base e assinatura. ACK antigo não substitui um estado 3 mais recente; restauração de backup antigo converte o domínio sem regredir a revisão remota. IndexedDB 2, envelope de backup 1 e protocolo 1 continuam iguais.
+
+`202610150002_benefit.sql` é aditivo e gerado por `scripts/prepare-benefit-migration.mjs`, preservando as migrações anteriores e registrando seu hash. Envolve o validador 2 com as restrições de carteiras, competência única, saldos, tipos e transferência; mantém validações anteriores de linhas, obrigações, IDs, auditoria, centavos e referências. Os campos novos são recusados se disfarçados como domínio antigo. RPC, RLS, isolamento por dono e recibos permanecem; novas escritas com domínio menor que o armazenado falham com CS426, mas recibos válidos de operações antigas continuam disponíveis após o avanço. Não há reescrita de snapshots/recibos na instalação.
+
+Aplicação e prova remota são manuais: `supabase/ALIMENTACAO.md`. Os testes usam dados sintéticos em navegador isolado, protocolo/Auth simulados e PostgreSQL PGlite local. Não comprovam Supabase hospedado, S23 físico ou recuperação financeira real. Não rebaixar o cliente para 0.3.6 após dados 3; não limpar filas para resolver incompatibilidade.

@@ -1,5 +1,11 @@
 # Preparação do Supabase — 0.3.0
 
+**Atualização 15/10/2026 — 0.3.7:** alimentação usa domínio 3; seguir `ALIMENTACAO.md` para aplicar somente os complementos ausentes, 202610150001 e 202610150002, em ordem. Migrações anteriores e recibos preservados, com guardas contra downgrade e crédito duplicado. Aplicação/prova remota ainda pendentes. IndexedDB 2 e protocolo 1 mantidos.
+
+**Atualização 15/10/2026 — 0.3.6:** retroativos usam domínio 2 e exigem o complemento `migrations/202610150001_retroactive.sql`, ainda não aplicado pelo agente ao projeto remoto. Seguir `RETROATIVOS.md`; não alterar/reaplicar a migração inicial. Domínios 1/2 convivem para recibos e filas antigos, com proteção contra downgrade sobre dados 2. Protocolo continua 1.
+
+**Atualização 15/10/2026 — 0.3.5:** o acesso normal passou a e-mail e senha, por decisão do usuário. Seguir `ACESSO-EMAIL-SENHA.md` para conferir a conta existente, senha e recuperação separada. Nenhuma migração/adaptador novo é necessário. As instruções de OTP/link abaixo descrevem a preparação histórica de 0.3.0; não são mais o login normal selecionado no app.
+
 Projeto Free de teste fornecido pelo usuário: `azqlukwlcotyhildfvwt`, nome `opscon`, regiãous-east-1. Migração202610110001 aplicada manualmente pelo SQL Editor em11/10/2026 e registrada em `casa_private.schema_versions`. RLS/permissões verificadas; ensaio transacional remoto passou e rollback deixou0 snapshots/0 recibos/0 usuários artificiais. Conta pessoal em provisionamento pelo usuário; prova de login/recuperação real ainda pendente. Nenhum plano/add-on pago ou hospedagem do app contratado/publicado.
 
 ## Configuração concreta
@@ -33,4 +39,4 @@ Não tratar banco sincronizado como backup: exclusão/corrupção pode se propag
 
 ## Manutenção e retorno seguro
 
-Aplicar migração com backup verificável da base; guardar o artefato e os hashes de cada build. `app/version.json` identifica protocolo1, domínio1 e IndexedDB2. Voltar somente a build que saiba abrir IndexedDB2 e protocolo1. O código antigo que abre IndexedDB1 não é rollback seguro após a atualização: pode falhar com VersionError. Não fazer downgrade destrutivo de IndexedDB ou apagar filas para resolver conflito. Para estrutura futura, publicar migração aditiva, ensaiar restauração e compatibilidade antes de remover campos. Pausa do Free pode exigir reativação pelo dashboard; ela não deve ser disfarçada como sincronização confirmada.
+Aplicar migração com backup verificável da base; guardar o artefato e os hashes de cada build. `app/version.json` identifica protocolo 1, domínio 3 e IndexedDB 2. Voltar somente a build que saiba abrir IndexedDB2 e protocolo1. O código antigo que abre IndexedDB1 não é rollback seguro após a atualização: pode falhar com VersionError. Não fazer downgrade destrutivo de IndexedDB ou apagar filas para resolver conflito. Para estrutura futura, publicar migração aditiva, ensaiar restauração e compatibilidade antes de remover campos. Pausa do Free pode exigir reativação pelo dashboard; ela não deve ser disfarçada como sincronização confirmada.

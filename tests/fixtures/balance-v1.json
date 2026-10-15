@@ -1,0 +1,186 @@
+{
+  "state": {
+    "schemaVersion": 1,
+    "revision": 5,
+    "nextId": 14,
+    "accounts": [
+      {
+        "id": "account_000001",
+        "name": "Conta A sintética",
+        "openingBalanceCents": 100000,
+        "openingDate": "2026-10-01"
+      },
+      {
+        "id": "account_000003",
+        "name": "Conta B sintética",
+        "openingBalanceCents": 20000,
+        "openingDate": "2026-10-01"
+      }
+    ],
+    "rooms": [],
+    "items": [],
+    "purchases": [
+      {
+        "id": "buy_000008",
+        "date": "2026-10-02",
+        "totalCents": 10000,
+        "source": "expense",
+        "sourceId": null,
+        "description": "Saída sintética",
+        "lines": [
+          {
+            "id": "line_000007",
+            "itemId": null,
+            "description": "Saída sintética",
+            "amountCents": 10000
+          }
+        ],
+        "obligationIds": [
+          "due_000009"
+        ]
+      }
+    ],
+    "obligations": [
+      {
+        "id": "due_000009",
+        "purchaseId": "buy_000008",
+        "amountCents": 10000,
+        "dueDate": "2026-10-02",
+        "sequence": 1
+      }
+    ],
+    "payments": [
+      {
+        "id": "pay_000010",
+        "date": "2026-10-02",
+        "accountId": "account_000001",
+        "amountCents": 10000,
+        "allocations": [
+          {
+            "obligationId": "due_000009",
+            "amountCents": 10000
+          }
+        ],
+        "description": "Saída sintética"
+      }
+    ],
+    "markets": [],
+    "projects": [],
+    "tasks": [],
+    "incomes": [
+      {
+        "id": "income_000005",
+        "date": "2026-10-02",
+        "description": "Entrada sintética",
+        "amountCents": 50000,
+        "accountId": "account_000001"
+      }
+    ],
+    "transfers": [
+      {
+        "id": "transfer_000012",
+        "date": "2026-10-02",
+        "fromAccountId": "account_000001",
+        "toAccountId": "account_000003",
+        "amountCents": 20000
+      }
+    ],
+    "audit": [
+      {
+        "id": "event_000002",
+        "revision": 1,
+        "type": "account.create",
+        "recordIds": {
+          "accountId": "account_000001"
+        },
+        "idempotencyKey": null,
+        "actor": "owner",
+        "origin": "ui",
+        "occurredAt": null
+      },
+      {
+        "id": "event_000004",
+        "revision": 2,
+        "type": "account.create",
+        "recordIds": {
+          "accountId": "account_000003"
+        },
+        "idempotencyKey": null,
+        "actor": "owner",
+        "origin": "ui",
+        "occurredAt": null
+      },
+      {
+        "id": "event_000006",
+        "revision": 3,
+        "type": "income.record",
+        "recordIds": {
+          "incomeId": "income_000005"
+        },
+        "idempotencyKey": "legacy-income",
+        "actor": "owner",
+        "origin": "ui",
+        "occurredAt": null
+      },
+      {
+        "id": "event_000011",
+        "revision": 4,
+        "type": "expense.record",
+        "recordIds": {
+          "purchaseId": "buy_000008",
+          "obligationIds": [
+            "due_000009"
+          ],
+          "paymentId": "pay_000010"
+        },
+        "idempotencyKey": "legacy-expense",
+        "actor": "owner",
+        "origin": "ui",
+        "occurredAt": null
+      },
+      {
+        "id": "event_000013",
+        "revision": 5,
+        "type": "transfer.record",
+        "recordIds": {
+          "transferId": "transfer_000012"
+        },
+        "idempotencyKey": "legacy-transfer",
+        "actor": "owner",
+        "origin": "ui",
+        "occurredAt": null
+      }
+    ],
+    "operations": {
+      "legacy-income": {
+        "signature": "{\"payload\":{\"accountId\":\"account_000001\",\"amountCents\":50000,\"date\":\"2026-10-02\",\"description\":\"Entrada sintética\"},\"type\":\"income.record\"}",
+        "revision": 3,
+        "result": {
+          "incomeId": "income_000005"
+        }
+      },
+      "legacy-expense": {
+        "signature": "{\"payload\":{\"accountId\":\"account_000001\",\"amountCents\":10000,\"date\":\"2026-10-02\",\"description\":\"Saída sintética\"},\"type\":\"expense.record\"}",
+        "revision": 4,
+        "result": {
+          "purchaseId": "buy_000008",
+          "obligationIds": [
+            "due_000009"
+          ],
+          "paymentId": "pay_000010"
+        }
+      },
+      "legacy-transfer": {
+        "signature": "{\"payload\":{\"amountCents\":20000,\"date\":\"2026-10-02\",\"fromAccountId\":\"account_000001\",\"toAccountId\":\"account_000003\"},\"type\":\"transfer.record\"}",
+        "revision": 5,
+        "result": {
+          "transferId": "transfer_000012"
+        }
+      }
+    }
+  },
+  "balances": {
+    "account_000001": 120000,
+    "account_000003": 40000
+  }
+}

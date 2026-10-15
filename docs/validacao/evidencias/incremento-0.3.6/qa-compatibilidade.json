@@ -1,0 +1,12 @@
+{
+  "syntheticOnly": true,
+  "v1PayloadAndUuidAndBaseUnchanged": true,
+  "mixedQueueVersions": [
+    1,
+    2
+  ],
+  "lostOldAckAccepted": true,
+  "v2CurrentStatePreservedAfterAck": true,
+  "legacyRestoreUpgradedToV2": true,
+  "protocolRevisionAfterRestore": 2
+}

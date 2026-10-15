@@ -1,9 +1,9 @@
 // Casa Serena domain model. All amounts are integer BRL cents; commands are pure.
-export const SCHEMA_VERSION = 1;
+export const SCHEMA_VERSION = 3;
 
 const FINANCIAL_COMMANDS = new Set([
   'purchase.record', 'payment.record', 'market.close', 'expense.record',
-  'income.record', 'transfer.record',
+  'income.record', 'transfer.record', 'balance-effect.update', 'benefit.confirm',
 ]);
 const LISTS = [
   'accounts', 'rooms', 'items', 'purchases', 'obligations', 'payments',
@@ -59,6 +59,56 @@ const find = (state, list, id, field = 'id') => {
 };
 const id = (state, prefix) => `${prefix}_${String(state.nextId++).padStart(6, '0')}`;
 const copy = value => structuredClone(value);
+
+function recordedAt(value) {
+  if (value == null) return null;
+  if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(value) || Number.isNaN(Date.parse(value)) || new Date(value).toISOString() !== value)
+    fail('VALIDATION', 'Data de registro inválida.', 'recordedAt');
+  return value;
+}
+
+function balanceEffect(value, eventDate, account, field = 'balanceEffect') {
+  if (value == null && eventDate >= account.openingDate) return 'apply';
+  if (!['apply', 'included'].includes(value)) fail('VALIDATION', 'Informe se o movimento já estava incluído no saldo de referência.', field);
+  if (value === 'included' && eventDate > account.openingDate) fail('VALIDATION', 'Um movimento posterior não pode estar incluído no saldo de referência.', field);
+  return value;
+}
+
+export function migrateState(state) {
+  validateState(state);
+  const next = copy(state);
+  if (next.schemaVersion === 1) {
+    next.schemaVersion = 2;
+    for (const list of ['purchases', 'payments', 'incomes', 'transfers']) for (const record of next[list]) {
+      record.recordedAt = null;
+      if (list === 'payments' || list === 'incomes') record.balanceEffect = 'apply';
+      if (list === 'transfers') { record.fromBalanceEffect = 'apply'; record.toBalanceEffect = 'apply'; }
+    }
+  }
+  if (next.schemaVersion === 2) {
+    next.schemaVersion = 3;
+    for (const account of next.accounts) account.kind = 'bank';
+  }
+  return next;
+}
+
+const period = value => {
+  if (typeof value !== 'string' || !/^[0-9]{4}-(0[1-9]|1[0-2])$/.test(value) || value.startsWith('0000')) fail('VALIDATION', 'Competência deve usar AAAA-MM.', 'benefitPeriod');
+  return value;
+};
+
+// Forecasts are read-only. There is no timer, automatic income or monthly reset.
+export function getBenefitPlan(state, accountId, competence) {
+  const account = find(state, 'accounts', accountId, 'accountId');
+  if (account.kind !== 'benefit') fail('VALIDATION', 'Escolha a carteira alimentação.', 'accountId');
+  period(competence);
+  const [year, month] = competence.split('-').map(Number);
+  const lastDay = new Date(`${competence}-01T12:00:00Z`);
+  lastDay.setUTCMonth(lastDay.getUTCMonth() + 1, 0);
+  const day = Math.min(account.creditDay, lastDay.getUTCDate());
+  return { accountId, benefitPeriod: competence, expectedDate: `${String(year).padStart(4, '0')}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`, expectedCents: account.monthlyCreditCents,
+    income: state.incomes.find(income => income.accountId === accountId && income.benefitPeriod === competence) ?? null };
+}
 
 function canonical(value) {
   if (Array.isArray(value)) return `[${value.map(canonical).join(',')}]`;
@@ -152,8 +202,7 @@ function paidOnObligation(state, obligationId) {
 function recordPayment(state, payload) {
   const paymentDate = date(payload.date, 'date');
   const account = find(state, 'accounts', payload.accountId, 'accountId');
-  if (paymentDate < account.openingDate)
-    fail('VALIDATION', 'Pagamento anterior ao saldo inicial da conta.', 'date');
+  const effect = balanceEffect(payload.balanceEffect, paymentDate, account);
   if (!Array.isArray(payload.allocations) || payload.allocations.length === 0)
     fail('VALIDATION', 'Pagamento precisa de alocação.', 'allocations');
   const seen = new Set();
@@ -168,9 +217,11 @@ function recordPayment(state, payload) {
     return { obligationId: obligation.id, amountCents };
   });
   const amountCents = safeSum(allocations.map(entry => entry.amountCents), 'allocations');
+  if (account.kind === 'benefit' && effect === 'apply' && amountCents > getAccountBalance(state, account.id))
+    fail('INSUFFICIENT_BENEFIT', 'Saldo alimentação insuficiente. Divida o pagamento ou confira o saldo e os recebimentos.', 'accountId');
   const paymentId = id(state, 'pay');
   state.payments.push({
-    id: paymentId, date: paymentDate, accountId: account.id, amountCents,
+    id: paymentId, date: paymentDate, accountId: account.id, amountCents, balanceEffect: effect,
     allocations, description: optionalText(payload.description, 'description', 160),
   });
   return paymentId;
@@ -182,6 +233,20 @@ function selectedMarket(state, marketId, requireOpen = false) {
   return market;
 }
 
+function payPurchase(state, payload, outcome, totalCents, description) {
+  if (payload.payments !== undefined) {
+    if (payload.accountId != null || !Array.isArray(payload.payments) || payload.payments.length !== 2) fail('VALIDATION', 'Informe duas origens para dividir o pagamento.', 'payments');
+    const accounts = payload.payments.map(part => find(state, 'accounts', assertObject(part, 'payments').accountId));
+    if (accounts[0].id === accounts[1].id || !accounts.some(a => a.kind === 'benefit') || !accounts.some(a => a.kind === 'bank')) fail('VALIDATION', 'Divida entre alimentação e uma conta bancária diferente.', 'payments');
+    if (safeSum(payload.payments.map(part => cents(part.amountCents, 'payments.amountCents')), 'payments') !== totalCents) fail('VALIDATION', 'As partes do pagamento devem somar o total exato da compra.', 'payments');
+    const paymentIds = payload.payments.map(part => recordPayment(state, { ...part, date: payload.date, description, allocations: [{ obligationId: outcome.obligationIds[0], amountCents: part.amountCents }] }));
+    return { paymentId: null, paymentIds };
+  }
+  const paymentId = payload.accountId == null ? null : recordPayment(state, { date: payload.date, accountId: payload.accountId, balanceEffect: payload.balanceEffect, description,
+    allocations: [{ obligationId: outcome.obligationIds[0], amountCents: totalCents }] });
+  return { paymentId };
+}
+
 function run(state, type, payload) {
   switch (type) {
     case 'account.create': {
@@ -189,7 +254,10 @@ function run(state, type, payload) {
         id: id(state, 'account'), name: text(payload.name, 'name', 80),
         openingBalanceCents: cents(payload.openingBalanceCents, 'openingBalanceCents', true, true),
         openingDate: date(payload.openingDate, 'openingDate'),
+        kind: payload.kind ?? 'bank',
       };
+      if (!['bank', 'benefit'].includes(account.kind)) fail('VALIDATION', 'Tipo de conta inválido.', 'kind');
+      if (account.kind === 'benefit') { account.monthlyCreditCents = 69000; account.creditDay = 30; }
       state.accounts.push(account);
       return { accountId: account.id };
     }
@@ -270,15 +338,7 @@ function run(state, type, payload) {
       }, 'market', market.id);
       market.status = 'closed';
       market.purchaseId = outcome.purchaseId;
-      let paymentId = null;
-      if (payload.accountId != null) {
-        paymentId = recordPayment(state, {
-          date: payload.date, accountId: payload.accountId,
-          allocations: [{ obligationId: outcome.obligationIds[0], amountCents: totalCents }],
-          description: `Mercado · ${market.name}`,
-        });
-      }
-      return { marketId: market.id, ...outcome, paymentId };
+      return { marketId: market.id, ...outcome, ...payPurchase(state, payload, outcome, totalCents, `Mercado · ${market.name}`) };
     }
     case 'market.reuse': {
       const previous = selectedMarket(state, payload.marketId);
@@ -322,23 +382,21 @@ function run(state, type, payload) {
         date: payload.date, totalCents: amountCents, description,
         lines: [{ description, amountCents }],
       }, 'expense');
-      const paymentId = payload.accountId == null ? null : recordPayment(state, {
-        date: payload.date, accountId: payload.accountId,
-        allocations: [{ obligationId: outcome.obligationIds[0], amountCents }],
-        description,
-      });
-      return { ...outcome, paymentId };
+      return { ...outcome, ...payPurchase(state, payload, outcome, amountCents, description) };
     }
+    case 'benefit.confirm':
     case 'income.record': {
       const account = find(state, 'accounts', payload.accountId, 'accountId');
+      if ((type === 'benefit.confirm') !== (account.kind === 'benefit')) fail('VALIDATION', 'Use a confirmação mensal para o cartão alimentação e receita para a conta bancária.', 'accountId');
+      const benefitPeriod = type === 'benefit.confirm' ? period(payload.benefitPeriod) : null;
+      if (benefitPeriod && state.incomes.some(income => income.accountId === account.id && income.benefitPeriod === benefitPeriod)) fail('ALREADY_CONFIRMED', 'O recebimento desta competência já foi confirmado nesta carteira.', 'benefitPeriod');
       const incomeDate = date(payload.date, 'date');
-      if (incomeDate < account.openingDate)
-        fail('VALIDATION', 'Receita anterior ao saldo inicial da conta.', 'date');
       const income = {
         id: id(state, 'income'), date: incomeDate,
         description: text(payload.description, 'description', 160),
         amountCents: cents(payload.amountCents, 'amountCents'),
-        accountId: account.id,
+        accountId: account.id, balanceEffect: balanceEffect(payload.balanceEffect, incomeDate, account),
+        ...(benefitPeriod ? { benefitPeriod } : {}),
       };
       state.incomes.push(income);
       return { incomeId: income.id };
@@ -346,17 +404,30 @@ function run(state, type, payload) {
     case 'transfer.record': {
       const from = find(state, 'accounts', payload.fromAccountId, 'fromAccountId');
       const to = find(state, 'accounts', payload.toAccountId, 'toAccountId');
+      if (from.kind === 'benefit' || to.kind === 'benefit') fail('VALIDATION', 'Transferências usam contas bancárias. Confirme recebimentos e pagamentos na carteira alimentação.', 'accountId');
       if (from.id === to.id) fail('VALIDATION', 'Transferência exige contas diferentes.', 'toAccountId');
       const transferDate = date(payload.date, 'date');
-      if (transferDate < from.openingDate || transferDate < to.openingDate)
-        fail('VALIDATION', 'Transferência anterior ao saldo inicial de uma das contas.', 'date');
       const transfer = {
         id: id(state, 'transfer'), date: transferDate,
         fromAccountId: from.id, toAccountId: to.id,
         amountCents: cents(payload.amountCents, 'amountCents'),
+        fromBalanceEffect: balanceEffect(payload.fromBalanceEffect, transferDate, from, 'fromBalanceEffect'),
+        toBalanceEffect: balanceEffect(payload.toBalanceEffect, transferDate, to, 'toBalanceEffect'),
       };
       state.transfers.push(transfer);
       return { transferId: transfer.id };
+    }
+    case 'balance-effect.update': {
+      if (!['payments', 'incomes', 'transfers'].includes(payload.collection)) fail('VALIDATION', 'Tipo de movimento inválido.', 'collection');
+      const record = find(state, payload.collection, payload.recordId, 'recordId');
+      const reason = text(payload.reason, 'reason', 160);
+      const fields = payload.collection === 'transfers' ? ['fromBalanceEffect', 'toBalanceEffect'] : ['balanceEffect'];
+      const before = Object.fromEntries(fields.map(field => [field, record[field]]));
+      for (const field of fields) {
+        const accountId = field === 'fromBalanceEffect' ? record.fromAccountId : field === 'toBalanceEffect' ? record.toAccountId : record.accountId;
+        record[field] = balanceEffect(payload[field], record.date, find(state, 'accounts', accountId), field);
+      }
+      return { collection: payload.collection, recordId: record.id, before, after: Object.fromEntries(fields.map(field => [field, record[field]])), reason };
     }
     default: fail('UNKNOWN_COMMAND', `Comando não suportado: ${type}.`, 'type');
   }
@@ -378,14 +449,19 @@ export function applyCommand(state, command) {
       fail('IDEMPOTENCY_CONFLICT', 'Esta chave já foi usada com dados diferentes.', 'idempotencyKey');
     return state;
   }
-  const next = copy(state);
+  const next = migrateState(state);
   const result = run(next, type, payload);
+  const timestamp = recordedAt(command.occurredAt);
+  for (const [list, key] of [['purchases', 'purchaseId'], ['payments', 'paymentId'], ['incomes', 'incomeId'], ['transfers', 'transferId']]) {
+    if (result[key]) find(next, list, result[key]).recordedAt = timestamp;
+  }
+  for (const paymentId of result.paymentIds ?? []) find(next, 'payments', paymentId).recordedAt = timestamp;
   next.revision += 1;
   const auditId = id(next, 'event');
   next.audit.push({
     id: auditId, revision: next.revision, type, recordIds: result,
     idempotencyKey: key, actor: 'owner', origin: 'ui',
-    occurredAt: command.occurredAt ?? null,
+    occurredAt: timestamp, ...(state.schemaVersion !== next.schemaVersion ? { previousSchema: state.schemaVersion } : {}),
   });
   if (key) next.operations[key] = { signature, revision: next.revision, result };
   validateState(next);
@@ -394,10 +470,10 @@ export function applyCommand(state, command) {
 
 export function getAccountBalance(state, accountId) {
   const account = find(state, 'accounts', accountId, 'accountId');
-  const income = safeSum(state.incomes.filter(value => value.accountId === accountId).map(value => value.amountCents), 'income');
-  const outgoing = safeSum(state.payments.filter(value => value.accountId === accountId).map(value => value.amountCents), 'payments');
-  const incomingTransfers = safeSum(state.transfers.filter(value => value.toAccountId === accountId).map(value => value.amountCents), 'transfers');
-  const outgoingTransfers = safeSum(state.transfers.filter(value => value.fromAccountId === accountId).map(value => value.amountCents), 'transfers');
+  const income = safeSum(state.incomes.filter(value => value.accountId === accountId && value.balanceEffect !== 'included').map(value => value.amountCents), 'income');
+  const outgoing = safeSum(state.payments.filter(value => value.accountId === accountId && value.balanceEffect !== 'included').map(value => value.amountCents), 'payments');
+  const incomingTransfers = safeSum(state.transfers.filter(value => value.toAccountId === accountId && value.toBalanceEffect !== 'included').map(value => value.amountCents), 'transfers');
+  const outgoingTransfers = safeSum(state.transfers.filter(value => value.fromAccountId === accountId && value.fromBalanceEffect !== 'included').map(value => value.amountCents), 'transfers');
   return safeSum([account.openingBalanceCents, income, incomingTransfers, -outgoing, -outgoingTransfers], 'balance');
 }
 
@@ -411,13 +487,14 @@ export function getSummary(state) {
   validateState(state);
   const acquiredCents = safeSum(state.purchases.map(value => value.totalCents), 'purchases');
   const paidCents = safeSum(state.payments.map(value => value.amountCents), 'payments');
-  const incomeCents = safeSum(state.incomes.map(value => value.amountCents), 'incomes');
+  const incomeCents = safeSum(state.incomes.filter(value => find(state, 'accounts', value.accountId).kind !== 'benefit').map(value => value.amountCents), 'incomes');
   const balances = state.accounts.map(account => ({ ...account, balanceCents: getAccountBalance(state, account.id) }));
   const unboughtItems = state.items.filter(item => !state.purchases.some(purchase => purchase.lines.some(line => line.itemId === item.id)));
   const plannedCents = safeSum(unboughtItems.filter(item => item.estimateCents !== null).map(item => item.estimateCents), 'items.estimateCents');
   return {
     acquiredCents, paidCents, openCents: acquiredCents - paidCents,
-    incomeCents, balanceCents: balances.length ? safeSum(balances.map(account => account.balanceCents), 'balances') : null,
+    incomeCents, balanceCents: balances.some(a => a.kind !== 'benefit') ? safeSum(balances.filter(a => a.kind !== 'benefit').map(account => account.balanceCents), 'balances') : null,
+    benefitBalanceCents: balances.some(a => a.kind === 'benefit') ? safeSum(balances.filter(a => a.kind === 'benefit').map(a => a.balanceCents), 'benefitBalances') : null,
     plannedCents, plannedHasUnknown: unboughtItems.some(item => item.estimateCents === null),
     accounts: balances,
     activeMarkets: state.markets.filter(market => market.status === 'open').length,
@@ -437,14 +514,14 @@ export function getPeriodSummary(state, period) {
     paidCents: safeSum(state.payments.filter(payment => inPeriod(payment.date)).map(payment => payment.amountCents), 'payments'),
     dueCents: safeSum(due.map(obligation => obligation.amountCents), 'obligations'),
     openDueCents: safeSum(due.map(obligation => getObligationBalance(state, obligation.id).openCents), 'obligations'),
-    incomeCents: safeSum(state.incomes.filter(income => inPeriod(income.date)).map(income => income.amountCents), 'incomes'),
+    incomeCents: safeSum(state.incomes.filter(income => inPeriod(income.date) && find(state, 'accounts', income.accountId).kind !== 'benefit').map(income => income.amountCents), 'incomes'),
   };
 }
 
 // Validate imported snapshots as well as command outcomes. Corrupt backups must fail closed.
 export function validateState(state) {
   assertObject(state, 'state');
-  if (state.schemaVersion !== SCHEMA_VERSION) fail('SCHEMA', 'Versão de dados incompatível.', 'schemaVersion');
+  if (![1, 2, SCHEMA_VERSION].includes(state.schemaVersion)) fail('SCHEMA', 'Versão de dados incompatível.', 'schemaVersion');
   if (!Number.isSafeInteger(state.revision) || state.revision < 0) fail('SCHEMA', 'revision inválida.', 'revision');
   if (!Number.isSafeInteger(state.nextId) || state.nextId < 1) fail('SCHEMA', 'nextId inválido.', 'nextId');
   for (const list of LISTS) if (!Array.isArray(state[list])) fail('SCHEMA', `${list} deve ser uma lista.`, list);
@@ -474,6 +551,13 @@ export function validateState(state) {
   for (const account of state.accounts) {
     text(account.name, 'accounts.name', 80); cents(account.openingBalanceCents, 'accounts.openingBalanceCents', true, true);
     date(account.openingDate, 'accounts.openingDate');
+    if (state.schemaVersion < 3 && ['kind', 'monthlyCreditCents', 'creditDay'].some(key => Object.hasOwn(account, key))) fail('SCHEMA', 'Carteiras exigem dados na versão 3.', 'schemaVersion');
+    if (state.schemaVersion === 3) {
+      if (!['bank', 'benefit'].includes(account.kind)) fail('SCHEMA', 'Tipo de conta inválido.', 'accounts.kind');
+      if (account.kind === 'benefit') {
+        if (account.monthlyCreditCents !== 69000 || account.creditDay !== 30 || account.openingBalanceCents < 0) fail('SCHEMA', 'Previsão ou saldo alimentação inválido.', 'accounts');
+      } else if (Object.hasOwn(account, 'monthlyCreditCents') || Object.hasOwn(account, 'creditDay')) fail('SCHEMA', 'Conta bancária com previsão de benefício.', 'accounts');
+    }
   }
   for (const room of state.rooms) text(room.name, 'rooms.name', 80);
   for (const project of state.projects) {
@@ -523,7 +607,7 @@ export function validateState(state) {
   for (const payment of state.payments) {
     if (!has('accounts', payment.accountId)) fail('SCHEMA', 'Conta do pagamento ausente.', 'payments.accountId');
     date(payment.date, 'payments.date'); cents(payment.amountCents, 'payments.amountCents');
-    if (payment.date < find(state, 'accounts', payment.accountId).openingDate)
+    if (state.schemaVersion === 1 && payment.date < find(state, 'accounts', payment.accountId).openingDate)
       fail('SCHEMA', 'Pagamento anterior ao saldo inicial.', 'payments.date');
     if (!Array.isArray(payment.allocations) || !payment.allocations.length ||
         safeSum(payment.allocations.map(allocation => cents(allocation.amountCents, 'allocations.amountCents')), 'allocations') !== payment.amountCents)
@@ -555,18 +639,41 @@ export function validateState(state) {
       if (typeof entry.inCart !== 'boolean') fail('SCHEMA', 'Estado de carrinho inválido.', 'markets.entries.inCart');
     }
   }
+  const confirmedPeriods = new Set();
   for (const income of state.incomes) {
     if (!has('accounts', income.accountId)) fail('SCHEMA', 'Conta da receita ausente.', 'incomes.accountId');
     date(income.date, 'incomes.date'); text(income.description, 'incomes.description', 160); cents(income.amountCents, 'incomes.amountCents');
-    if (income.date < find(state, 'accounts', income.accountId).openingDate)
+    const account = find(state, 'accounts', income.accountId);
+    if (state.schemaVersion === 3 && account.kind === 'benefit') {
+      const key = `${account.id}:${period(income.benefitPeriod)}`;
+      if (confirmedPeriods.has(key)) fail('SCHEMA', 'Recebimento mensal duplicado.', 'incomes.benefitPeriod');
+      confirmedPeriods.add(key);
+    } else if (Object.hasOwn(income, 'benefitPeriod')) fail('SCHEMA', 'Competência alimentação exige carteira na versão 3.', 'incomes.benefitPeriod');
+    if (state.schemaVersion === 1 && income.date < find(state, 'accounts', income.accountId).openingDate)
       fail('SCHEMA', 'Receita anterior ao saldo inicial.', 'incomes.date');
   }
   for (const transfer of state.transfers) {
     if (!has('accounts', transfer.fromAccountId) || !has('accounts', transfer.toAccountId) || transfer.fromAccountId === transfer.toAccountId)
       fail('SCHEMA', 'Contas da transferência inválidas.', 'transfers');
     date(transfer.date, 'transfers.date'); cents(transfer.amountCents, 'transfers.amountCents');
-    if (transfer.date < find(state, 'accounts', transfer.fromAccountId).openingDate || transfer.date < find(state, 'accounts', transfer.toAccountId).openingDate)
+    if ([transfer.fromAccountId, transfer.toAccountId].some(id => find(state, 'accounts', id).kind === 'benefit')) fail('SCHEMA', 'Carteira alimentação não participa de transferências bancárias.', 'transfers');
+    if (state.schemaVersion === 1 && (transfer.date < find(state, 'accounts', transfer.fromAccountId).openingDate || transfer.date < find(state, 'accounts', transfer.toAccountId).openingDate))
       fail('SCHEMA', 'Transferência anterior ao saldo inicial.', 'transfers.date');
+  }
+  for (const list of ['purchases', 'payments', 'incomes', 'transfers']) for (const record of state[list]) {
+    if (state.schemaVersion === 1) {
+      if (['balanceEffect', 'fromBalanceEffect', 'toBalanceEffect'].some(field => Object.hasOwn(record, field))) fail('SCHEMA', 'Efeito no saldo exige dados na versão 2.', 'schemaVersion');
+    } else {
+      if (!Object.hasOwn(record, 'recordedAt')) fail('SCHEMA', 'Data de registro ausente.', 'recordedAt');
+      recordedAt(record.recordedAt);
+      if (list === 'payments' || list === 'incomes') balanceEffect(record.balanceEffect, record.date, find(state, 'accounts', record.accountId));
+      if (list === 'transfers') {
+        balanceEffect(record.fromBalanceEffect, record.date, find(state, 'accounts', record.fromAccountId), 'fromBalanceEffect');
+        balanceEffect(record.toBalanceEffect, record.date, find(state, 'accounts', record.toAccountId), 'toBalanceEffect');
+      }
+      const fields = list === 'transfers' ? ['fromBalanceEffect', 'toBalanceEffect'] : list === 'purchases' ? [] : ['balanceEffect'];
+      if (fields.some(field => !['apply', 'included'].includes(record[field]))) fail('SCHEMA', 'Efeito no saldo inválido.', 'balanceEffect');
+    }
   }
   for (const [key, operation] of Object.entries(state.operations)) {
     text(key, 'operations.key', 160); assertObject(operation, 'operations.value');
@@ -589,5 +696,7 @@ export function validateState(state) {
   safeSum(state.incomes.map(record => record.amountCents), 'incomes.total');
   safeSum(state.items.filter(record => record.estimateCents != null).map(record => record.estimateCents), 'items.total');
   safeSum(state.accounts.map(account => getAccountBalance(state, account.id)), 'accounts.total');
+  for (const isBenefit of [true, false]) safeSum(state.accounts.filter(a => (a.kind === 'benefit') === isBenefit).map(a => getAccountBalance(state, a.id)), 'accounts.kindTotal');
+  for (const account of state.accounts.filter(a => a.kind === 'benefit')) if (getAccountBalance(state, account.id) < 0) fail('INSUFFICIENT_BENEFIT', 'Saldo alimentação insuficiente. Divida o pagamento ou confira o saldo e os recebimentos.', 'accounts');
   return state;
 }

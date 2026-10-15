@@ -1,0 +1,18 @@
+{
+  "release": "0.3.6",
+  "engine": "Chromium",
+  "syntheticOnly": true,
+  "physicalS23": false,
+  "previewNoWrite": true,
+  "salaryAddsCents": 50000,
+  "includedExpenseDebitsCents": 0,
+  "transferIndependentReferences": true,
+  "correctionAudited": true,
+  "finalBalances": [
+    92500,
+    120000
+  ],
+  "referenceAccountsUnchanged": true,
+  "offlineStateQueueGenerationPreserved": true,
+  "errors": []
+}

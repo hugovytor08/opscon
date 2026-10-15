@@ -1,0 +1,22 @@
+{
+  "syntheticOnly": true,
+  "previewDoesNotWrite": true,
+  "editableActualCredit": true,
+  "noAutomaticCredit": true,
+  "singleCreditPerCompetence": true,
+  "separateHomeAndFinanceBalances": true,
+  "groceryOnlyBenefit": true,
+  "mixedExactCents": true,
+  "insufficientAtomic": true,
+  "backupsPreserved": true,
+  "offlineIdenticalStateQueueGeneration": true,
+  "viewports": [
+    390,
+    1280
+  ],
+  "finalBalances": {
+    "bank": 94999,
+    "benefit": 0
+  },
+  "pageErrors": []
+}

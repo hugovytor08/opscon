@@ -1,5 +1,11 @@
 # Plano de implementação — visual Samsung, apartamento e importação
 
+**Decisão posterior de acesso em 15/10:** usuário aceitou e-mail/senha nativos e dispensou nome de usuário/adaptador. Ver plano de ajustes atualizado e `../validacao/incremento-0.3.5.md`; instruções anteriores de nome de usuário abaixo são históricas.
+
+**Complemento de 15/10/2026:** consultar `plano-ajustes-2026-10-15.md` para as decisões posteriores de login por usuário/senha, retroativos, alimentação, gestão de listas e ferramentas de preços. A seleção normal de Casa passa a ser somente pela planta, com card de duas listas e sem criação de cômodos/seletores redundantes. Esse complemento atualiza a interação anterior de Mapa/Lista sempre visível; fallback textual fica para contingência/acessibilidade. Não indica implementação desses ajustes.
+
+**Atualização da imagem de Casa em 15/10:** a base escolhida agora é `docs/design/apartamento-real/estudo-visual-2026-10-15/apartamento-sem-moveis-v2.png`, sem móveis. O usuário confirmou a mesma geometria e melhoria apenas da imagem. Fontes de 14/10 e `ref-casa.png` abaixo são histórico; proveniência da v2 e conferência do registro das regiões seguem o complemento de 15/10. Integrar a base não depende da futura biblioteca de móveis reais.
+
 14/10/2026. Documento de execução solicitado pelo usuário. Este bloco prepara o trabalho de outro agente; não implementa alterações no app. O escopo visual anterior é atualizado pelas decisões desta conversa. Requisitos funcionais e dados existentes permanecem válidos, acrescidos da importação descrita aqui.
 
 ## Resultado esperado

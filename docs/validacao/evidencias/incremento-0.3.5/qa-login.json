@@ -1,0 +1,16 @@
+{
+  "release": "0.3.5",
+  "engine": "Chromium",
+  "syntheticOnly": true,
+  "physicalS23": false,
+  "emailPassword": true,
+  "genericFailure": true,
+  "otherOwnerRejected": true,
+  "recoveredSameIds": true,
+  "offlineReload": true,
+  "offlineLogoutPreservesQueue": true,
+  "reconnectCommits": 1,
+  "otpRequests": 0,
+  "secretsExcludedFromBackup": true,
+  "errors": []
+}

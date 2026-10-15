@@ -1,5 +1,15 @@
 # Matriz de aceite da V1
 
+15/10/2026 — incremento 0.3.7/BEN-01 parcial: carteira alimentação, previsão sem crédito automático, confirmação mensal única, sobras e Mercado exclusivo/misto. Domínio 3, recibos/filas 1/2 preservados. Regressão 71/71 e nova prova focada UI 2/2 aprovadas com dados sintéticos/PGlite; complementos SQL 202610150001/202610150002 e teste Supabase/S23 reais ainda pendentes. Ver `incremento-0.3.7.md`. Nenhum estado CA/RF/feature/gate promovido.
+
+15/10/2026 — incremento 0.3.6/RET-01 parcial: retroativos, efeito explícito por conta, prévia, revisão auditável e domínio 2. Regressão 57/57 e execução focada 2/2 após ajuste da prévia; servidor validado em PGlite, preservando recibos v1 e RLS. A migração 202610150001 requer aplicação manual e prova remota; S23 físico pendente. Ver `incremento-0.3.6.md`. Nenhum estado CA/RF/feature/gate promovido.
+
+15/10/2026 — incremento 0.3.5/AUT-01 parcial: por nova decisão do usuário, login nativo com e-mail/senha, recuperação PKCE separada e continuidade offline. 33/33 testes de cliente/UI/domínio/continuidade aprovados com Auth simulado; prévia real mostra o formulário. Conta/senha, cadastro fechado, recuperação Supabase e S23 reais ainda requerem conferência manual; ver `incremento-0.3.5.md`. Sem alteração de estados CA/RF/features/gates ou SQL.
+
+15/10/2026 — incremento 0.3.4/VIS-04: contraste do Mercado corrigido, incluindo listas preenchidas e concluídas, foco, 390/1280 px e reload offline. Evidências em `incremento-0.3.4.md`. Domínio/continuidade 22/22 mais teste visual/contraste 1/1 aprovados nesta execução; nenhum estado de CA/RF/feature/gate promovido. S23 físico e demais ajustes de 15/10 pendentes.
+
+15/10/2026 — `../produto/plano-ajustes-2026-10-15.md` registra as decisões de usuário/senha, retroativos, carteira alimentação, Casa simplificada e Mercado/listas/preços. É planejamento: nenhum estado de CA, RF, feature ou gate foi aprovado por esse documento. Novas tarefas rastreadas em `../produto/backlog-reformulacao.json`; versão executável 0.3.3 preservada.
+
 14/10/2026 — evidência adicional do incremento 0.3.2 em `incremento-0.3.2.md`: seis áreas no tema novo, ações rápidas com conta explícita, foco em diálogos, conferência de JSON sem escrita e shell offline. RF/CA não foram aprovados por esse bloco; IMP-01–07 e tarefas de expansão estão em `../produto/backlog-reformulacao.json`. S23 físico, correção auditável de movimentos, mapa definitivo e confirmação financeira de importação seguem pendentes.
 
 Auditoria e incremento 0.3.0 de 11/10/2026. Estados: **não implementado**, **parcial**, **implementado sem validação completa**, **aprovado**. Nenhum CA foi aprovado nesta sessão. Protótipo aprovado e teste de domínio isolado não liberam o requisito integrado. G-A, G-B, G-V1 e G-P permanecem abertos.
@@ -48,6 +58,6 @@ Evidências reproduzíveis: `npm run check`; `npm test` (domínio, Auth/PKCE sim
 
 ## Cobertura RF e pendências
 
-RF-01/02/03/04/05/07/09/14/16/18/19/20 têm implementação e testes parciais indicados acima; RF-12/13/17 têm estrutura parcial de linhas/vínculos e faltam agregações completas. RF-06/10/11/15 não têm implementação funcional. RF-08 evita hoje saldo inventado, mas cartão/receita prevista ainda não existem para o ensaio completo. Não considerar uma RF aprovada porque o recurso correspondente está ausente.
+RF-01/02/03/04/05/07/09/14/16/18/19/20 têm implementação e testes parciais indicados acima; RF-12/13/17 têm estrutura parcial de linhas/vínculos e faltam agregações completas. RF-06/10/11/15 não têm implementação funcional. RF-08 evita saldo inventado; alimentação tem previsão e confirmação local em 0.3.7, com prova hospedada/física pendente. Cartão de crédito/fatura (AB-02) ainda falta para o ensaio completo. Não considerar uma RF aprovada porque o recurso correspondente está ausente.
 
 Próximo bloco crítico: validar 0.3.0 em projeto Supabase de teste e terminar as políticas/modelo A, sobretudo AB-02 (cartão/fatura). Publicação/aceite continuam após A/B/C e F016. F019 permanece em D, F020 fora da V1.

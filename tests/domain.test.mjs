@@ -15,7 +15,7 @@ test('estado inicial não inventa contas, compras ou saldo', () => {
   assert.equal(validateState(state), state);
   assert.deepEqual(getSummary(state), {
     acquiredCents: 0, paidCents: 0, openCents: 0, incomeCents: 0,
-    balanceCents: null, plannedCents: 0, plannedHasUnknown: false,
+    balanceCents: null, benefitBalanceCents: null, plannedCents: 0, plannedHasUnknown: false,
     accounts: [], activeMarkets: 0, openTasks: 0,
   });
 });

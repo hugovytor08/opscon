@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "id": "vis-item-fogao-suggar-001",
+  "name": "Fogão preto Suggar Best Cook — quatro bocas",
+  "artifactType": "illustrated_object_sprite",
+  "status": "visual_approved_by_user",
+  "visualApprovalEvidence": "Usuário afirmou que a extração ficou excelente e pediu colocação editável na planta.",
+  "tool": "image_gen built-in",
+  "image": "fogao-frente-direita-v2.png",
+  "prompt": "prompt-v2.txt",
+  "sha256": "e626b9b79c86fbdd4b24e9dd8979818351ca9155d4d38908436ac873d1156971",
+  "pixels": {
+    "width": 1170,
+    "height": 1344
+  },
+  "alpha": {
+    "realTransparency": true,
+    "fullyTransparentPixels": 798238,
+    "partiallyTransparentPixels": 773682,
+    "fullyOpaquePixels": 560,
+    "nearOpaquePixelsAlphaAtLeast250": 750883,
+    "borderMaxAlpha": 1,
+    "visibleBounds": {
+      "left": 171,
+      "top": 29,
+      "right": 992,
+      "bottom": 1331
+    },
+    "note": "Alfa entregue pelo gerador preservado; corpo predominantemente em 252–253/255 e resíduos de até 1/255 na borda."
+  },
+  "sources": [
+    {
+      "file": "fontes/frontal.jpg",
+      "sha256": "0b8b172cd391ca8dfdcfe0cdcf6c92976aced54f419f83187a04c594202ec491"
+    },
+    {
+      "file": "fontes/superior.jpg",
+      "sha256": "d4388abaa2a340d36d98e737fbc1c8585b93ff92ab3604338308afd73159fa01"
+    }
+  ],
+  "styleReference": "../../estudo-visual-2026-10-15/apartamento-sem-moveis-v2.png",
+  "styleReferenceSha256": "8cff27b8892ae51cf679b6aed5fd8648d19420e95eb652224ad6a82456fe579d",
+  "orientation": "frente e lateral direita; vista elevada",
+  "availableOrientations": 1,
+  "camera": {
+    "guideElevationDegrees": 60,
+    "guideAzimuthDegrees": 20,
+    "projection": "orthographic_reference",
+    "rasterCorrespondence": "aproximada, conferida visualmente"
+  },
+  "physicalDimensionsCm": null,
+  "assignedRoomId": null,
+  "floorAnchor": {
+    "status": "approximate_for_local_editor",
+    "normalized": [0.5, 0.7]
+  },
+  "editorIntegration": "local_furniture_editor",
+  "visualReview": {
+    "burners": 4,
+    "knobsOnHorizontalCooktop": 5,
+    "curvedSilverHandle": true,
+    "blackGlassOvenDoor": true,
+    "shortBlackFeet": true,
+    "visibleExtraObjects": 0,
+    "notes": "Câmera elevada na v2. Lateral inferida de forma conservadora; traseira não reconstruída. Textos pequenos ilustrativos."
+  },
+  "limitations": [
+    "Raster com aparência tridimensional; não contém malha 3D.",
+    "Medidas não fornecidas; escala relativa ajustável em etapa posterior.",
+    "Outras orientações, registro no piso e oclusão pelas paredes pendentes."
+  ]
+}

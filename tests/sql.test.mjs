@@ -15,6 +15,8 @@ test('migração PostgreSQL: RLS, recibos, conflito e integridade atômica', asy
       grant usage on schema auth, public to authenticated, anon;
       insert into auth.users values ('${ownerA}'), ('${ownerB}');`);
     await db.exec(await readFile(new URL('../supabase/migrations/202610110001_continuity.sql', import.meta.url), 'utf8'));
+    await db.exec(await readFile(new URL('../supabase/migrations/202610150001_retroactive.sql', import.meta.url), 'utf8'));
+    await db.exec(await readFile(new URL('../supabase/migrations/202610150002_benefit.sql', import.meta.url), 'utf8'));
     const user = async (id, role = 'authenticated') => {
       await db.exec(`reset role; set role ${role}`);
       await db.query("select set_config('request.jwt.claim.sub', $1, false)", [id]);

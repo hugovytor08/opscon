@@ -14,7 +14,7 @@ export function validateConfig(config) {
   }
   if (!allowed) throw new DomainError('REMOTE_CONFIG', 'Use somente chave pública publishable ou anon. Chaves privilegiadas são proibidas no app.');
   const authMode = config.authMode ?? 'code';
-  if (!['code', 'magic-link'].includes(authMode)) throw new DomainError('REMOTE_CONFIG', 'Modo de autenticação inválido.');
+  if (!['code', 'magic-link', 'password'].includes(authMode)) throw new DomainError('REMOTE_CONFIG', 'Modo de autenticação inválido.');
   return { url: url.origin, publishableKey: key, authMode };
 }
 
@@ -47,10 +47,15 @@ export class SupabaseClient {
     let value;
     try { value = await response.json(); } catch { value = null; }
     if (!response.ok) {
+      if (response.status === 429) throw new DomainError('REMOTE_LIMIT', 'Muitas tentativas. Aguarde antes de tentar novamente.');
+      if (path === '/auth/v1/token?grant_type=password' && [400, 401, 403, 422].includes(response.status))
+        throw new DomainError('AUTH_CREDENTIALS', 'Não foi possível entrar. Confira o e-mail e a senha.');
+      if (path === '/auth/v1/user' && method === 'PUT' && [400, 422].includes(response.status))
+        throw new DomainError('AUTH_PASSWORD', 'A senha não foi aceita. Use uma senha diferente que atenda às regras da sua conta.');
       if (value?.code === 'CS409') throw new DomainError('REMOTE_CONFLICT', 'A versão remota mudou. As duas cópias serão preservadas.');
       if (value?.code === 'CS422') throw new DomainError('IDEMPOTENCY_CONFLICT', 'O servidor rejeitou a reutilização de uma operação com dados diferentes.');
+      if (value?.code === 'CS426') throw new DomainError('REMOTE_SCHEMA', 'Os dados usam uma versão mais recente. Atualize o aplicativo antes de sincronizar.');
       if (response.status === 401 || response.status === 403) throw new DomainError('AUTH', 'Sua sessão precisa ser renovada. Entre novamente na mesma conta.');
-      if (response.status === 429) throw new DomainError('REMOTE_LIMIT', 'Limite temporário do servidor. Tente novamente mais tarde.');
       throw new DomainError('REMOTE_ERROR', 'O servidor não confirmou a operação. A cópia local foi preservada.');
     }
     return value;
@@ -60,7 +65,26 @@ export class SupabaseClient {
     await this.request('/auth/v1/otp', { method: 'POST', body: { email, create_user: false } });
   }
   async sendLink(email, redirectUrl) {
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new DomainError('VALIDATION', 'Informe seu e-mail.');
+    return this.sendAccessEmail(email, redirectUrl, false);
+  }
+  async recoverPassword(email, redirectUrl) {
+    return this.sendAccessEmail(email, redirectUrl, true);
+  }
+  async signInWithPassword(email, password, expectedOwnerId = null) {
+    email = String(email).trim();
+    if (email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new DomainError('VALIDATION', 'Informe seu e-mail.');
+    if (typeof password !== 'string' || !password.length || password.length > 1024) throw new DomainError('VALIDATION', 'Informe sua senha.');
+    const session = await this.request('/auth/v1/token?grant_type=password', { method: 'POST', body: { email, password } });
+    if (expectedOwnerId && session?.user?.id !== expectedOwnerId)
+      throw new DomainError('AUTH_OWNER', 'Entre na mesma conta já vinculada a este aparelho. Seus registros foram preservados.');
+    const saved = this.saveSession(session);
+    this.storage.removeItem(`${this.sessionKey}:pkce`);
+    this.storage.removeItem(`${this.sessionKey}:recovery`);
+    return saved;
+  }
+  async sendAccessEmail(email, redirectUrl, recovery) {
+    email = String(email).trim();
+    if (email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new DomainError('VALIDATION', 'Informe seu e-mail.');
     const url = new URL(redirectUrl);
     if (url.protocol !== 'https:' && !(url.protocol === 'http:' && ['127.0.0.1','localhost'].includes(url.hostname)))
       throw new DomainError('AUTH_REDIRECT', 'O acesso requer HTTPS ou a prévia local segura.');
@@ -68,14 +92,31 @@ export class SupabaseClient {
     const encode = bytes => btoa(String.fromCharCode(...bytes)).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
     const verifier = encode(crypto.getRandomValues(new Uint8Array(32)));
     const challenge = encode(new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(verifier))));
-    this.storage.setItem(`${this.sessionKey}:pkce`, JSON.stringify({ verifier, expiresAt: Date.now() + 3600000 }));
-    await this.request(`/auth/v1/otp?redirect_to=${encodeURIComponent(url.href)}`, { method: 'POST', body: { email, create_user: false, code_challenge: challenge, code_challenge_method: 's256' } });
+    this.storage.setItem(`${this.sessionKey}:pkce`, JSON.stringify({ verifier, recovery, expiresAt: Date.now() + 3600000 }));
+    await this.request(`/auth/v1/${recovery ? 'recover' : 'otp'}?redirect_to=${encodeURIComponent(url.href)}`, { method: 'POST', body: { email, ...(!recovery ? { create_user: false } : {}), code_challenge: challenge, code_challenge_method: 's256' } });
   }
-  async exchangeCode(code) {
+  hasPasswordRecovery() {
+    try {
+      const pending = JSON.parse(this.storage.getItem(`${this.sessionKey}:recovery`) ?? 'null');
+      return !!pending && pending.expiresAt > Date.now() && pending.userId === this.readSession()?.user.id;
+    } catch { return false; }
+  }
+  async updatePassword(password) {
+    if (!this.hasPasswordRecovery()) throw new DomainError('AUTH_LINK', 'Solicite a recuperação de senha novamente neste navegador.');
+    if (typeof password !== 'string' || password.length < 8 || password.length > 1024) throw new DomainError('VALIDATION', 'Use uma senha de 8 a 1024 caracteres.');
+    const session = await this.session();
+    const user = await this.request('/auth/v1/user', { method: 'PUT', token: session.access_token, body: { password } });
+    if (user?.id !== session.user.id) throw new DomainError('AUTH_PROTOCOL', 'Não foi possível confirmar a identidade da conta. Entre novamente.');
+    this.storage.removeItem(`${this.sessionKey}:recovery`);
+  }
+  async exchangeCode(code, expectedOwnerId = null) {
     let pending;
     try { pending = JSON.parse(this.storage.getItem(`${this.sessionKey}:pkce`) ?? 'null'); } catch { pending = null; }
     if (!pending?.verifier || pending.expiresAt < Date.now()) throw new DomainError('AUTH_LINK', 'Abra o link no mesmo navegador onde pediu acesso. Se expirou, solicite outro link.');
-    const saved = this.saveSession(await this.request('/auth/v1/token?grant_type=pkce', { method: 'POST', body: { auth_code: code, code_verifier: pending.verifier } }));
+    const session = await this.request('/auth/v1/token?grant_type=pkce', { method: 'POST', body: { auth_code: code, code_verifier: pending.verifier } });
+    if (expectedOwnerId && session?.user?.id !== expectedOwnerId) throw new DomainError('AUTH_OWNER', 'A recuperação deve usar a mesma conta já vinculada a este aparelho.');
+    const saved = this.saveSession(session);
+    if (pending.recovery) this.storage.setItem(`${this.sessionKey}:recovery`, JSON.stringify({ userId: saved.user.id, expiresAt: Date.now() + 900000 }));
     this.storage.removeItem(`${this.sessionKey}:pkce`);
     return saved;
   }
@@ -97,7 +138,7 @@ export class SupabaseClient {
   async signOut() {
     const token = this.readSession()?.access_token;
     try { if (token) await this.request('/auth/v1/logout?scope=local', { method: 'POST', token }); }
-    finally { this.storage.removeItem(this.sessionKey); this.storage.removeItem(`${this.sessionKey}:pkce`); }
+    finally { this.storage.removeItem(this.sessionKey); this.storage.removeItem(`${this.sessionKey}:pkce`); this.storage.removeItem(`${this.sessionKey}:recovery`); }
   }
   async read(session) {
     const rows = await this.request('/rest/v1/casa_snapshots?select=remote_revision,state,updated_at', { token: session.access_token });

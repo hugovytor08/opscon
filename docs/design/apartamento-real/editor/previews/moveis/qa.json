@@ -1,0 +1,44 @@
+{
+  "checks": [
+    "base vazia aprovada e biblioteca com o fogão; adição independente",
+    "arraste real por mouse move somente o objeto",
+    "alça redimensiona mantendo âncora e proporção",
+    "setas de ajuste, desfazer e refazer",
+    "objeto acessível por foco e setas do teclado",
+    "roda amplia e arraste do fundo navega sem mudar objetos",
+    "duplicar e remover são recuperáveis",
+    "recarga offline recupera projeto em IndexedDB própria; armazenamento alheio preservado",
+    "Baixar/Abrir projeto conserva posição, tamanho, IDs e objetos",
+    "importação inválida ou externa é rejeitada sem substituir o projeto",
+    "PNG transparente entra na biblioteca e acompanha o JSON para outro navegador limpo",
+    "PNG exportado tem base e móveis compostos, sem depender de rede",
+    "parede à frente oculta parte do móvel; modo livre remove o recorte",
+    "arraste com toque real em viewport móvel",
+    "pinça com dois dedos amplia sem arrastar um móvel por engano",
+    "360/390/412 px sem overflow; controles e planta disponíveis",
+    "falha de gravação avisada; projeto em memória continua exportável",
+    "editor de cômodos continua abrindo com oito ambientes e acesso à aba nova"
+  ],
+  "passed": 18,
+  "errors": [],
+  "network": [],
+  "layouts": [
+    {
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "width": 412,
+      "overflow": false
+    }
+  ],
+  "exportedImage": {
+    "width": 1265,
+    "height": 1243,
+    "changedPixels": 21653
+  }
+}

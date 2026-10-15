@@ -1,4 +1,4 @@
-import { createInitialState, DomainError, validateState } from './domain.js';
+import { createInitialState, DomainError, validateState, migrateState } from './domain.js';
 
 const DB_NAME = 'casa-serena';
 const DB_VERSION = 2;
@@ -79,6 +79,7 @@ export async function saveState(state, expectedRevision = Math.max(0, state.revi
   if (!Number.isSafeInteger(expectedRevision) || expectedRevision < 0) throw new DomainError('VALIDATION', 'Revisão esperada inválida.');
   return transaction('readwrite', ({ current, sync, queue, snapshots, outbox }) => {
     guard(current, expectedRevision, generation); ensureWritable(sync);
+    if (state.schemaVersion < current.state.schemaVersion) throw new DomainError('SCHEMA', 'A versão dos dados não pode regredir. Atualize o aplicativo.');
     if (state.revision !== current.state.revision + 1) throw new DomainError('STORAGE_CONFLICT', 'A revisão deve avançar exatamente uma vez.');
     snapshots.put({ key: 'current', state, generation: uuid() });
     enqueue(outbox, queue, state);
@@ -97,7 +98,7 @@ export function importBackup(json) {
   return validateState(value.state);
 }
 export async function restoreBackup(json, expectedRevision, generation) {
-  const restored = importBackup(json); checkSize(restored);
+  const restored = migrateState(importBackup(json)); checkSize(restored);
   return transaction('readwrite', ({ current, sync, queue, snapshots, outbox, recoveries }) => {
     guard(current, expectedRevision, generation); ensureWritable(sync);
     if (queue.some(entry => entry.baseRevision !== null)) throw new DomainError('SYNC_PENDING', 'Confirme o envio pendente antes de restaurar; sua resposta pode ter sido perdida.');

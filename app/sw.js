@@ -1,4 +1,4 @@
-const CACHE = 'meu-espaco-shell-v11';
+const CACHE = 'meu-espaco-shell-v15';
 const SHELL = [
   './', './index.html', './styles.css', './ui.js', './domain.js', './storage.js', './sync.js', './supabase.js', './config.js',
   './manifest.webmanifest', './icon.svg', './icon-192.png', './icon-512.png', './ui.css', './design-system.css', './dashboard.js', './import-draft.js', './import-review.js', './import-schema.js',

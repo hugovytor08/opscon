@@ -1,0 +1,39 @@
+{
+  "artifact": "apartamento-sem-moveis-v2.png",
+  "pixels": [
+    1265,
+    1243
+  ],
+  "format": "PNG",
+  "sha256": "8cff27b8892ae51cf679b6aed5fd8648d19420e95eb652224ad6a82456fe579d",
+  "tool": "image_gen built-in",
+  "prompt": "v2/prompt-v2.txt",
+  "previousVersion": "v1 rejeitada pelo usuário: alturas incoerentes e janelas parecendo painéis azuis",
+  "sourceAuthority": "planta 2D reenviada pelo usuário; traçado relativo em geometria.json",
+  "guideIntegrity": {
+    "roomsUnchanged": 8,
+    "wallsWithSingleTop": 18,
+    "windowsWithMasonrySill": 6,
+    "doors": 5,
+    "sourceSha256": "a15719bb55eb8ad0f9dd6e5d359304339bf13b9055c4862c16dc7029fff2c8e9",
+    "guideReproductionIdentical": true,
+    "openingsOnRespectiveWalls": true,
+    "referenceCopiesIdentical": true
+  },
+  "visualReview": {
+    "sameWallHeight": "conferido por continuidade dos topos, com folhas de portas abaixo da verga",
+    "slidingWindows": "seis vãos com alumínio, divisão central e peitoril de alvenaria; sem painéis junto ao piso",
+    "entranceDoor": "madeira mel, frisos horizontais/curvo, olho mágico e ferragem metálica",
+    "layout": "oito ambientes e adjacências conferidos com planta e guia",
+    "furnitureOrFixturesObserved": 0,
+    "textOrBrandingObserved": false
+  },
+  "assumptions": [
+    "Altura nominal ilustrativa de paredes em UR; não medida em campo.",
+    "Mesmo modelo de alumínio nos vãos do documento; dimensões exatas dos vãos não medidas."
+  ],
+  "userClarification": "Usuário confirmou após a geração: mesmo acabamento de alumínio, mas vãos menores no banheiro e na área de serviço. A v2 já segue essa interpretação; PNG preservado.",
+  "status": "visual_approved_by_user",
+  "visualApprovalEvidence": "Usuário: excelente trabalho! Agora sobre os móveis [...]. Aprovação de aparência; não implica levantamento métrico ou aceite integrado de CAS-01/F014.",
+  "precision": "O guia preserva coordenadas relativas da planta; o PNG é uma ilustração generativa conferida visualmente, sem garantia métrica ou de registro pixel a pixel."
+}

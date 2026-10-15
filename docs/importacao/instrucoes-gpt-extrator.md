@@ -1,5 +1,7 @@
 # Instruções para GPT/conversa — extrator de documentos do Casa Serena
 
+**Atualização de 15/10/2026:** para criar/configurar o extrator, use [prompt-unico-extrator.md](prompt-unico-extrator.md). É autocontido, com o formato completo, sem depender de schema separado ou perguntas técnicas. Trata compra resumida sem inventar produtos e nota com itens detalhados. O material abaixo fica como referência técnica histórica. O app aceita o JSON para conferência; a gravação financeira do lote ainda está pendente.
+
 Contrato proposto em 14/10/2026. O app 0.3.1 ainda não implementa esse importador. Usar estas instruções com o schema e o exemplo somente para preparar/testar a extração até a entrega do executor. A criação de um GPT personalizado depende dos recursos disponíveis na conta do usuário; uma conversa com imagens pode receber as mesmas instruções. Este documento não configura uma API nem executa integrações externas.
 
 ## Preparação pelo usuário

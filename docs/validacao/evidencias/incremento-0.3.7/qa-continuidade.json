@@ -1,0 +1,12 @@
+{
+  "syntheticOnly": true,
+  "v2InFlightPayloadUuidBasePreserved": true,
+  "oldAckDoesNotReplaceV3": true,
+  "ackVersions": [
+    2,
+    3
+  ],
+  "recoveredSameSnapshotInCleanBrowser": true,
+  "legacyBackupRestoreUpgradesWithoutProtocolRegression": true,
+  "realSupabaseVerified": false
+}

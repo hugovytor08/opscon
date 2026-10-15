@@ -1,0 +1,14 @@
+Use case: precise-object-edit. Produce a camera-corrected version of the isolated stove sprite, with real transparent alpha background.
+
+Inputs in order:
+1. EDIT TARGET: the realistic black Suggar stove sprite. Preserve its detailed identity, materials, five TOP knobs, four actual angular cast-iron grates, silver oven handle, glass oven door, small authentic branding, proportions, lower panel and chunky feet. It is currently viewed from too low an elevation.
+2. CAMERA/POSE GUIDE ONLY: simplified geometric stove. Match the exact orthographic projection of this guide, including its steeper receding depth edges and much greater visibility of the top surface. Its geometry is intentionally crude; do NOT copy its square burner blocks, missing branding, white background or simplified oven. Use image 1 and photos for all real stove details.
+3. Approved apartment: style and camera consistency only. No house or ground in the output.
+4. Real top photograph: authoritative four burners in a 2 by 2 arrangement and five rotary knobs in a row on the horizontal cooktop's front portion. Larger front-right burner. Knobs do not belong on the front fascia.
+5. Real front photograph: authoritative stove identity, curved silver handle, black glazed oven door, Best Cook fascia, small round ignition button, SUGGAR logo, lower plinth and feet.
+
+Target camera precisely: elevated ORTHOGRAPHIC view 60 degrees above the floor, looking at front and right side, yaw 20 degrees toward the right side from the front. Keep vertical edges vertical and parallel. Front edges descend toward image right at 17.5 degrees. Depth edges recede UP to image right at 67.5 degrees, much steeper than in image 1. The top face should match the near-rectangular projected quadrilateral in image 2. Do not retain the low-angle or standard 30-degree isometric view from image 1. No lens perspective.
+
+High quality realistic architectural miniature, soft diffuse illumination from upper left and restrained metallic/glass reflections consistent with image 3. Plain black side panel, no invented external controls. Keep the original appliance proportions, oven closed. Do not stretch the stove to fake a different camera. Reproject its whole shape coherently instead.
+
+One stove only, centered with clean transparent margins; entire grate, cooktop, oven and feet visible. TRUE transparent alpha outside the stove, antialiased silhouette, no white fringe. No floor, foundation slab, ground shadow, background, room, tiled square, checkerboard, other object, duplicate view, watermark, labels or added text. Output only the corrected isolated stove sprite.

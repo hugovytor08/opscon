@@ -1,7 +1,7 @@
 import { renderDashboard } from './dashboard.js';
 import { parseImportDraft, IMPORT_LIMITS } from './import-draft.js';
 import { renderImportReview } from './import-review.js';
-import { applyCommand, getSummary } from './domain.js';
+import { applyCommand, getSummary, getAccountBalance, getBenefitPlan } from './domain.js';
 import { loadLocal, saveState, exportBackup, importBackup, restoreBackup } from './storage.js';
 import { remoteConfig } from './config.js';
 import { SupabaseClient } from './supabase.js';
@@ -70,10 +70,21 @@ function payable(obligation) {
 function obligationsOpen() { return (state.obligations ?? []).filter(obligation => payable(obligation) > 0).sort((a, b) => (a.dueDate ?? '').localeCompare(b.dueDate ?? '')); }
 function itemPurchase(itemId) { return (state.purchases ?? []).find(purchase => (purchase.lines ?? []).some(line => line.itemId === itemId)); }
 function currentMarket() { return get('markets', ui.marketId) ?? [...(state.markets ?? [])].reverse().find(market => market.status !== 'closed') ?? [...(state.markets ?? [])].at(-1); }
-function accountOptions(selected = '') { return (state.accounts ?? []).map(account => `<option value="${esc(account.id)}" ${account.id === selected ? 'selected' : ''}>${esc(account.name)}</option>`).join(''); }
+const bankAccounts = () => state.accounts.filter(account => account.kind !== 'benefit');
+const benefitAccounts = () => state.accounts.filter(account => account.kind === 'benefit');
+function accountOptions(selected = '', kind = 'all') { return state.accounts.filter(a => kind === 'all' || (kind === 'bank' ? a.kind !== 'benefit' : a.kind === 'benefit')).map(account => `<option value="${esc(account.id)}" ${account.id === selected ? 'selected' : ''}>${esc(account.name)}${account.kind === 'benefit' ? ' · alimentação' : ''}</option>`).join(''); }
 function locationOptions(selected = '') { return `<option value="">Sem cômodo</option>${(state.rooms ?? []).map(room => `<option value="${esc(room.id)}" ${room.id === selected ? 'selected' : ''}>${esc(room.name)}</option>`).join('')}`; }
 function projectOptions(selected = '') { return `<option value="">Sem projeto</option>${(state.projects ?? []).map(project => `<option value="${esc(project.id)}" ${project.id === selected ? 'selected' : ''}>${esc(project.name)}</option>`).join('')}`; }
-function accountSelect(name = 'accountId') { return `<label>Conta<select class="input" name="${name}" required><option value="">Escolha a conta</option>${accountOptions()}</select></label>`; }
+function accountSelect(name = 'accountId', kind = 'all') { return `<label>Conta<select class="input" name="${name}" required><option value="">Escolha a conta</option>${accountOptions('', kind)}</select></label>`; }
+function purchasePaymentFields() {
+  return `<label>Pagamento<select class="input" name="accountId"><option value="">Ainda não pago · ficará a pagar</option>${accountOptions()}${bankAccounts().length && benefitAccounts().length ? '<option value="split">Dividir: alimentação + conta bancária</option>' : ''}</select></label><div data-split-fields hidden></div>`;
+}
+function renderBenefitWallets() {
+  return `<section class="card finance-card benefit-wallets"><div class="card-header"><h2>Cartão alimentação</h2>${button(benefitAccounts().length ? 'Outra carteira' : 'Cadastrar carteira', 'new-benefit', 'outline-button')}</div>${benefitAccounts().length ? benefitAccounts().map(account => {
+    const plan = getBenefitPlan(state, account.id, ui.month);
+    return `<div class="benefit-wallet" data-benefit-wallet="${esc(account.id)}"><div class="account-row"><strong>${esc(account.name)}</strong><strong>${brl(getAccountBalance(state, account.id))}</strong></div><p class="hint">Saldo disponível em alimentação · separado do dinheiro em conta.</p>${plan.income ? `<p>${chip('Recebimento confirmado')} ${brl(plan.income.amountCents)} · ${formatDate(plan.income.date)}</p>` : `<p>Previsto para ${formatDate(plan.expectedDate)}: <strong>${brl(plan.expectedCents)}</strong></p><p class="hint">A previsão não entra no saldo. Confirme somente depois de receber.</p>${button('Confirmar recebimento', 'confirm-benefit', 'soft-button', `data-account-id="${esc(account.id)}"`)}`}</div>`;
+  }).join('') : '<p class="muted">Cadastre o saldo que você tem hoje. Os R$ 690 mensais serão apenas previstos até você confirmar o recebimento.</p>'}</section>`;
+}
 
 function renderNav() {
   $('#desktop-nav').innerHTML = Object.keys(sections).map(section => `<button type="button" class="nav-link ${ui.section === section ? 'active' : ''}" data-nav="${section}" ${ui.section === section ? 'aria-current="page"' : ''}>${svg(icons[section])}<span>${sections[section]}</span></button>`).join('');
@@ -133,7 +144,9 @@ function downloadBackup() {
 function cloudControls() {
   if (!remote) return '<p class="hint">A configuração da conta remota está em preparação.</p>';
   const session = remote.readSession();
+  if (!session && remote.config.authMode === 'password') return `<form data-form="auth-password" class="form-grid">${field('email', 'E-mail da sua conta', 'type="email" autocomplete="username" maxlength="254" required')}${field('password', 'Senha', 'type="password" autocomplete="current-password" maxlength="1024" required')}<p data-auth-error role="alert" tabindex="-1" hidden></p>${submitActions('Entrar')}</form>${button('Esqueci minha senha', 'auth-recover', 'text-button')}<p class="hint">Use a conta já cadastrada. O primeiro acesso precisa de conexão; os registros deste aparelho continuam disponíveis offline.</p>`;
   if (!session) return `<form data-form="auth-code" class="form-grid">${field('email', 'E-mail da sua conta', 'type="email" autocomplete="email" required')}${submitActions(remote.config.authMode === 'magic-link' ? 'Receber link de acesso' : 'Receber código')}</form>`;
+  if (remote.hasPasswordRecovery()) return `<p>Seu acesso de recuperação está pronto.</p>${button('Definir nova senha', 'auth-reset')}${button('Sair da conta', 'sign-out', 'outline-button')}`;
   return `<p>Conta: <strong>${esc(session.user.email ?? '')}</strong></p>${!local?.sync.ownerId ? button('Vincular conta e recuperar dados', 'bind-cloud') : button('Sincronizar agora', 'sync-now')}${button('Sair da conta', 'sign-out', 'outline-button')}${local?.sync.conflict?.remote ? button('Revisar recuperação da nuvem', 'review-remote', 'outline-button') : ''}`;
 }
 
@@ -237,14 +250,15 @@ function renderFinance() {
   const monthControl = `<div class="month-switcher"><button type="button" data-month="-1" aria-label="Mês anterior">${svg('chevron')}</button><strong>${monthLabel(ui.month)}</strong><button type="button" data-month="1" aria-label="Próximo mês">${svg('chevron')}</button></div>`;
   const accountCard = summary.balanceCents == null
     ? `<div class="finance-metric balance"><span class="icon-disc blue">${svg('card')}</span><div><span>Saldo registrado</span><strong>Não informado</strong><small>Cadastre o saldo de uma conta para acompanhar suas finanças.</small></div>${button('Registrar saldo', 'new-account')}</div>`
-    : `<div class="finance-metric balance"><span class="icon-disc blue">${svg('card')}</span><div><span>Saldo registrado</span><strong>${brl(summary.balanceCents)}</strong><small>${summary.accounts.length} ${summary.accounts.length === 1 ? 'conta cadastrada' : 'contas cadastradas'}</small></div></div>`;
+    : `<div class="finance-metric balance"><span class="icon-disc blue">${svg('card')}</span><div><span>Dinheiro em contas</span><strong>${brl(summary.balanceCents)}</strong><small>${bankAccounts().length} conta(s) bancária(s) · alimentação separada</small></div></div>`;
   return `${heading('Finanças', 'Movimentos e compromissos em períodos claros.', monthControl)}
     <div class="finance-overview">${accountCard}<div class="finance-metric"><span class="icon-disc amber">${svg('clock')}</span><div><span>A pagar no mês</span><strong>${brl(openMonth)}</strong></div></div><div class="finance-metric"><span class="icon-disc">${svg('card')}</span><div><span>Pago no mês</span><strong>${brl(paidMonth)}</strong></div></div></div>
     ${summary.plannedHasUnknown ? `<div class="finance-warning">${svg('info')} Há itens planejados sem estimativa. Eles não entram nos valores confirmados.</div>` : ''}
     <div class="finance-action-row">${button(`${svg('plus')} Registrar movimentação`, 'new-finance')}${button('Nova conta', 'new-account', 'outline-button')}</div>
+    ${renderBenefitWallets()}
     <div class="finance-lower">${card(`<div class="card-header"><h2>Próximos pagamentos</h2>${chip(String(monthObligations.length), 'gray')}</div>${monthObligations.length ? monthObligations.map(obligation => `<div class="finance-due"><span class="icon-disc amber">${svg('clock')}</span><div class="main"><strong>${esc(obligation.description ?? purchaseLabel(obligation.purchaseId))}</strong><small>${formatDate(obligation.dueDate)} · ${obligation.sequence ? `Parcela ${obligation.sequence}` : 'Compromisso'}</small></div><div class="right"><strong>${brl(payable(obligation))}</strong>${payable(obligation) ? `<button type="button" class="outline-button" data-pay="${esc(obligation.id)}">Confirmar pagamento</button>` : chip('Pago')}</div></div>`).join('') : empty('calendar', 'Sem vencimentos neste mês', 'Use as setas para consultar outros períodos.')}`,'finance-card')}
-    <div class="stack">${card(`<h2>Contas</h2>${(summary.accounts ?? []).length ? summary.accounts.map(account => `<div class="account-row"><span>${svg('card')} ${esc(account.name)}</span><strong>${brl(account.balanceCents)}</strong></div>`).join('') : `<p class="muted">Seu saldo só aparecerá após cadastrar uma conta.</p>`}`,'finance-card')}
-    ${card(`<h2>Movimentações recentes</h2>${recentMovements()}`,'finance-card')}</div></div>`;
+    <div class="stack">${card(`<h2>Contas</h2>${bankAccounts().length ? summary.accounts.filter(account => account.kind !== 'benefit').map(account => `<div class="account-row"><span>${svg('card')} ${esc(account.name)}</span><strong>${brl(account.balanceCents)}</strong></div>`).join('') : `<p class="muted">Seu saldo só aparecerá após cadastrar uma conta.</p>`}`,'finance-card')}
+    ${card(`<h2>Movimentações no mês</h2>${recentMovements()}`,'finance-card')}</div></div>`;
 }
 
 function purchaseLabel(id) {
@@ -257,10 +271,78 @@ function purchaseLabel(id) {
 
 function recentMovements() {
   const movements = [
-    ...(state.payments ?? []).map(entry => ({ id: entry.id, date: entry.date, title: entry.description || 'Pagamento', amountCents: -entry.amountCents })),
-    ...(state.incomes ?? []).map(entry => ({ id: entry.id, date: entry.date, title: entry.description || 'Receita', amountCents: entry.amountCents }))
-  ].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 5);
-  return movements.length ? movements.map(entry => `<div class="account-row"><span><small>${formatDate(entry.date)}</small><strong>${esc(entry.title)}</strong></span><strong class="${entry.amountCents >= 0 ? 'positive' : 'pending'}">${entry.amountCents >= 0 ? '+' : '−'}${brl(Math.abs(entry.amountCents))}</strong></div>`).join('') : `<p class="muted">Nenhuma movimentação registrada ainda.</p>`;
+    ...state.payments.map(entry => ({ ...entry, collection: 'payments', title: entry.description || 'Pagamento', signedCents: -entry.amountCents })),
+    ...state.incomes.map(entry => ({ ...entry, collection: 'incomes', title: entry.benefitPeriod ? `Alimentação · ${entry.benefitPeriod}` : entry.description || 'Receita', signedCents: entry.amountCents })),
+    ...state.transfers.map(entry => ({ ...entry, collection: 'transfers', title: `Transferência · ${get('accounts', entry.fromAccountId)?.name} → ${get('accounts', entry.toAccountId)?.name}`, signedCents: null })),
+  ].filter(entry => entry.date.startsWith(ui.month)).sort((a, b) => b.date.localeCompare(a.date));
+  return movements.length ? movements.map(entry => {
+    const transfer = entry.collection === 'transfers';
+    const accounts = transfer ? [entry.fromAccountId, entry.toAccountId] : [entry.accountId];
+    const canReview = accounts.some(id => entry.date <= get('accounts', id).openingDate);
+    const effect = transfer ? `Origem: ${entry.fromBalanceEffect === 'included' ? 'já incluída' : 'altera saldo'} · destino: ${entry.toBalanceEffect === 'included' ? 'já incluído' : 'altera saldo'}` : entry.balanceEffect === 'included' ? 'Já incluído no saldo informado' : 'Altera o saldo';
+    return `<div class="movement-record" data-movement-id="${esc(entry.id)}"><div class="account-row"><span><small>Aconteceu em ${formatDate(entry.date)}</small><strong>${esc(entry.title)}</strong></span><strong>${transfer ? '' : entry.signedCents >= 0 ? '+' : '−'}${brl(entry.amountCents)}</strong></div><p class="hint">${esc(get('accounts', entry.accountId)?.name ?? '')} · ${esc(effect)}${entry.recordedAt ? ` · registrado em ${esc(new Date(entry.recordedAt).toLocaleString('pt-BR'))}` : ' · data de cadastro anterior não disponível'}</p>${canReview ? `<button type="button" class="text-button" data-review-effect="${esc(entry.id)}" data-collection="${entry.collection}">Revisar efeito no saldo</button>` : ''}</div>`;
+  }).join('') : `<p class="muted">Nenhuma movimentação registrada neste mês.</p>`;
+}
+
+const balanceForms = ['income-create', 'expense-create', 'payment-create', 'transfer-create', 'market-close', 'effect-review', 'benefit-confirm'];
+function updateBalanceReview(form) {
+  if (!form || !balanceForms.includes(form.dataset.form)) return;
+  const split = form.elements.accountId?.value === 'split';
+  const splitRoot = form.querySelector('[data-split-fields]');
+  if (splitRoot) {
+    if (split && !splitRoot.innerHTML) splitRoot.innerHTML = `<label>Carteira alimentação<select class="input" name="benefitAccountId" required>${accountOptions('', 'benefit')}</select></label>${moneyField('benefitAmount', 'Valor no alimentação')}<label>Conta para o restante<select class="input" name="bankAccountId" required><option value="">Escolha a conta</option>${accountOptions('', 'bank')}</select></label><p data-split-remainder class="hint" role="status"></p>`;
+    splitRoot.hidden = !split;
+    splitRoot.querySelectorAll('input, select').forEach(input => { input.disabled = !split; });
+  }
+  let root = form.querySelector('[data-balance-review]');
+  if (!root) { root = document.createElement('div'); root.dataset.balanceReview = ''; root.className = 'balance-review'; form.querySelector('.modal-actions').before(root); }
+  const correcting = form.dataset.form === 'effect-review';
+  const record = correcting ? get(ui.effectCollection, ui.effectRecordId) : null;
+  const transfer = correcting ? ui.effectCollection === 'transfers' : form.dataset.form === 'transfer-create';
+  const eventDate = correcting ? record.date : form.elements.date?.value;
+  const entries = split ? [
+    { account: get('accounts', form.elements.benefitAccountId?.value), field: 'benefitBalanceEffect', sign: -1, previous: 'apply' },
+    { account: get('accounts', form.elements.bankAccountId?.value), field: 'bankBalanceEffect', sign: -1, previous: 'apply' },
+  ] : transfer ? [
+    { account: get('accounts', correcting ? record.fromAccountId : form.elements.fromAccountId.value), field: 'fromBalanceEffect', sign: -1, previous: record?.fromBalanceEffect ?? 'apply' },
+    { account: get('accounts', correcting ? record.toAccountId : form.elements.toAccountId.value), field: 'toBalanceEffect', sign: 1, previous: record?.toBalanceEffect ?? 'apply' },
+  ] : [{ account: get('accounts', correcting ? record.accountId : form.elements.accountId?.value), field: 'balanceEffect', sign: (correcting ? ui.effectCollection === 'incomes' : ['income-create', 'benefit-confirm'].includes(form.dataset.form)) ? 1 : -1, previous: record?.balanceEffect ?? 'apply' }];
+  const context = JSON.stringify([eventDate, ...entries.map(entry => entry.account?.id)]);
+  if (!correcting && ['expense-create', 'market-close'].includes(form.dataset.form) && !entries[0].account) {
+    root.dataset.context = 'unpaid'; root.innerHTML = '<p class="hint">Pagamento não informado: a compra fica a pagar e nenhum saldo é alterado.</p>'; return;
+  }
+  if (transfer && entries[0].account && entries[0].account.id === entries[1].account?.id) {
+    root.dataset.context = 'same-account'; root.innerHTML = '<p class="hint">Escolha contas diferentes para a origem e o destino.</p>'; return;
+  }
+  if (root.dataset.context !== context) {
+    root.dataset.context = context;
+    root.innerHTML = `<strong>Efeito no saldo</strong>${entries.map(({ account, field, previous }) => {
+      if (!account || !eventDate) return '<p class="hint">Escolha a conta e a data para conferir o saldo antes de salvar.</p>';
+      const canInclude = eventDate <= account.openingDate;
+      const selected = correcting ? previous : eventDate === account.openingDate ? 'apply' : '';
+      return `<fieldset><legend>${esc(account.name)}</legend><p class="hint">Saldo informado em ${formatDate(account.openingDate)}: ${brl(account.openingBalanceCents)}.</p>${canInclude ? `<label>Esse movimento já estava incluído nesse saldo?<select class="input" name="${field}" required><option value="" ${!selected ? 'selected' : ''}>Escolha como considerar</option><option value="apply" ${selected === 'apply' ? 'selected' : ''}>Ainda não estava incluído · altera o saldo</option><option value="included" ${selected === 'included' ? 'selected' : ''}>Já estava incluído · só histórico</option></select></label>` : `<input type="hidden" name="${field}" value="apply"><p class="hint">Movimento posterior ao saldo informado: altera o saldo.</p>`}<p class="balance-result" data-balance-result="${field}" role="status"></p></fieldset>`;
+    }).join('')}`;
+  }
+  let amount;
+  try { amount = correcting ? record.amountCents : centsFromInput(form.elements.amount?.value ?? form.elements.total?.value); } catch { amount = null; }
+  let benefitAmount = null;
+  if (split) {
+    try { benefitAmount = centsFromInput(form.elements.benefitAmount.value); } catch { /* incomplete input */ }
+    const valid = amount != null && benefitAmount != null && benefitAmount < amount;
+    splitRoot.querySelector('[data-split-remainder]').textContent = valid ? `Alimentação ${brl(benefitAmount)} + conta ${brl(amount - benefitAmount)} = ${brl(amount)}.` : 'Informe uma parte positiva no alimentação, menor que o total. O restante será pago na conta escolhida.';
+    form.elements.benefitAmount.setCustomValidity(benefitAmount != null && amount != null && !valid ? 'A parte do alimentação deve ser positiva e menor que o total.' : '');
+  }
+  for (const { account, field, sign, previous } of entries) {
+    const output = root.querySelector(`[data-balance-result="${field}"]`);
+    if (!output || !account) continue;
+    const choice = form.elements[field]?.value;
+    const part = split ? field === 'benefitBalanceEffect' ? benefitAmount : amount != null && benefitAmount != null ? amount - benefitAmount : null : amount;
+    if (!choice || part == null || part <= 0 || (split && (benefitAmount == null || benefitAmount >= amount))) { output.textContent = 'Preencha o valor e escolha o efeito para conferir o resultado.'; continue; }
+    const current = getAccountBalance(state, account.id);
+    const delta = sign * part * ((choice === 'apply' ? 1 : 0) - (correcting && previous === 'apply' ? 1 : 0));
+    if (!Number.isSafeInteger(current + delta)) { output.textContent = 'O resultado excede o limite de valor permitido.'; continue; }
+    output.textContent = account.kind === 'benefit' && current + delta < 0 ? `Saldo alimentação insuficiente: disponível ${brl(current)}. Divida o pagamento ou confira o saldo e os recebimentos.` : `Saldo atual ${brl(current)} → após salvar ${brl(current + delta)}.${choice === 'included' ? ' O movimento fica no histórico.' : ''}`;
+  }
 }
 
 function renderProjects() {
@@ -330,9 +412,16 @@ function renderOverlay() {
     case 'new-room':
       root.innerHTML = modal('Criar cômodo', `<form data-form="room-create" class="form-grid">${field('name', 'Nome do cômodo', 'placeholder="Ex.: Sala" maxlength="80" required autofocus')}<p class="hint">Você poderá organizar itens pela lista mesmo sem usar o mapa.</p>${submitActions('Criar cômodo')}</form>`);
       break;
+    case 'new-benefit':
     case 'new-account':
-      root.innerHTML = modal('Registrar conta e saldo', `<form data-form="account-create" class="form-grid">${field('name', 'Nome da conta', 'placeholder="Ex.: Conta principal" maxlength="80" required autofocus')}${moneyField('openingBalance', 'Saldo inicial informado')}${field('openingDate', 'Data desse saldo', `type="date" value="${today()}" required`)}<p class="hint">Este valor é informado por você. O aplicativo não acessa seu banco.</p>${submitActions('Salvar conta')}</form>`);
+      root.innerHTML = modal(ui.overlay === 'new-benefit' ? 'Cadastrar cartão alimentação' : 'Registrar conta e saldo', `<form data-form="account-create" class="form-grid"><input type="hidden" name="kind" value="${ui.overlay === 'new-benefit' ? 'benefit' : 'bank'}">${field('name', 'Nome da conta', 'placeholder="Ex.: Conta principal" maxlength="80" required autofocus')}${moneyField('openingBalance', 'Saldo atual informado')}${field('openingDate', 'Data desse saldo', `type="date" value="${today()}" required`)}<p class="hint">${ui.overlay === 'new-benefit' ? 'Informe o saldo real, inclusive sobras anteriores. Use 0,00 se estiver zerado. A previsão de R$ 690 não será creditada automaticamente.' : 'Este valor é informado por você. O aplicativo não acessa seu banco.'}</p>${submitActions('Salvar conta')}</form>`);
       break;
+    case 'confirm-benefit': {
+      const account = get('accounts', ui.benefitAccountId);
+      const plan = getBenefitPlan(state, account.id, ui.month);
+      root.innerHTML = modal('Confirmar recebimento do alimentação', plan.income ? '<p>Este mês já foi confirmado.</p>' : `<form data-form="benefit-confirm" class="form-grid"><input type="hidden" name="accountId" value="${esc(account.id)}"><input type="hidden" name="benefitPeriod" value="${esc(ui.month)}"><p>${esc(account.name)} · competência ${monthLabel(ui.month)}</p>${moneyField('amount', 'Valor realmente recebido', (plan.expectedCents / 100).toFixed(2).replace('.', ','))}${field('date', 'Data real do recebimento', `type="date" value="${plan.expectedDate}" required`)}<p class="hint">Você pode ajustar a data e o valor. Confirme somente se o crédito já aconteceu. Não serão creditados outros meses.</p>${submitActions('Confirmar valor recebido')}</form>`);
+      break;
+    }
     case 'buy-item': {
       const item = get('items', ui.itemId);
       root.innerHTML = modal('Registrar compra', `<form data-form="purchase-create" class="form-grid"><p><strong>${esc(item.name)}</strong> · registre o valor real. A estimativa deixará de contar como planejado.</p>${moneyField('total', 'Valor final')}${field('date', 'Data da compra', `type="date" value="${today()}" required`)}<label>Parcelas<select class="input" name="installments">${Array.from({ length: 12 }, (_, index) => `<option value="${index + 1}">${index + 1}${index ? ' parcelas' : ' pagamento'}</option>`).join('')}</select></label>${field('firstDueDate', 'Primeiro vencimento', `type="date" value="${today()}" required`)}<p class="hint">Comprar cria compromisso. Confirme o pagamento separadamente, apenas quando ele acontecer.</p>${submitActions('Registrar compra')}</form>`);
@@ -347,7 +436,7 @@ function renderOverlay() {
       root.innerHTML = modal('Nova lista de Mercado', `<form data-form="market-create" class="form-grid">${field('name', 'Nome da lista', 'placeholder="Ex.: Compras da semana" maxlength="100"')}<p class="hint">A lista não cria despesa até você informar o total real no fechamento.</p>${submitActions('Criar lista')}</form>`);
       break;
     case 'close-market':
-      root.innerHTML = modal('Fechar compra do Mercado', `<form data-form="market-close" class="form-grid"><p>Você marcou ${(active.entries ?? []).filter(entry => entry.inCart).length} de ${(active.entries ?? []).length} produtos. Informe o total real do caixa.</p>${moneyField('total', 'Total real da compra')}${field('date', 'Data da compra', `type="date" value="${today()}" required`)}<label>Pagamento<select class="input" name="accountId"><option value="">Ainda não informado · ficará a pagar</option>${accountOptions()}</select></label><p class="hint">Uma única compra será criada. Escolha uma conta apenas se o valor já foi pago.</p>${submitActions('Confirmar compra')}</form>`);
+      root.innerHTML = modal('Fechar compra do Mercado', `<form data-form="market-close" class="form-grid"><p>Você marcou ${(active.entries ?? []).filter(entry => entry.inCart).length} de ${(active.entries ?? []).length} produtos. Informe o total real do caixa.</p>${moneyField('total', 'Total real da compra')}${field('date', 'Data da compra', `type="date" value="${today()}" required`)}${purchasePaymentFields()}<p class="hint">Uma única compra será criada. Escolha uma conta apenas se o valor já foi pago.</p>${submitActions('Confirmar compra')}</form>`);
       break;
     case 'new-project':
       root.innerHTML = modal('Criar projeto', `<form data-form="project-create" class="form-grid">${field('name', 'Nome do projeto', 'placeholder="Ex.: Fim de semana na serra" maxlength="120" required autofocus')}${field('outcome', 'Resultado desejado (opcional)', 'placeholder="Ex.: roteiro e reservas definidos" maxlength="240"')}${field('estimate', 'Previsão (opcional)', 'inputmode="decimal" placeholder="0,00"')}<p class="hint">Previsão de projeto não cria dívida.</p>${submitActions('Criar projeto')}</form>`);
@@ -363,14 +452,20 @@ function renderOverlay() {
       ].map(([icon, title, description, action]) => `<button type="button" class="choice-row" data-action="${action}"><span class="icon-disc">${svg(icon)}</span><span class="main"><strong>${title}</strong><small>${description}</small></span>${svg('chevron')}</button>`).join(''));
       break;
     case 'new-expense':
-      root.innerHTML = modal('Registrar despesa', `<form data-form="expense-create" class="form-grid">${field('description', 'Descrição', 'placeholder="Ex.: dentista" maxlength="160" required autofocus')}${moneyField('amount', 'Valor')}${field('date', 'Data', `type="date" value="${today()}" required`)}<label>Pagamento<select class="input" name="accountId"><option value="">Ainda não pago</option>${accountOptions()}</select></label><p class="hint">Sem conta selecionada, o valor ficará a pagar. Não será registrado como pago automaticamente.</p>${submitActions('Registrar despesa')}</form>`);
+      root.innerHTML = modal('Registrar despesa', `<form data-form="expense-create" class="form-grid">${field('description', 'Descrição', 'placeholder="Ex.: dentista" maxlength="160" required autofocus')}${moneyField('amount', 'Valor')}${field('date', 'Data', `type="date" value="${today()}" required`)}${purchasePaymentFields()}<p class="hint">Sem conta selecionada, o valor ficará a pagar. Não será registrado como pago automaticamente.</p>${submitActions('Registrar despesa')}</form>`);
       break;
     case 'new-income':
-      root.innerHTML = modal('Registrar receita', `${(state.accounts ?? []).length ? `<form data-form="income-create" class="form-grid">${field('description', 'Descrição', 'placeholder="Ex.: salário" maxlength="160" required autofocus')}${moneyField('amount', 'Valor recebido')}${accountSelect()}${field('date', 'Data do recebimento', `type="date" value="${today()}" required`)}${submitActions('Registrar receita')}</form>` : empty('card', 'Cadastre uma conta primeiro', 'A entrada precisa indicar em qual saldo foi recebida.', button('Registrar saldo', 'new-account'))}`);
+      root.innerHTML = modal('Registrar receita', `${bankAccounts().length ? `<form data-form="income-create" class="form-grid">${field('description', 'Descrição', 'placeholder="Ex.: salário" maxlength="160" required autofocus')}${moneyField('amount', 'Valor recebido')}${accountSelect('accountId', 'bank')}${field('date', 'Data do recebimento', `type="date" value="${today()}" required`)}${submitActions('Registrar receita')}</form>` : empty('card', 'Cadastre uma conta primeiro', 'A entrada precisa indicar em qual saldo foi recebida.', button('Registrar saldo', 'new-account'))}`);
       break;
     case 'new-transfer':
-      root.innerHTML = modal('Registrar transferência', `${(state.accounts ?? []).length >= 2 ? `<form data-form="transfer-create" class="form-grid"><label>Origem<select class="input" name="fromAccountId" required><option value="">Escolha a conta</option>${accountOptions()}</select></label><label>Destino<select class="input" name="toAccountId" required><option value="">Escolha a conta</option>${accountOptions()}</select></label>${moneyField('amount', 'Valor transferido')}${field('date', 'Data', `type="date" value="${today()}" required`)}${submitActions('Registrar transferência')}</form>` : empty('card', 'São necessárias duas contas', 'Uma transferência move saldo entre contas, sem criar receita ou despesa.', button('Nova conta', 'new-account'))}`);
+      root.innerHTML = modal('Registrar transferência', `${bankAccounts().length >= 2 ? `<form data-form="transfer-create" class="form-grid"><label>Origem<select class="input" name="fromAccountId" required><option value="">Escolha a conta</option>${accountOptions('', 'bank')}</select></label><label>Destino<select class="input" name="toAccountId" required><option value="">Escolha a conta</option>${accountOptions('', 'bank')}</select></label>${moneyField('amount', 'Valor transferido')}${field('date', 'Data', `type="date" value="${today()}" required`)}${submitActions('Registrar transferência')}</form>` : empty('card', 'São necessárias duas contas', 'Uma transferência move saldo entre contas, sem criar receita ou despesa.', button('Nova conta', 'new-account'))}`);
       break;
+    case 'effect-review': {
+      const record = get(ui.effectCollection, ui.effectRecordId);
+      if (!record) { root.innerHTML = ''; break; }
+      root.innerHTML = modal('Revisar efeito no saldo', `<form data-form="effect-review" class="form-grid"><p>Movimento de ${brl(record.amountCents)} em ${formatDate(record.date)}. Esta revisão muda apenas como ele participa do saldo; valores, datas e vínculos são preservados.</p>${field('reason', 'Motivo da revisão', 'maxlength="160" required')}${submitActions('Salvar revisão')}</form>`);
+      break;
+    }
     case 'search':
       root.innerHTML = modal('Buscar no meu espaço', `<input id="global-search" class="input" type="search" placeholder="Item, cômodo, Mercado, projeto..." aria-label="Termo de busca" value="${esc(ui.search)}"><div id="search-results" class="search-results"></div>`, true);
       renderSearchResults();
@@ -384,8 +479,17 @@ function renderOverlay() {
     case 'auth-link':
       root.innerHTML = modal('Confira seu e-mail', `<p>Se a conta estiver provisionada, um link de acesso será enviado para ${esc(ui.authEmail)}.</p><p>Abra esse link neste mesmo navegador. Ele só funciona uma vez. Se pedir outro link, use o mais recente.</p><p class="hint">Não compartilhe o link. Seus registros locais continuam preservados enquanto você entra.</p>${button('Voltar aos dados', 'settings', 'outline-button')}`);
       break;
+    case 'auth-recover':
+      root.innerHTML = modal('Recuperar senha', `<form data-form="auth-recover" class="form-grid"><p>Informe o e-mail da conta existente. O link será usado apenas para definir uma nova senha.</p>${field('email', 'E-mail da sua conta', `type="email" autocomplete="username" maxlength="254" value="${esc(ui.authEmail ?? '')}" required`)}<p data-auth-error role="alert" tabindex="-1" hidden></p>${submitActions('Enviar recuperação')}</form>`);
+      break;
+    case 'auth-recovery-sent':
+      root.innerHTML = modal('Confira seu e-mail', `<p>Se o e-mail estiver cadastrado, você receberá as instruções para definir uma nova senha.</p><p>Abra o link mais recente neste mesmo navegador. Seus registros locais continuam preservados.</p>${button('Voltar ao acesso', 'settings', 'outline-button')}`);
+      break;
+    case 'auth-reset':
+      root.innerHTML = modal('Definir nova senha', `<form data-form="auth-reset" class="form-grid"><p>Use pelo menos 8 caracteres. Depois você poderá entrar com e-mail e senha.</p>${field('password', 'Nova senha', 'type="password" autocomplete="new-password" minlength="8" maxlength="1024" required')}${field('confirmation', 'Repita a nova senha', 'type="password" autocomplete="new-password" minlength="8" maxlength="1024" required')}<p data-auth-error role="alert" tabindex="-1" hidden></p>${submitActions('Salvar nova senha')}</form>`);
+      break;
     case 'auth-error':
-      root.innerHTML = modal('Não foi possível entrar', `<p class="status-alert">${esc(ui.authError)}</p><p>Solicite um novo link e abra apenas o e-mail mais recente, no mesmo navegador onde pediu acesso. O link só funciona uma vez.</p><p class="hint">Seus registros locais foram preservados. Não é necessário alterar as tabelas no Supabase.</p>${button('Solicitar novo acesso', 'settings')}`);
+      root.innerHTML = modal('Não foi possível entrar', `<p class="status-alert">${esc(ui.authError)}</p><p>${remote?.config.authMode === 'password' ? 'Volte ao acesso para entrar com e-mail e senha ou pedir a recuperação da senha.' : 'Solicite um novo link e abra apenas o e-mail mais recente, no mesmo navegador onde pediu acesso. O link só funciona uma vez.'}</p><p class="hint">Seus registros locais foram preservados. Não é necessário alterar as tabelas no Supabase.</p>${button('Voltar ao acesso', 'settings')}`);
       break;
     case 'remote-confirm':
       root.innerHTML = modal('Recuperar versão da nuvem', `<p>Há dados diferentes neste aparelho e na nuvem. O backup local deve ser guardado antes de continuar.</p><p class="status-alert">Esta ação substitui os dados locais pela versão atual da nuvem e remove a fila local. As alterações locais não serão mescladas.</p><div class="modal-actions">${button('Voltar', 'settings', 'outline-button')}${button('Confirmar recuperação da nuvem', 'accept-remote')}</div>`);
@@ -400,6 +504,7 @@ function renderOverlay() {
     }
     default: root.innerHTML = '';
   }
+  updateBalanceReview(root.querySelector('form[data-form]'));
 }
 
 function renderSearchResults() {
@@ -464,11 +569,30 @@ async function commit(type, payload, form = null) {
 
 async function submitForm(form) {
   const kind = form.dataset.form;
+  const authForm = kind.startsWith('auth-');
+  if (authForm && ui.authBusy) return;
+  if (authForm) { ui.authBusy = true; form.querySelector('[type="submit"]').disabled = true; }
   const data = new FormData(form);
   const value = key => String(data.get(key) ?? '').trim();
+  const password = () => String(data.get('password') ?? '');
   let type, payload;
   try {
     switch (kind) {
+      case 'auth-password':
+        ui.authEmail = value('email');
+        await remote.signInWithPassword(ui.authEmail, password(), local.sync.ownerId);
+        openOverlay('settings'); renderSyncStatus();
+        if (local.sync.ownerId) await syncEngine.run();
+        return;
+      case 'auth-recover':
+        ui.authEmail = value('email');
+        await remote.recoverPassword(ui.authEmail, `${location.origin}${location.pathname}`);
+        openOverlay('auth-recovery-sent'); return;
+      case 'auth-reset':
+        if (password() !== String(data.get('confirmation') ?? '')) throw new Error('As senhas precisam ser iguais.');
+        await remote.updatePassword(password());
+        openOverlay('settings'); renderSyncStatus();
+        toast('Nova senha salva.'); return;
       case 'import-preview': {
         const file = form.elements.file.files?.[0];
         if (file && value('json')) throw new Error('Escolha uma fonte: texto colado ou arquivo.');
@@ -514,7 +638,7 @@ async function submitForm(form) {
         break;
       }
       case 'room-create': type = 'room.create'; payload = { name: value('name') }; break;
-      case 'account-create': type = 'account.create'; payload = { name: value('name'), openingBalanceCents: centsFromInput(value('openingBalance'), { allowZero: true, allowNegative: true }), openingDate: value('openingDate') }; break;
+      case 'account-create': type = 'account.create'; payload = { kind: value('kind'), name: value('name'), openingBalanceCents: centsFromInput(value('openingBalance'), { allowZero: true, allowNegative: true }), openingDate: value('openingDate') }; break;
       case 'purchase-create': {
         const item = get('items', ui.itemId);
         const totalCents = centsFromInput(value('total'));
@@ -532,7 +656,9 @@ async function submitForm(form) {
       case 'task-create': type = 'task.create'; payload = { projectId: value('projectId'), title: value('title') }; break;
       case 'expense-create': type = 'expense.record'; payload = { date: value('date'), description: value('description'), amountCents: centsFromInput(value('amount')), accountId: value('accountId') || null }; break;
       case 'income-create': type = 'income.record'; payload = { date: value('date'), description: value('description'), amountCents: centsFromInput(value('amount')), accountId: value('accountId') }; break;
+      case 'benefit-confirm': type = 'benefit.confirm'; payload = { accountId: value('accountId'), benefitPeriod: value('benefitPeriod'), description: `Alimentação · ${value('benefitPeriod')}`, date: value('date'), amountCents: centsFromInput(value('amount')) }; break;
       case 'transfer-create': type = 'transfer.record'; payload = { date: value('date'), fromAccountId: value('fromAccountId'), toAccountId: value('toAccountId'), amountCents: centsFromInput(value('amount')) }; break;
+      case 'effect-review': type = 'balance-effect.update'; payload = { collection: ui.effectCollection, recordId: ui.effectRecordId, reason: value('reason') }; break;
       case 'backup-preview': {
         const file = form.elements.file.files?.[0];
         if (!file || file.size > 20_000_000) throw new Error('Escolha um backup JSON de até 20 MB.');
@@ -544,6 +670,13 @@ async function submitForm(form) {
       }
       default: return;
     }
+    for (const field of ['balanceEffect', 'fromBalanceEffect', 'toBalanceEffect']) if (form.elements[field]) payload[field] = value(field);
+    if (['market-close', 'expense-create'].includes(kind) && value('accountId') === 'split') {
+      const total = payload.totalCents ?? payload.amountCents, part = centsFromInput(value('benefitAmount'));
+      payload.accountId = null;
+      delete payload.balanceEffect;
+      payload.payments = [{ accountId: value('benefitAccountId'), amountCents: part, balanceEffect: value('benefitBalanceEffect') }, { accountId: value('bankAccountId'), amountCents: total - part, balanceEffect: value('bankBalanceEffect') }];
+    }
   } catch (error) {
     if (kind === 'import-preview') {
       $('#import-error').textContent = error.message || 'Não foi possível conferir o JSON.';
@@ -551,8 +684,16 @@ async function submitForm(form) {
       form.elements.json.focus();
       return;
     }
-    toast(error.message || 'Confira os campos informados.', true);
+    const notice = authForm && form.querySelector('[data-auth-error]');
+    if (notice) { notice.hidden = false; notice.className = 'status-alert'; notice.textContent = error.message; notice.focus(); }
+    else toast(error.message || 'Confira os campos informados.', true);
     return;
+  } finally {
+    if (authForm) {
+      ui.authBusy = false;
+      form.querySelectorAll('input[type="password"]').forEach(input => { input.value = ''; });
+      form.querySelectorAll('[type="submit"]').forEach(input => { input.disabled = false; });
+    }
   }
   if (!await commit(type, payload, form)) return;
   ui.overlay = null;
@@ -565,12 +706,13 @@ async function submitForm(form) {
     ui.section = 'mercado'; ui.marketId = state.markets.at(-1)?.id;
   } else if (kind === 'project-create') {
     ui.section = 'projetos'; ui.projectId = state.projects.at(-1)?.id;
-  } else if (kind === 'account-create' || kind === 'payment-create' || kind === 'expense-create' || kind === 'income-create' || kind === 'transfer-create') {
+  } else if (kind === 'account-create' || kind === 'payment-create' || kind === 'expense-create' || kind === 'income-create' || kind === 'transfer-create' || kind === 'effect-review' || kind === 'benefit-confirm') {
     ui.section = 'financas';
+    if (payload.date) ui.month = payload.date.slice(0, 7);
   }
   render(true);
   $('#view').focus({ preventScroll: true });
-  toast(kind === 'expense-create' ? (payload.accountId ? 'Despesa e pagamento salvos neste aparelho' : 'Despesa salva · continua a pagar') : kind === 'income-create' ? 'Recebimento salvo na conta escolhida' : 'Salvo neste aparelho');
+  toast(kind === 'expense-create' ? (payload.accountId || payload.payments ? 'Despesa e pagamento salvos neste aparelho' : 'Despesa salva · continua a pagar') : kind === 'income-create' || kind === 'benefit-confirm' ? 'Recebimento salvo na conta escolhida' : 'Salvo neste aparelho');
 }
 
 async function handleAction(action, source = null) {
@@ -603,7 +745,13 @@ async function handleAction(action, source = null) {
         await syncEngine.connect();
       }
       if (action === 'sync-now') await syncEngine.run();
-      if (action === 'sign-out') await remote.signOut();
+      if (action === 'sign-out') {
+        try { await remote.signOut(); }
+        catch (error) {
+          if (remote.readSession()) throw error;
+          toast('Você saiu deste aparelho. A saída no servidor não pôde ser confirmada.');
+        }
+      }
       if (action === 'accept-remote') {
         if (backupGeneration !== local.generation) throw new Error('Exporte o backup local antes de confirmar.');
         await syncEngine.acceptRemote();
@@ -638,11 +786,14 @@ async function handleAction(action, source = null) {
   if (action === 'buy-item' && !get('items', ui.itemId)) return;
   if (action === 'edit-item' && !get('items', ui.itemId)) return;
   if (action === 'close-market' && (!currentMarket() || currentMarket().status !== 'open')) return;
+  if (action === 'confirm-benefit') ui.benefitAccountId = source?.dataset.accountId;
   if (action === 'new-item') ui.contextRoomId = source?.dataset.roomContext ?? null;
   openOverlay(action);
 }
 
 document.addEventListener('click', async event => {
+  const reviewEffect = event.target.closest('[data-review-effect]');
+  if (reviewEffect) { ui.effectCollection = reviewEffect.dataset.collection; ui.effectRecordId = reviewEffect.dataset.reviewEffect; openOverlay('effect-review'); return; }
   const nav = event.target.closest('[data-nav]');
   if (nav) { navigate(nav.dataset.nav); return; }
   const room = event.target.closest('[data-room]');
@@ -714,7 +865,9 @@ document.addEventListener('submit', event => {
 
 document.addEventListener('input', event => {
   if (event.target.id === 'global-search') { ui.search = event.target.value; renderSearchResults(); }
+  updateBalanceReview(event.target.closest('form[data-form]'));
 });
+document.addEventListener('change', event => updateBalanceReview(event.target.closest('form[data-form]')));
 
 document.addEventListener('keydown', event => {
   if (ui.overlay && event.key === 'Tab') {
@@ -757,12 +910,13 @@ async function boot() {
         remote = new SupabaseClient(remoteConfig);
         syncEngine = new SyncEngine(remote, { onChange: refreshLocal });
         if (authCode) {
-          try { await remote.exchangeCode(authCode); ui.overlay = 'settings'; }
+          try { await remote.exchangeCode(authCode, local.sync.ownerId); ui.overlay = remote.hasPasswordRecovery() ? 'auth-reset' : 'settings'; }
           catch (error) { ui.authError = error.message; }
         }
       } catch (error) { remoteSetupError = error.message; }
     }
     if (failedLink) ui.authError = 'O Supabase recusou o link: ele expirou, já foi usado ou é inválido.';
+    if (!ui.overlay && remote?.hasPasswordRecovery()) ui.overlay = 'auth-reset';
     if (ui.authError) ui.overlay = 'auth-error';
     render();
     if (remoteSetupError) toast(remoteSetupError, true);

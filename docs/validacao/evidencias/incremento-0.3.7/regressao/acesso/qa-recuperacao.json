@@ -1,0 +1,9 @@
+{
+  "syntheticOnly": true,
+  "pkce": true,
+  "cleanCallbackUrl": true,
+  "survivesReload": true,
+  "mismatchedConfirmationRejected": true,
+  "nativePasswordUpdates": 1,
+  "passwordStored": false
+}
